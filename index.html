@@ -9,39 +9,16 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap">
 <style>
   :root{
-    --bg:#F4F2FA;
-    --shell:#FFFFFF;
-    --ink:#28223B;
-    --ink-soft:#6E6784;
-    --line:#E7E2F2;
-    --line-soft:#EFEBF8;
-    --chip:#F7F5FC;
-    --accent-a:#FF8FB8;
-    --accent-b:#B79CFF;
-    --accent-c:#6FA8FF;
-    --grad: linear-gradient(120deg,var(--accent-a) 0%,var(--accent-b) 50%,var(--accent-c) 100%);
-    --grad-text: linear-gradient(90deg,#F2609A,#4F86F7);
-    --focus:#8C6FE0;
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --bg:#1A1725;
-      --shell:#221E32;
-      --ink:#F1EEFA;
-      --ink-soft:#A79FC2;
-      --line:#332C4A;
-      --line-soft:#2A2440;
-      --chip:#2A2440;
-    }
-  }
-  :root[data-theme="dark"]{
-    --bg:#1A1725;
-    --shell:#221E32;
-    --ink:#F1EEFA;
-    --ink-soft:#A79FC2;
-    --line:#332C4A;
-    --line-soft:#2A2440;
-    --chip:#2A2440;
+    --bg:#EEF0F3;
+    --content-bg:#F5F6F8;
+    --ink:#14171F;
+    --ink-soft:#5B6472;
+    --line:#E1E4EA;
+    --line-soft:#ECEEF2;
+    --chip:#F1F2F5;
+    --accent:#3355D8;
+    --accent-deep:#1F2E8C;
+    --focus:#3355D8;
   }
 
   *{box-sizing:border-box;}
@@ -66,8 +43,8 @@
   .index{
     width:220px;
     flex:0 0 220px;
-    background:var(--shell);
-    border-right:1px solid var(--line);
+    background:var(--ink);
+    border-right:1px solid rgba(255,255,255,.08);
     padding:28px 18px;
     display:flex;
     flex-direction:column;
@@ -82,7 +59,7 @@
     font-size:11px;
     font-weight:700;
     letter-spacing:.14em;
-    color:var(--ink-soft);
+    color:rgba(255,255,255,.4);
     text-transform:uppercase;
     padding:0 10px 10px;
   }
@@ -91,6 +68,7 @@
     font-weight:800;
     padding:0 10px 18px;
     line-height:1.4;
+    color:#FFFFFF;
   }
   .index-item{
     display:flex;
@@ -100,17 +78,17 @@
     text-align:left;
     background:transparent;
     border:1px solid transparent;
-    border-radius:12px;
+    border-radius:9px;
     padding:12px 10px;
     font-size:13.5px;
     font-weight:600;
-    color:var(--ink-soft);
+    color:rgba(255,255,255,.68);
     cursor:pointer;
     transition:background .15s ease, color .15s ease, border-color .15s ease;
   }
   .index-item:hover{
-    background:var(--line-soft);
-    color:var(--ink);
+    background:rgba(255,255,255,.07);
+    color:#FFFFFF;
   }
   .index-item:focus-visible{
     outline:2px solid var(--focus);
@@ -126,15 +104,15 @@
     justify-content:center;
     font-size:11px;
     font-weight:800;
-    color:var(--ink-soft);
-    background:var(--chip);
-    border:1px solid var(--line);
+    color:rgba(255,255,255,.6);
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.14);
   }
   .index-item.is-active{
-    background:var(--grad);
+    background:var(--accent);
     color:#fff;
     border-color:transparent;
-    box-shadow:0 8px 18px -8px rgba(140,111,224,.55);
+    box-shadow:0 8px 18px -10px rgba(51,85,216,.45);
   }
   .index-item.is-active .num{
     background:rgba(255,255,255,.25);
@@ -155,50 +133,19 @@
     position:relative;
     width:600px;
     max-width:100%;
-    background:#0E0B18;
-    border-radius:34px;
-    padding:14px;
-    box-shadow:0 30px 60px -25px rgba(30,20,60,.45), 0 2px 0 rgba(255,255,255,.04) inset;
-  }
-  .tablet-notch{
-    position:absolute;
-    top:6px;
-    left:50%;
-    transform:translateX(-50%);
-    width:64px;
-    height:5px;
-    border-radius:3px;
-    background:rgba(255,255,255,.18);
   }
   .tablet-screen{
     position:relative;
     width:100%;
     height:min(820px,80vh);
-    background:#FAF9FD;
-    border-radius:22px;
+    background:var(--content-bg);
+    border-radius:14px;
+    border:1px solid var(--line);
+    box-shadow:0 24px 48px -32px rgba(20,23,31,.22);
     overflow-y:auto;
     overflow-x:hidden;
     scrollbar-width:thin;
-    color:#231C33;
-  }
-
-  /* 화면설명 번호 배지 (가운데 목업 위에 표시) */
-  .badge{
-    position:absolute;
-    z-index:6;
-    min-width:22px;
-    height:22px;
-    padding:0 6px;
-    border-radius:11px;
-    background:var(--grad);
-    color:#fff;
-    font-size:11.5px;
-    font-weight:800;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    box-shadow:0 4px 10px -3px rgba(60,40,120,.5), 0 0 0 2px #FAF9FD;
-    pointer-events:none;
+    color:var(--ink);
   }
 
   /* ---------- ① 헤더 ---------- */
@@ -206,56 +153,63 @@
     position:sticky;
     top:0;
     z-index:5;
-    display:flex;
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
     align-items:center;
-    justify-content:space-between;
     gap:10px;
     padding:14px 20px;
-    background:rgba(250,249,253,.92);
-    backdrop-filter:blur(6px);
-    border-bottom:1px solid #EFEAF9;
+    background:var(--ink);
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .header-left{ justify-self:start; }
+  .header-right{ justify-self:end; }
+  .header-brand{ justify-self:center; display:flex; align-items:center; justify-content:center; }
+  .brand-logo{
+    width:168px;
+    height:38px;
+    border-radius:8px;
+    overflow:hidden;
+    background:#fff;
+    box-shadow:0 6px 16px -8px rgba(0,0,0,.5);
+  }
+  .brand-logo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:50% 48%;
+    display:block;
   }
   .icon-btn{
     width:36px;
     height:36px;
-    border-radius:10px;
-    border:1px solid #EFEAF9;
-    background:#fff;
+    border-radius:8px;
+    border:1px solid rgba(255,255,255,.16);
+    background:rgba(255,255,255,.06);
     display:flex;
     align-items:center;
     justify-content:center;
-    color:#453C63;
+    color:#FFFFFF;
     cursor:pointer;
     flex:0 0 auto;
   }
-  .icon-btn:hover{background:#F4F0FC;}
+  .icon-btn:hover{background:rgba(255,255,255,.14);}
   .icon-btn:focus-visible{outline:2px solid var(--focus);outline-offset:2px;}
-  .logo{
-    font-size:19px;
-    font-weight:900;
-    letter-spacing:-.01em;
-    background:var(--grad-text);
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-    white-space:nowrap;
-  }
   .pill{
     display:inline-flex;
     align-items:center;
     gap:6px;
     border:none;
-    border-radius:999px;
-    padding:9px 15px;
+    border-radius:9px;
+    padding:9px 16px;
     font-size:12.5px;
     font-weight:700;
     color:#fff;
-    background:var(--grad);
+    background:var(--accent);
     cursor:pointer;
     white-space:nowrap;
   }
-  .pill:hover{filter:brightness(1.04);}
-  .pill:focus-visible{outline:2px solid #4F3E8A;outline-offset:2px;}
+  .pill:hover{background:var(--accent-deep);}
+  .pill:focus-visible{outline:2px solid var(--focus);outline-offset:2px;}
 
   .scroll-area{
     padding:22px 20px 100px;
@@ -266,7 +220,6 @@
   .section{
     position:relative;
   }
-  .section .badge{ top:-10px; left:-10px; }
   .section-title{
     display:flex;
     align-items:baseline;
@@ -280,7 +233,7 @@
   }
   .section-title .muted{
     font-size:12px;
-    color:#8A8199;
+    color:var(--ink-soft);
     font-weight:600;
   }
 
@@ -288,119 +241,189 @@
   .banner{
     position:relative;
     height:280px;
-    border-radius:20px;
-    background:var(--grad);
+    border-radius:14px;
+    background:var(--ink);
     overflow:hidden;
     display:flex;
     align-items:center;
-    padding:0 26px;
+    padding:0 28px;
     isolation:isolate;
   }
-  .banner-orb{
+  .banner-glow{
     position:absolute;
     border-radius:50%;
-    background:rgba(255,255,255,.22);
+    filter:blur(46px);
+    pointer-events:none;
     z-index:0;
   }
-  .banner-orb.o1{ width:120px; height:120px; top:-30px; left:30px; animation:float-slow 7s ease-in-out infinite; }
-  .banner-orb.o2{ width:70px; height:70px; bottom:-10px; left:120px; background:rgba(255,255,255,.16); animation:float-slow 8.5s ease-in-out infinite 1s; }
-  .banner-orb.o3{ width:44px; height:44px; top:40px; left:220px; background:rgba(255,255,255,.28); animation:float-slow 6s ease-in-out infinite .5s; }
-  @keyframes float-slow{
-    0%,100%{ transform:translateY(0); }
-    50%{ transform:translateY(-14px); }
+  .banner-glow.gtr{ width:230px; height:230px; top:-90px; right:-70px; background:radial-gradient(circle,rgba(66,120,255,.55) 0%,rgba(66,120,255,0) 72%); }
+  .banner-glow.gbl{ width:210px; height:210px; bottom:-100px; left:-60px; background:radial-gradient(circle,rgba(40,90,220,.5) 0%,rgba(40,90,220,0) 72%); }
+  .banner-beam{
+    position:absolute;
+    top:-40%;
+    left:-40%;
+    width:55%;
+    height:230%;
+    background:linear-gradient(100deg,rgba(130,175,255,0) 0%,rgba(130,175,255,.16) 45%,rgba(170,205,255,.24) 50%,rgba(130,175,255,.16) 55%,rgba(130,175,255,0) 100%);
+    transform:rotate(18deg);
+    animation:beam-sweep 7.5s ease-in-out infinite;
+    z-index:1;
+    pointer-events:none;
   }
-  .banner-copy{ position:relative; z-index:1; color:#fff; max-width:290px; }
+  @keyframes beam-sweep{
+    0%{ left:-60%; }
+    60%,100%{ left:135%; }
+  }
+  .particle{
+    position:absolute;
+    width:3px; height:3px;
+    border-radius:50%;
+    background:#8FC7FF;
+    box-shadow:0 0 6px 1px rgba(143,199,255,.85);
+    animation:particle-float linear infinite;
+    z-index:1;
+    pointer-events:none;
+  }
+  @keyframes particle-float{
+    0%{ transform:translateY(0) scale(.7); opacity:0; }
+    15%{ opacity:.9; }
+    55%{ opacity:.35; }
+    85%{ opacity:.8; }
+    100%{ transform:translateY(-70px) scale(1); opacity:0; }
+  }
+  .banner-copy{ position:relative; z-index:2; color:#fff; max-width:250px; }
   .banner-eyebrow{
-    font-size:11.5px;
+    font-size:11px;
     font-weight:800;
-    letter-spacing:.16em;
+    letter-spacing:.18em;
     text-transform:uppercase;
-    color:rgba(255,255,255,.85);
-    margin:0 0 10px;
+    color:#8FB0FF;
+    margin:0 0 8px;
   }
+  .banner-eyebrow-2{ margin:14px 0 6px; color:rgba(180,205,255,.75); }
   .banner-headline{
-    font-size:25px;
+    font-size:40px;
     font-weight:900;
-    line-height:1.32;
-    margin:0 0 12px;
-    text-wrap:balance;
-  }
-  .banner-caption{
-    font-size:12px;
-    line-height:1.6;
-    color:rgba(255,255,255,.82);
+    line-height:1.05;
     margin:0;
-    max-width:250px;
+    color:#FFFFFF;
+    letter-spacing:-.01em;
+    animation:text-glow 3.2s ease-in-out infinite;
+  }
+  @keyframes text-glow{
+    0%,100%{ text-shadow:0 0 16px rgba(70,130,255,.5),0 0 36px rgba(50,100,240,.28); }
+    50%{ text-shadow:0 0 26px rgba(100,160,255,.75),0 0 55px rgba(70,130,255,.4); }
+  }
+  .banner-sub{
+    font-size:14.5px;
+    font-weight:700;
+    color:rgba(255,255,255,.92);
+    margin:0 0 6px;
+    line-height:1.4;
+  }
+  .banner-date{
+    font-size:12px;
+    font-weight:600;
+    color:#9FB6E8;
+    margin:0 0 16px;
+    font-variant-numeric:tabular-nums;
+  }
+  .banner-cta{
+    display:inline-flex;
+    align-items:center;
+    border:none;
+    border-radius:9px;
+    padding:11px 20px;
+    font-size:12.5px;
+    font-weight:800;
+    color:#fff;
+    background:#2E5CF0;
+    cursor:pointer;
+    animation:cta-pulse 3.2s ease-in-out infinite;
+  }
+  @keyframes cta-pulse{
+    0%,100%{ box-shadow:0 0 0 0 rgba(46,92,240,.45),0 10px 22px -10px rgba(46,92,240,.6); }
+    50%{ box-shadow:0 0 0 7px rgba(46,92,240,0),0 14px 28px -10px rgba(46,92,240,.8); }
   }
   .banner-visual{
     position:absolute;
     right:26px;
     top:50%;
     transform:translateY(-50%);
-    z-index:1;
-    width:118px;
-    height:118px;
+    z-index:2;
+    width:210px;
+    height:210px;
   }
-  .banner-visual-card{
+  .banner-badge{
     position:absolute;
-    inset:0;
-    background:#fff;
-    border-radius:26px;
+    left:50%; top:50%;
+    width:128px; height:128px;
+    margin:-64px 0 0 -64px;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#2B5BE8 0%,#0E2A66 55%,#050B1C 100%);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:2px;
+    animation:badge-pulse 3.2s ease-in-out infinite;
+  }
+  @keyframes badge-pulse{
+    0%,100%{ box-shadow:0 0 36px 4px rgba(56,110,255,.5),0 0 80px 16px rgba(40,90,230,.2); }
+    50%{ box-shadow:0 0 50px 8px rgba(80,140,255,.7),0 0 100px 24px rgba(60,120,255,.3); }
+  }
+  .badge-ring{
+    position:absolute;
+    inset:-6px;
+    border-radius:50%;
+    border:1.5px solid rgba(160,195,255,.55);
+    pointer-events:none;
+  }
+  .badge-super,.badge-mujin{
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:.14em;
+    color:#CFE0FF;
+  }
+  .badge-icon{ width:26px; height:26px; color:#fff; margin:2px 0; }
+  .glass-card{
+    position:absolute;
+    width:50px; height:50px;
+    border-radius:13px;
+    background:rgba(255,255,255,.07);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    border:1px solid rgba(255,255,255,.18);
     display:flex;
     align-items:center;
     justify-content:center;
-    box-shadow:0 20px 30px -12px rgba(30,10,60,.35);
-    overflow:hidden;
-    animation:bob 3.6s ease-in-out infinite;
+    color:#BFD4FF;
+    box-shadow:0 8px 20px -10px rgba(0,0,0,.5);
   }
-  @keyframes bob{
-    0%,100%{ transform:translateY(0) rotate(0deg); }
-    50%{ transform:translateY(-10px) rotate(-2deg); }
-  }
-  .banner-visual-card svg{ width:54px; height:54px; color:#7A5FD6; position:relative; z-index:1; }
-  .banner-sheen{
-    position:absolute;
-    top:0;
-    left:-60%;
-    width:40%;
-    height:100%;
-    background:linear-gradient(100deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.75) 50%,rgba(255,255,255,0) 100%);
-    animation:sheen 3.6s ease-in-out infinite;
-    z-index:2;
-  }
-  @keyframes sheen{
-    0%{ left:-60%; }
-    55%,100%{ left:120%; }
-  }
-  .sparkle{
-    position:absolute;
-    color:#fff;
-    z-index:2;
-    animation:twinkle 2.2s ease-in-out infinite;
-  }
-  .sparkle.s1{ top:-6px; right:-4px; width:16px; height:16px; animation-delay:.2s; }
-  .sparkle.s2{ bottom:2px; left:-14px; width:12px; height:12px; animation-delay:1s; }
-  .sparkle.s3{ top:30px; right:-22px; width:10px; height:10px; animation-delay:1.6s; }
-  @keyframes twinkle{
-    0%,100%{ opacity:.15; transform:scale(.7); }
-    50%{ opacity:1; transform:scale(1.05); }
+  .glass-card svg{ width:21px; height:21px; }
+  .glass-card.gc1{ top:0; left:-8px; animation:float-card 4.6s ease-in-out infinite; }
+  .glass-card.gc2{ bottom:6px; right:-10px; animation:float-card 5.3s ease-in-out infinite .6s; }
+  .glass-card.gc3{ top:52%; right:14px; margin-top:-25px; animation:float-card 4s ease-in-out infinite 1.2s; }
+  @keyframes float-card{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-9px); }
   }
   .banner-dots{
     position:absolute;
-    left:26px;
+    left:30px;
     bottom:18px;
-    z-index:1;
+    z-index:2;
     display:flex;
     gap:6px;
   }
   .banner-dots span{
     width:6px; height:6px; border-radius:50%;
-    background:rgba(255,255,255,.45);
+    background:rgba(143,176,255,.4);
   }
-  .banner-dots span.active{ width:16px; border-radius:3px; background:#fff; }
+  .banner-dots span.active{ width:16px; border-radius:3px; background:#8FB0FF; }
 
   @media (prefers-reduced-motion: reduce){
-    .banner-orb,.banner-visual-card,.banner-sheen,.sparkle{ animation:none !important; }
+    .banner-beam,.particle,.banner-headline,.banner-cta,.banner-badge,.glass-card{ animation:none !important; }
   }
 
   /* ---------- ③ 매뉴얼 ---------- */
@@ -411,25 +434,23 @@
   }
   .manual-card{
     background:#fff;
-    border:1px solid #EFEAF9;
-    border-radius:14px;
+    border:1px solid var(--line);
+    border-radius:10px;
     padding:12px 10px;
     display:flex;
     flex-direction:column;
     gap:10px;
     cursor:pointer;
   }
-  .manual-card:hover{ border-color:#DCD2F5; }
+  .manual-card:hover{ border-color:#C7CCD6; }
   .manual-icon{
     width:32px; height:32px;
-    border-radius:9px;
+    border-radius:7px;
     display:flex; align-items:center; justify-content:center;
+    background:var(--ink);
     color:#fff;
   }
   .manual-icon svg{ width:16px; height:16px; }
-  .manual-card:nth-child(1) .manual-icon{ background:linear-gradient(135deg,#FF8FB8,#FF6FA0); }
-  .manual-card:nth-child(2) .manual-icon{ background:linear-gradient(135deg,#B79CFF,#9573F0); }
-  .manual-card:nth-child(3) .manual-icon{ background:linear-gradient(135deg,#6FA8FF,#4F86F7); }
   .manual-body{ flex:1; min-width:0; }
   .manual-name{
     font-size:12.5px;
@@ -439,31 +460,31 @@
   }
   .manual-meta{
     font-size:11px;
-    color:#938AA6;
+    color:var(--ink-soft);
     margin:0;
   }
   .manual-dl{
     align-self:flex-end;
     width:26px; height:26px;
     border-radius:50%;
-    background:#F7F5FC;
+    background:var(--chip);
     display:flex; align-items:center; justify-content:center;
-    color:#6E6784;
+    color:var(--ink-soft);
   }
   .manual-dl svg{ width:13px; height:13px; }
 
   /* ---------- ④ 채널 바로가기 ---------- */
   .channel-box{
     background:#fff;
-    border:1px solid #EFEAF9;
-    border-radius:16px;
+    border:1px solid var(--line);
+    border-radius:12px;
     padding:20px 16px;
   }
   .channel-lead{
     text-align:center;
     font-size:12.5px;
     font-weight:700;
-    color:#453C63;
+    color:var(--ink);
     margin:0 0 18px;
   }
   .channel-row{
@@ -485,51 +506,70 @@
     width:42px; height:42px;
     border-radius:50%;
     display:flex; align-items:center; justify-content:center;
+    background:var(--chip);
+    color:var(--ink-soft);
+    border:1px solid var(--line);
+    transition:background .15s ease, color .15s ease, border-color .15s ease, transform .15s ease;
   }
-  .channel-ico svg{ width:19px; height:19px; }
-  .channel-item:nth-child(1) .channel-ico{ background:#FFE3E9; color:#F2416B; }
-  .channel-item:nth-child(2) .channel-ico{ background:#FBE4FF; color:#B24FD6; }
-  .channel-item:nth-child(3) .channel-ico{ background:#E3F0FF; color:#2E7BE0; }
-  .channel-item:nth-child(4) .channel-ico{ background:#FFF4D9; color:#C99A15; }
-  .channel-item:nth-child(5) .channel-ico{ background:#E7E3FF; color:#7659E0; }
-  .channel-label{ font-size:10.5px; font-weight:600; color:#6E6784; }
+  .channel-ico svg{ width:18px; height:18px; }
+  .channel-item:hover .channel-ico{
+    background:var(--ink);
+    color:#fff;
+    border-color:transparent;
+    transform:translateY(-2px);
+  }
+  .channel-label{ font-size:10.5px; font-weight:600; color:var(--ink-soft); }
 
   /* ---------- ⑤ 플렉스지 ---------- */
   .flexg{
     position:relative;
-    border-radius:16px;
-    padding:1.5px;
-    background:var(--grad);
+    border-radius:14px;
+    background:var(--ink);
+    box-shadow:0 20px 40px -28px rgba(20,23,31,.45);
   }
   .flexg-inner{
-    background:#fff;
-    border-radius:14.5px;
-    padding:18px 16px;
+    padding:24px 22px;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:12px;
+    gap:16px;
     flex-wrap:wrap;
   }
-  .flexg-title{
-    font-size:13.5px;
+  .flexg-eyebrow{
+    display:inline-block;
+    font-size:10px;
     font-weight:800;
-    line-height:1.5;
+    letter-spacing:.08em;
+    color:#AFC1FF;
+    background:rgba(255,255,255,.1);
+    padding:3px 9px;
+    border-radius:5px;
+    margin:0 0 9px;
+  }
+  .flexg-title{
+    font-size:16.5px;
+    font-weight:800;
+    line-height:1.4;
     margin:0 0 6px;
-    color:#28223B;
+    color:#FFFFFF;
+    text-wrap:balance;
   }
   .flexg-title .grad-text{
-    background:var(--grad-text);
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
+    color:#8FA6FF;
   }
   .flexg-sub{
-    font-size:11.5px;
-    color:#8A8199;
+    font-size:12.5px;
+    color:rgba(255,255,255,.66);
     margin:0;
   }
-  .flexg .pill{ flex:0 0 auto; }
+  .flexg .pill{
+    flex:0 0 auto;
+    padding:11px 22px;
+    font-size:13px;
+    background:var(--accent);
+    box-shadow:0 10px 22px -10px rgba(51,85,216,.6);
+  }
+  .flexg .pill:hover{ background:var(--accent-deep); }
 
   /* ---------- ⑥ 상품리스트 ---------- */
   .product-grid{
@@ -540,42 +580,41 @@
   .product-card{ text-align:left; }
   .product-thumb{
     aspect-ratio:1/1;
-    border-radius:14px;
+    border-radius:10px;
     display:flex;
     align-items:center;
     justify-content:center;
     margin-bottom:8px;
   }
   .product-thumb svg{ width:26px; height:26px; }
-  .product-card:nth-child(3n+1) .product-thumb{ background:linear-gradient(150deg,#FFE1EC,#FFF6F9); color:#F0A8C4; }
-  .product-card:nth-child(3n+2) .product-thumb{ background:linear-gradient(150deg,#EBE1FF,#F8F5FF); color:#B5A2EE; }
-  .product-card:nth-child(3n+3) .product-thumb{ background:linear-gradient(150deg,#DFEBFF,#F3F8FF); color:#93B7EE; }
+  .product-card:nth-child(3n+1) .product-thumb{ background:linear-gradient(150deg,#F4F5F7,#FFFFFF); color:#9AA3B2; }
+  .product-card:nth-child(3n+2) .product-thumb{ background:linear-gradient(150deg,#ECEEF2,#FFFFFF); color:#7C8697; }
+  .product-card:nth-child(3n+3) .product-thumb{ background:linear-gradient(150deg,#E4E7EC,#FFFFFF); color:#5B6472; }
   .product-name{
     font-size:12px;
     font-weight:600;
     margin:0 0 3px;
-    color:#3A3350;
+    color:var(--ink-soft);
   }
   .product-price{
     font-size:12.5px;
     font-weight:800;
     margin:0;
-    color:#28223B;
+    color:var(--ink);
     font-variant-numeric:tabular-nums;
   }
 
   /* ---------- ⑦ 플로팅 버튼 ---------- */
   .fab-wrap{
     position:absolute;
-    right:14px;
-    bottom:14px;
+    right:18px;
+    bottom:18px;
     z-index:7;
   }
-  .fab-wrap .badge{ top:-8px; left:-8px; }
   .fab{
     width:72px; height:72px;
     border-radius:50%;
-    background:var(--grad);
+    background:var(--accent);
     color:#fff;
     border:none;
     display:flex;
@@ -584,11 +623,12 @@
     justify-content:center;
     gap:3px;
     cursor:pointer;
-    box-shadow:0 14px 26px -10px rgba(90,60,180,.55);
+    box-shadow:0 14px 26px -12px rgba(51,85,216,.55);
   }
+  .fab:hover{ background:var(--accent-deep); }
   .fab svg{ width:19px; height:19px; }
   .fab span{ font-size:9.5px; font-weight:800; letter-spacing:-.02em; }
-  .fab:focus-visible{ outline:2px solid #3A2E70; outline-offset:3px; }
+  .fab:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
 
   /* ---------- 전체메뉴(카테고리) 오버레이 ---------- */
   .menu-overlay{
@@ -608,7 +648,7 @@
   .menu-dim{
     position:absolute;
     inset:0;
-    background:rgba(18,12,32,.5);
+    background:rgba(15,17,21,.55);
   }
   .cat-panel{
     position:absolute;
@@ -619,7 +659,7 @@
     transition:transform .28s cubic-bezier(.2,.8,.2,1);
     display:flex;
     flex-direction:column;
-    box-shadow:16px 0 30px -18px rgba(0,0,0,.35);
+    box-shadow:16px 0 30px -18px rgba(0,0,0,.4);
   }
   .menu-overlay.is-open .cat-panel{ transform:translateX(0); }
   @media (prefers-reduced-motion: reduce){
@@ -627,7 +667,7 @@
   }
   .cat-head{
     position:relative;
-    background:var(--grad);
+    background:var(--ink);
     color:#fff;
     padding:20px 18px;
     display:flex;
@@ -639,12 +679,12 @@
     width:30px; height:30px;
     border-radius:50%;
     border:none;
-    background:rgba(255,255,255,.22);
+    background:rgba(255,255,255,.14);
     color:#fff;
     display:flex; align-items:center; justify-content:center;
     cursor:pointer;
   }
-  .cat-close:hover{ background:rgba(255,255,255,.32); }
+  .cat-close:hover{ background:rgba(255,255,255,.24); }
   .cat-close:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
   .cat-list{
     list-style:none;
@@ -660,24 +700,24 @@
     gap:8px;
     background:none;
     border:none;
-    border-bottom:1px solid #F2EEFA;
+    border-bottom:1px solid var(--line-soft);
     padding:15px 18px;
     font-size:13px;
     font-weight:600;
-    color:#332B4A;
+    color:var(--ink);
     cursor:pointer;
     text-align:left;
   }
-  .cat-list button:hover{ background:#FAF7FF; }
-  .cat-list button svg{ width:15px; height:15px; color:#B8AFCC; flex:0 0 auto; }
-  .cat-list li:first-child button{ font-weight:800; color:#7659E0; }
+  .cat-list button:hover{ background:var(--chip); }
+  .cat-list button svg{ width:15px; height:15px; color:#B7BEC9; flex:0 0 auto; }
+  .cat-list li:first-child button{ font-weight:800; color:var(--accent); }
 
   /* ---------- 우측 화면설명 ---------- */
   .desc-panel{
     width:300px;
     flex:0 0 300px;
-    background:var(--shell);
-    border-left:1px solid var(--line);
+    background:var(--ink);
+    border-left:1px solid rgba(255,255,255,.08);
     padding:28px 22px;
     height:100vh;
     overflow-y:auto;
@@ -689,7 +729,7 @@
     font-weight:700;
     letter-spacing:.14em;
     text-transform:uppercase;
-    color:var(--ink-soft);
+    color:rgba(255,255,255,.4);
     margin:0 0 6px;
   }
   .desc-heading{
@@ -697,6 +737,7 @@
     font-weight:800;
     margin:0 0 22px;
     line-height:1.4;
+    color:#FFFFFF;
   }
   .desc-list{
     display:flex;
@@ -710,8 +751,8 @@
   .desc-num{
     flex:0 0 auto;
     width:24px; height:24px;
-    border-radius:50%;
-    background:var(--grad);
+    border-radius:6px;
+    background:var(--accent);
     color:#fff;
     font-size:11.5px;
     font-weight:800;
@@ -721,12 +762,158 @@
     font-size:13px;
     font-weight:700;
     margin:0 0 5px;
-    color:var(--ink);
+    color:#FFFFFF;
   }
   .desc-row p{
     font-size:12.5px;
     line-height:1.65;
+    color:rgba(255,255,255,.6);
+    margin:0;
+  }
+
+  /* ---------- 업체소개 ---------- */
+  .intro-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:18px 18px 16px;
+  }
+  .intro-top{
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .intro-logo{
+    flex:0 0 auto;
+    width:52px;
+    height:52px;
+    border-radius:12px;
+    background:var(--ink);
+    color:#fff;
+    font-size:15px;
+    font-weight:800;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .intro-name{
+    font-size:15.5px;
+    font-weight:800;
+    margin:0 0 3px;
+    color:var(--ink);
+  }
+  .intro-tagline{
+    font-size:11.5px;
     color:var(--ink-soft);
+    margin:0;
+  }
+  .intro-stats{
+    display:flex;
+    justify-content:space-between;
+    gap:6px;
+    margin-top:16px;
+    padding-top:14px;
+    border-top:1px solid var(--line-soft);
+  }
+  .stat{
+    flex:1;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+  }
+  .stat-value{
+    font-size:13px;
+    font-weight:800;
+    color:var(--ink);
+    font-variant-numeric:tabular-nums;
+  }
+  .stat-label{
+    font-size:10px;
+    color:var(--ink-soft);
+    font-weight:600;
+  }
+
+  /* ---------- 상품 정렬 옵션 ---------- */
+  .list-meta{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .sort-toggle{
+    display:inline-flex;
+    align-items:center;
+    gap:2px;
+    background:var(--chip);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:3px;
+  }
+  .sort-btn{
+    border:none;
+    background:transparent;
+    border-radius:6px;
+    padding:5px 10px;
+    font-size:10.5px;
+    font-weight:700;
+    color:var(--ink-soft);
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .sort-btn.is-active{
+    background:var(--accent);
+    color:#fff;
+  }
+  .sort-btn:focus-visible{
+    outline:2px solid var(--focus);
+    outline-offset:2px;
+  }
+
+  /* ---------- 연락처 ---------- */
+  .contact-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .contact-info{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .contact-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .contact-ico{
+    flex:0 0 auto;
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    background:var(--chip);
+    color:var(--accent);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .contact-ico svg{ width:16px; height:16px; }
+  .contact-label{
+    font-size:10.5px;
+    color:var(--ink-soft);
+    font-weight:600;
+    margin:0 0 2px;
+  }
+  .contact-value{
+    font-size:13px;
+    font-weight:700;
+    color:var(--ink);
     margin:0;
   }
 
@@ -736,14 +923,14 @@
     .index{
       width:100%; flex:0 0 auto; height:auto; position:relative;
       flex-direction:row; overflow-x:auto;
-      border-right:none; border-bottom:1px solid var(--line);
+      border-right:none; border-bottom:1px solid rgba(255,255,255,.08);
       padding:16px;
     }
     .index-eyebrow,.index-title{ display:none; }
     .index-item{ flex:0 0 auto; white-space:nowrap; }
     .desc-panel{
       width:100%; flex:0 0 auto; height:auto; position:relative;
-      border-left:none; border-top:1px solid var(--line);
+      border-left:none; border-top:1px solid rgba(255,255,255,.08);
     }
     .stage{ padding:28px 16px; }
   }
@@ -771,54 +958,91 @@
 
   <main class="stage">
     <div class="tablet-frame">
-      <div class="tablet-notch"></div>
       <div class="tablet-screen" id="tabletScreen">
 
         <!-- ① 헤더 -->
         <header class="screen-header">
-          <span class="badge" style="position:static;margin-right:2px;">1</span>
-          <button class="icon-btn" id="hamburgerBtn" type="button" aria-label="전체메뉴 열기">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
-          </button>
-          <span class="logo">한국무진</span>
-          <button class="pill" type="button">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15.5 8.5a4 4 0 0 1 0 7"/><path d="M18 6a7.5 7.5 0 0 1 0 12"/></svg>
-            제휴/제안
-          </button>
+          <div class="header-left">
+            <button class="icon-btn" id="hamburgerBtn" type="button" aria-label="전체메뉴 열기">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+            </button>
+          </div>
+          <div class="header-brand">
+            <span class="brand-logo"><img src="assets/logo.png" alt="한국무진 파트너스"></span>
+          </div>
+          <div class="header-right">
+            <button class="pill" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15.5 8.5a4 4 0 0 1 0 7"/><path d="M18 6a7.5 7.5 0 0 1 0 12"/></svg>
+              제휴/제안
+            </button>
+          </div>
         </header>
 
         <div class="scroll-area">
 
-          <!-- ② 메인 배너 -->
+          <!-- ② 업체소개 -->
           <section class="section">
-            <span class="badge">2</span>
-            <div class="banner">
-              <span class="banner-orb o1"></span>
-              <span class="banner-orb o2"></span>
-              <span class="banner-orb o3"></span>
-              <div class="banner-copy">
-                <p class="banner-eyebrow">New Arrival</p>
-                <h2 class="banner-headline">한국무진 신상품을<br>만나보세요</h2>
-                <p class="banner-caption">어드민에서 등록한 배너(GIF)가 노출되는 영역입니다.</p>
-              </div>
-              <div class="banner-visual">
-                <span class="sparkle s1"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg></span>
-                <span class="sparkle s2"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg></span>
-                <span class="sparkle s3"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg></span>
-                <div class="banner-visual-card">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>
-                  <span class="banner-sheen"></span>
+            <div class="intro-card">
+              <div class="intro-top">
+                <div class="intro-logo">한무</div>
+                <div>
+                  <p class="intro-name">한국무진</p>
+                  <p class="intro-tagline">20년 전통의 정밀 제조 전문 기업</p>
                 </div>
               </div>
+              <div class="intro-stats">
+                <div class="stat"><span class="stat-value">2005</span><span class="stat-label">설립연도</span></div>
+                <div class="stat"><span class="stat-value">320+</span><span class="stat-label">주요 거래처</span></div>
+                <div class="stat"><span class="stat-value">ISO 9001</span><span class="stat-label">인증현황</span></div>
+                <div class="stat"><span class="stat-value">12</span><span class="stat-label">취급 카테고리</span></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ③ 메인 배너 -->
+          <section class="section">
+            <div class="banner">
+              <span class="banner-glow gtr"></span>
+              <span class="banner-glow gbl"></span>
+              <span class="banner-beam"></span>
+              <span class="particle" style="left:8%;bottom:10%;animation-duration:6.5s;animation-delay:.2s;"></span>
+              <span class="particle" style="left:18%;bottom:30%;animation-duration:5.8s;animation-delay:1.4s;"></span>
+              <span class="particle" style="left:30%;bottom:5%;animation-duration:7.2s;animation-delay:.8s;"></span>
+              <span class="particle" style="left:46%;bottom:20%;animation-duration:6s;animation-delay:2.1s;"></span>
+              <span class="particle" style="left:60%;bottom:8%;animation-duration:6.8s;animation-delay:.5s;"></span>
+              <span class="particle" style="left:72%;bottom:35%;animation-duration:5.5s;animation-delay:1.8s;"></span>
+              <span class="particle" style="left:85%;bottom:12%;animation-duration:7s;animation-delay:2.6s;"></span>
+              <span class="particle" style="left:93%;bottom:28%;animation-duration:6.3s;animation-delay:.9s;"></span>
+
+              <div class="banner-copy">
+                <p class="banner-eyebrow">Super Mujin Week</p>
+                <h2 class="banner-headline">슈퍼무진</h2>
+                <p class="banner-eyebrow banner-eyebrow-2">City Collection</p>
+                <p class="banner-sub">도시적인 감각, 신제품 최대 30%</p>
+                <p class="banner-date">10.1(목) - 10.7(수)</p>
+                <button class="banner-cta" type="button">지금 확인하기</button>
+              </div>
+
+              <div class="banner-visual">
+                <div class="glass-card gc1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></div>
+                <div class="glass-card gc2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></div>
+                <div class="glass-card gc3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5V4a1 1 0 0 1 1-1h7.5a1 1 0 0 1 .7.3l7.8 7.8a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0L3.3 12.2a1 1 0 0 1-.3-.7z"/><circle cx="7.5" cy="7.5" r="1.5" fill="currentColor" stroke="none"/></svg></div>
+                <div class="banner-badge">
+                  <span class="badge-ring"></span>
+                  <span class="badge-super">SUPER</span>
+                  <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg>
+                  <span class="badge-mujin">MUJIN</span>
+                </div>
+              </div>
+
               <div class="banner-dots">
                 <span class="active"></span><span></span><span></span>
               </div>
             </div>
           </section>
 
-          <!-- ③ 매뉴얼 -->
+          <!-- ④ 매뉴얼 -->
           <section class="section">
-            <span class="badge">3</span>
             <div class="section-title"><h2>매뉴얼</h2></div>
             <div class="manual-grid">
               <div class="manual-card">
@@ -848,9 +1072,22 @@
             </div>
           </section>
 
-          <!-- ④ 채널 바로가기 -->
+          <!-- ⑤ 플렉스지 가입 유도 -->
           <section class="section">
-            <span class="badge">4</span>
+            <div class="flexg">
+              <div class="flexg-inner">
+                <div>
+                  <span class="flexg-eyebrow">플렉스지 제휴</span>
+                  <p class="flexg-title"><span class="grad-text">플렉스지</span>에서 나만의 쇼핑몰을 시작하세요</p>
+                  <p class="flexg-sub">한국무진 상품을 내 쇼핑몰에서 바로 판매할 수 있습니다.</p>
+                </div>
+                <button class="pill" type="button">무료 가입하기</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- ⑥ 채널 바로가기 -->
+          <section class="section">
             <div class="channel-box">
               <p class="channel-lead">한국무진 채널에서 더 많은 소식을 만나보세요</p>
               <div class="channel-row">
@@ -878,28 +1115,47 @@
             </div>
           </section>
 
-          <!-- ⑤ 플렉스지 가입 유도 -->
+          <!-- ⑦ 상품리스트 -->
           <section class="section">
-            <span class="badge">5</span>
-            <div class="flexg">
-              <div class="flexg-inner">
-                <div>
-                  <p class="flexg-title"><span class="grad-text">플렉스지</span>에서 나만의 쇼핑몰을 시작하세요</p>
-                  <p class="flexg-sub">한국무진 상품을 내 쇼핑몰에서 바로 판매할 수 있습니다.</p>
-                </div>
-                <button class="pill" type="button">무료 가입하기</button>
-              </div>
-            </div>
-          </section>
-
-          <!-- ⑥ 상품리스트 -->
-          <section class="section">
-            <span class="badge">6</span>
             <div class="section-title">
               <h2>전체 상품</h2>
-              <span class="muted">총 12개</span>
+              <div class="list-meta">
+                <span class="muted">총 12개</span>
+                <div class="sort-toggle" role="group" aria-label="정렬 옵션">
+                  <button class="sort-btn is-active" type="button" data-sort="default">기본순</button>
+                  <button class="sort-btn" type="button" data-sort="price">가격순</button>
+                  <button class="sort-btn" type="button" data-sort="new">신상품순</button>
+                </div>
+              </div>
             </div>
             <div class="product-grid" id="productGrid"></div>
+          </section>
+
+          <!-- ⑧ 연락처 -->
+          <section class="section">
+            <div class="section-title"><h2>연락처</h2></div>
+            <div class="contact-card">
+              <div class="contact-info">
+                <div class="contact-row">
+                  <span class="contact-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5c0-1 1-2 2-2h2l2 5-2 1a11 11 0 0 0 6 6l1-2 5 2v2c0 1-1 2-2 2C10 19 4 13 4 5z"/></svg></span>
+                  <div>
+                    <p class="contact-label">전화 문의</p>
+                    <p class="contact-value">02-1234-5678</p>
+                  </div>
+                </div>
+                <div class="contact-row">
+                  <span class="contact-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
+                  <div>
+                    <p class="contact-label">운영시간</p>
+                    <p class="contact-value">평일 09:00 - 18:00 (주말·공휴일 휴무)</p>
+                  </div>
+                </div>
+              </div>
+              <button class="pill" type="button">
+                <svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px;"><path d="M12 3C6.5 3 2 6.6 2 11c0 2.8 1.9 5.3 4.7 6.7-.2.8-.8 2.7-.9 3.1 0 0 0 .3.2.4.2.1.4 0 .4 0 .5-.1 3-2 3.9-2.7.6.1 1.1.1 1.7.1 5.5 0 10-3.6 10-8S17.5 3 12 3z"/></svg>
+                카카오톡 상담
+              </button>
+            </div>
           </section>
 
         </div>
@@ -909,9 +1165,7 @@
           <div class="menu-dim"></div>
           <div class="cat-panel" role="dialog" aria-label="전체 카테고리">
             <div class="cat-head">
-              <span class="badge" style="position:static;background:rgba(255,255,255,.28);">1</span>
               <h2>전체 카테고리</h2>
-              <span class="badge" style="position:static;background:rgba(255,255,255,.28);">2</span>
               <button class="cat-close" id="closeMenuBtn" type="button" aria-label="전체메뉴 닫기">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
               </button>
@@ -929,9 +1183,8 @@
 
       </div>
 
-      <!-- ⑦ 제휴/제안 플로팅 버튼 -->
+      <!-- ⑨ 제휴/제안 플로팅 버튼 -->
       <div class="fab-wrap">
-        <span class="badge">7</span>
         <button class="fab" type="button" aria-label="제휴/제안 문의">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15.5 8.5a4 4 0 0 1 0 7"/><path d="M18 6a7.5 7.5 0 0 1 0 12"/></svg>
           <span>제휴/제안</span>
@@ -951,15 +1204,15 @@
       </div>
       <div class="desc-row">
         <span class="desc-num">2</span>
-        <div><h3>메인 배너</h3><p>어드민에서 등록한 배너가 노출되며, GIF 이미지 등록을 지원합니다. 배너가 여러 개일 경우 순차적으로 노출됩니다.</p></div>
+        <div><h3>업체소개</h3><p>업체 로고, 업체명, 한 줄 소개문구와 함께 설립연도·주요 거래처 수·인증현황·취급 카테고리 수 등 핵심 정보가 노출됩니다. 어드민에서 등록·수정할 수 있습니다.</p></div>
       </div>
       <div class="desc-row">
         <span class="desc-num">3</span>
-        <div><h3>매뉴얼</h3><p>어드민에서 등록한 매뉴얼 파일이 노출되며, 카드 클릭 시 파일이 다운로드됩니다. 매뉴얼은 여러 개 등록할 수 있습니다.</p></div>
+        <div><h3>메인 배너</h3><p>어드민에서 등록한 배너가 노출되며, GIF 이미지 등록을 지원합니다. 배너가 여러 개일 경우 순차적으로 노출됩니다.</p></div>
       </div>
       <div class="desc-row">
         <span class="desc-num">4</span>
-        <div><h3>채널 바로가기</h3><p>업체의 홍보 채널로 이동합니다. 채널 종류와 링크는 어드민에서 설정합니다.</p></div>
+        <div><h3>매뉴얼</h3><p>어드민에서 등록한 매뉴얼 파일이 노출되며, 카드 클릭 시 파일이 다운로드됩니다. 매뉴얼은 여러 개 등록할 수 있습니다.</p></div>
       </div>
       <div class="desc-row">
         <span class="desc-num">5</span>
@@ -967,10 +1220,18 @@
       </div>
       <div class="desc-row">
         <span class="desc-num">6</span>
-        <div><h3>상품리스트</h3><p>업체가 진열한 상품의 썸네일, 상품명, 가격이 노출됩니다.</p></div>
+        <div><h3>채널 바로가기</h3><p>업체의 홍보 채널로 이동합니다. 채널 종류와 링크는 어드민에서 설정합니다.</p></div>
       </div>
       <div class="desc-row">
         <span class="desc-num">7</span>
+        <div><h3>상품리스트</h3><p>업체가 진열한 상품의 썸네일, 상품명, 가격이 노출됩니다. 기본순/가격순/신상품순 정렬 옵션을 제공하며, 프로토타입에서는 선택 상태만 시각적으로 표시됩니다.</p></div>
+      </div>
+      <div class="desc-row">
+        <span class="desc-num">8</span>
+        <div><h3>연락처</h3><p>전화번호와 운영시간이 텍스트로 노출됩니다. 카카오톡 상담 버튼 클릭 시 카카오톡 채널 상담 페이지로 이동합니다.</p></div>
+      </div>
+      <div class="desc-row">
+        <span class="desc-num">9</span>
         <div><h3>제휴/제안 플로팅 버튼</h3><p>스크롤 위치와 관계없이 항상 노출되며, 클릭 시 제휴/제안 페이지로 이동합니다.</p></div>
       </div>
     </div>
@@ -1029,6 +1290,14 @@
   });
   document.getElementById('hamburgerBtn').addEventListener('click', function(){ state = 'menu'; render(); });
   document.getElementById('closeMenuBtn').addEventListener('click', function(){ state = 'main'; render(); });
+
+  var sortBtns = document.querySelectorAll('.sort-btn');
+  sortBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      sortBtns.forEach(function(b){ b.classList.remove('is-active'); });
+      btn.classList.add('is-active');
+    });
+  });
 
   render();
 })();
