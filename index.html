@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>한국무진 진열페이지 프로토타입</title>
+<meta name="description" content="제안플러스(제안이지) 한국무진 업체 진열페이지 기획 확인용 정적 프로토타입">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap">
+<style>
+  :root{
+    --bg:#F4F2FA;
+    --shell:#FFFFFF;
+    --ink:#28223B;
+    --ink-soft:#6E6784;
+    --line:#E7E2F2;
+    --line-soft:#EFEBF8;
+    --chip:#F7F5FC;
+    --accent-a:#FF8FB8;
+    --accent-b:#B79CFF;
+    --accent-c:#6FA8FF;
+    --grad: linear-gradient(120deg,var(--accent-a) 0%,var(--accent-b) 50%,var(--accent-c) 100%);
+    --grad-text: linear-gradient(90deg,#F2609A,#4F86F7);
+    --focus:#8C6FE0;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#1A1725;
+      --shell:#221E32;
+      --ink:#F1EEFA;
+      --ink-soft:#A79FC2;
+      --line:#332C4A;
+      --line-soft:#2A2440;
+      --chip:#2A2440;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#1A1725;
+    --shell:#221E32;
+    --ink:#F1EEFA;
+    --ink-soft:#A79FC2;
+    --line:#332C4A;
+    --line-soft:#2A2440;
+    --chip:#2A2440;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  button{font-family:inherit;}
+  a{color:inherit;}
+
+  .app{
+    min-height:100%;
+    display:flex;
+    align-items:stretch;
+  }
+
+  /* ---------- 좌측 인덱스 ---------- */
+  .index{
+    width:220px;
+    flex:0 0 220px;
+    background:var(--shell);
+    border-right:1px solid var(--line);
+    padding:28px 18px;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    position:sticky;
+    top:0;
+    align-self:flex-start;
+    height:100vh;
+    overflow-y:auto;
+  }
+  .index-eyebrow{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.14em;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+    padding:0 10px 10px;
+  }
+  .index-title{
+    font-size:16px;
+    font-weight:800;
+    padding:0 10px 18px;
+    line-height:1.4;
+  }
+  .index-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    width:100%;
+    text-align:left;
+    background:transparent;
+    border:1px solid transparent;
+    border-radius:12px;
+    padding:12px 10px;
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .index-item:hover{
+    background:var(--line-soft);
+    color:var(--ink);
+  }
+  .index-item:focus-visible{
+    outline:2px solid var(--focus);
+    outline-offset:2px;
+  }
+  .index-item .num{
+    flex:0 0 auto;
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:11px;
+    font-weight:800;
+    color:var(--ink-soft);
+    background:var(--chip);
+    border:1px solid var(--line);
+  }
+  .index-item.is-active{
+    background:var(--grad);
+    color:#fff;
+    border-color:transparent;
+    box-shadow:0 8px 18px -8px rgba(140,111,224,.55);
+  }
+  .index-item.is-active .num{
+    background:rgba(255,255,255,.25);
+    color:#fff;
+    border-color:transparent;
+  }
+
+  /* ---------- 가운데 스테이지 ---------- */
+  .stage{
+    flex:1 1 auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px 24px;
+    min-width:0;
+  }
+  .tablet-frame{
+    position:relative;
+    width:600px;
+    max-width:100%;
+    background:#0E0B18;
+    border-radius:34px;
+    padding:14px;
+    box-shadow:0 30px 60px -25px rgba(30,20,60,.45), 0 2px 0 rgba(255,255,255,.04) inset;
+  }
+  .tablet-notch{
+    position:absolute;
+    top:6px;
+    left:50%;
+    transform:translateX(-50%);
+    width:64px;
+    height:5px;
+    border-radius:3px;
+    background:rgba(255,255,255,.18);
+  }
+  .tablet-screen{
+    position:relative;
+    width:100%;
+    height:min(820px,80vh);
+    background:#FAF9FD;
+    border-radius:22px;
+    overflow-y:auto;
+    overflow-x:hidden;
+    scrollbar-width:thin;
+    color:#231C33;
+  }
+
+  /* 화면설명 번호 배지 (가운데 목업 위에 표시) */
+  .badge{
+    position:absolute;
+    z-index:6;
+    min-width:22px;
+    height:22px;
+    padding:0 6px;
+    border-radius:11px;
+    background:var(--grad);
+    color:#fff;
+    font-size:11.5px;
+    font-weight:800;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 4px 10px -3px rgba(60,40,120,.5), 0 0 0 2px #FAF9FD;
+    pointer-events:none;
+  }
+
+  /* ---------- ① 헤더 ---------- */
+  .screen-header{
+    position:sticky;
+    top:0;
+    z-index:5;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:14px 20px;
+    background:rgba(250,249,253,.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid #EFEAF9;
+  }
+  .icon-btn{
+    width:36px;
+    height:36px;
+    border-radius:10px;
+    border:1px solid #EFEAF9;
+    background:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#453C63;
+    cursor:pointer;
+    flex:0 0 auto;
+  }
+  .icon-btn:hover{background:#F4F0FC;}
+  .icon-btn:focus-visible{outline:2px solid var(--focus);outline-offset:2px;}
+  .logo{
+    font-size:19px;
+    font-weight:900;
+    letter-spacing:-.01em;
+    background:var(--grad-text);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    white-space:nowrap;
+  }
+  .pill{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    border:none;
+    border-radius:999px;
+    padding:9px 15px;
+    font-size:12.5px;
+    font-weight:700;
+    color:#fff;
+    background:var(--grad);
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .pill:hover{filter:brightness(1.04);}
+  .pill:focus-visible{outline:2px solid #4F3E8A;outline-offset:2px;}
+
+  .scroll-area{
+    padding:22px 20px 100px;
+    display:flex;
+    flex-direction:column;
+    gap:26px;
+  }
+  .section{
+    position:relative;
+  }
+  .section .badge{ top:-10px; left:-10px; }
+  .section-title{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin:0 0 12px;
+  }
+  .section-title h2{
+    font-size:15px;
+    font-weight:800;
+    margin:0;
+  }
+  .section-title .muted{
+    font-size:12px;
+    color:#8A8199;
+    font-weight:600;
+  }
+
+  /* ---------- ② 메인 배너 ---------- */
+  .banner{
+    position:relative;
+    height:280px;
+    border-radius:20px;
+    background:var(--grad);
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    padding:0 26px;
+    isolation:isolate;
+  }
+  .banner-orb{
+    position:absolute;
+    border-radius:50%;
+    background:rgba(255,255,255,.22);
+    z-index:0;
+  }
+  .banner-orb.o1{ width:120px; height:120px; top:-30px; left:30px; animation:float-slow 7s ease-in-out infinite; }
+  .banner-orb.o2{ width:70px; height:70px; bottom:-10px; left:120px; background:rgba(255,255,255,.16); animation:float-slow 8.5s ease-in-out infinite 1s; }
+  .banner-orb.o3{ width:44px; height:44px; top:40px; left:220px; background:rgba(255,255,255,.28); animation:float-slow 6s ease-in-out infinite .5s; }
+  @keyframes float-slow{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-14px); }
+  }
+  .banner-copy{ position:relative; z-index:1; color:#fff; max-width:290px; }
+  .banner-eyebrow{
+    font-size:11.5px;
+    font-weight:800;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:rgba(255,255,255,.85);
+    margin:0 0 10px;
+  }
+  .banner-headline{
+    font-size:25px;
+    font-weight:900;
+    line-height:1.32;
+    margin:0 0 12px;
+    text-wrap:balance;
+  }
+  .banner-caption{
+    font-size:12px;
+    line-height:1.6;
+    color:rgba(255,255,255,.82);
+    margin:0;
+    max-width:250px;
+  }
+  .banner-visual{
+    position:absolute;
+    right:26px;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:1;
+    width:118px;
+    height:118px;
+  }
+  .banner-visual-card{
+    position:absolute;
+    inset:0;
+    background:#fff;
+    border-radius:26px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 20px 30px -12px rgba(30,10,60,.35);
+    overflow:hidden;
+    animation:bob 3.6s ease-in-out infinite;
+  }
+  @keyframes bob{
+    0%,100%{ transform:translateY(0) rotate(0deg); }
+    50%{ transform:translateY(-10px) rotate(-2deg); }
+  }
+  .banner-visual-card svg{ width:54px; height:54px; color:#7A5FD6; position:relative; z-index:1; }
+  .banner-sheen{
+    position:absolute;
+    top:0;
+    left:-60%;
+    width:40%;
+    height:100%;
+    background:linear-gradient(100deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.75) 50%,rgba(255,255,255,0) 100%);
+    animation:sheen 3.6s ease-in-out infinite;
+    z-index:2;
+  }
+  @keyframes sheen{
+    0%{ left:-60%; }
+    55%,100%{ left:120%; }
+  }
+  .sparkle{
+    position:absolute;
+    color:#fff;
+    z-index:2;
+    animation:twinkle 2.2s ease-in-out infinite;
+  }
+  .sparkle.s1{ top:-6px; right:-4px; width:16px; height:16px; animation-delay:.2s; }
+  .sparkle.s2{ bottom:2px; left:-14px; width:12px; height:12px; animation-delay:1s; }
+  .sparkle.s3{ top:30px; right:-22px; width:10px; height:10px; animation-delay:1.6s; }
+  @keyframes twinkle{
+    0%,100%{ opacity:.15; transform:scale(.7); }
+    50%{ opacity:1; transform:scale(1.05); }
+  }
+  .banner-dots{
+    position:absolute;
+    left:26px;
+    bottom:18px;
+    z-index:1;
+    display:flex;
+    gap:6px;
+  }
+  .banner-dots span{
+    width:6px; height:6px; border-radius:50%;
+    background:rgba(255,255,255,.45);
+  }
+  .banner-dots span.active{ width:16px; border-radius:3px; background:#fff; }
+
+  @media (prefers-reduced-motion: reduce){
+    .banner-orb,.banner-visual-card,.banner-sheen,.sparkle{ animation:none !important; }
+  }
+
+  /* ---------- ③ 매뉴얼 ---------- */
+  .manual-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:10px;
+  }
+  .manual-card{
+    background:#fff;
+    border:1px solid #EFEAF9;
+    border-radius:14px;
+    padding:12px 10px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    cursor:pointer;
+  }
+  .manual-card:hover{ border-color:#DCD2F5; }
+  .manual-icon{
+    width:32px; height:32px;
+    border-radius:9px;
+    display:flex; align-items:center; justify-content:center;
+    color:#fff;
+  }
+  .manual-icon svg{ width:16px; height:16px; }
+  .manual-card:nth-child(1) .manual-icon{ background:linear-gradient(135deg,#FF8FB8,#FF6FA0); }
+  .manual-card:nth-child(2) .manual-icon{ background:linear-gradient(135deg,#B79CFF,#9573F0); }
+  .manual-card:nth-child(3) .manual-icon{ background:linear-gradient(135deg,#6FA8FF,#4F86F7); }
+  .manual-body{ flex:1; min-width:0; }
+  .manual-name{
+    font-size:12.5px;
+    font-weight:700;
+    margin:0 0 4px;
+    line-height:1.35;
+  }
+  .manual-meta{
+    font-size:11px;
+    color:#938AA6;
+    margin:0;
+  }
+  .manual-dl{
+    align-self:flex-end;
+    width:26px; height:26px;
+    border-radius:50%;
+    background:#F7F5FC;
+    display:flex; align-items:center; justify-content:center;
+    color:#6E6784;
+  }
+  .manual-dl svg{ width:13px; height:13px; }
+
+  /* ---------- ④ 채널 바로가기 ---------- */
+  .channel-box{
+    background:#fff;
+    border:1px solid #EFEAF9;
+    border-radius:16px;
+    padding:20px 16px;
+  }
+  .channel-lead{
+    text-align:center;
+    font-size:12.5px;
+    font-weight:700;
+    color:#453C63;
+    margin:0 0 18px;
+  }
+  .channel-row{
+    display:flex;
+    justify-content:space-between;
+    gap:6px;
+  }
+  .channel-item{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:7px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    color:inherit;
+  }
+  .channel-ico{
+    width:42px; height:42px;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .channel-ico svg{ width:19px; height:19px; }
+  .channel-item:nth-child(1) .channel-ico{ background:#FFE3E9; color:#F2416B; }
+  .channel-item:nth-child(2) .channel-ico{ background:#FBE4FF; color:#B24FD6; }
+  .channel-item:nth-child(3) .channel-ico{ background:#E3F0FF; color:#2E7BE0; }
+  .channel-item:nth-child(4) .channel-ico{ background:#FFF4D9; color:#C99A15; }
+  .channel-item:nth-child(5) .channel-ico{ background:#E7E3FF; color:#7659E0; }
+  .channel-label{ font-size:10.5px; font-weight:600; color:#6E6784; }
+
+  /* ---------- ⑤ 플렉스지 ---------- */
+  .flexg{
+    position:relative;
+    border-radius:16px;
+    padding:1.5px;
+    background:var(--grad);
+  }
+  .flexg-inner{
+    background:#fff;
+    border-radius:14.5px;
+    padding:18px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .flexg-title{
+    font-size:13.5px;
+    font-weight:800;
+    line-height:1.5;
+    margin:0 0 6px;
+    color:#28223B;
+  }
+  .flexg-title .grad-text{
+    background:var(--grad-text);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .flexg-sub{
+    font-size:11.5px;
+    color:#8A8199;
+    margin:0;
+  }
+  .flexg .pill{ flex:0 0 auto; }
+
+  /* ---------- ⑥ 상품리스트 ---------- */
+  .product-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:12px 10px;
+  }
+  .product-card{ text-align:left; }
+  .product-thumb{
+    aspect-ratio:1/1;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:8px;
+  }
+  .product-thumb svg{ width:26px; height:26px; }
+  .product-card:nth-child(3n+1) .product-thumb{ background:linear-gradient(150deg,#FFE1EC,#FFF6F9); color:#F0A8C4; }
+  .product-card:nth-child(3n+2) .product-thumb{ background:linear-gradient(150deg,#EBE1FF,#F8F5FF); color:#B5A2EE; }
+  .product-card:nth-child(3n+3) .product-thumb{ background:linear-gradient(150deg,#DFEBFF,#F3F8FF); color:#93B7EE; }
+  .product-name{
+    font-size:12px;
+    font-weight:600;
+    margin:0 0 3px;
+    color:#3A3350;
+  }
+  .product-price{
+    font-size:12.5px;
+    font-weight:800;
+    margin:0;
+    color:#28223B;
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* ---------- ⑦ 플로팅 버튼 ---------- */
+  .fab-wrap{
+    position:absolute;
+    right:14px;
+    bottom:14px;
+    z-index:7;
+  }
+  .fab-wrap .badge{ top:-8px; left:-8px; }
+  .fab{
+    width:72px; height:72px;
+    border-radius:50%;
+    background:var(--grad);
+    color:#fff;
+    border:none;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:3px;
+    cursor:pointer;
+    box-shadow:0 14px 26px -10px rgba(90,60,180,.55);
+  }
+  .fab svg{ width:19px; height:19px; }
+  .fab span{ font-size:9.5px; font-weight:800; letter-spacing:-.02em; }
+  .fab:focus-visible{ outline:2px solid #3A2E70; outline-offset:3px; }
+
+  /* ---------- 전체메뉴(카테고리) 오버레이 ---------- */
+  .menu-overlay{
+    position:absolute;
+    inset:0;
+    z-index:20;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .22s ease;
+  }
+  .menu-overlay.is-open{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+  }
+  .menu-dim{
+    position:absolute;
+    inset:0;
+    background:rgba(18,12,32,.5);
+  }
+  .cat-panel{
+    position:absolute;
+    top:0; left:0; bottom:0;
+    width:60%;
+    background:#fff;
+    transform:translateX(-16px);
+    transition:transform .28s cubic-bezier(.2,.8,.2,1);
+    display:flex;
+    flex-direction:column;
+    box-shadow:16px 0 30px -18px rgba(0,0,0,.35);
+  }
+  .menu-overlay.is-open .cat-panel{ transform:translateX(0); }
+  @media (prefers-reduced-motion: reduce){
+    .menu-overlay,.cat-panel{ transition:none !important; }
+  }
+  .cat-head{
+    position:relative;
+    background:var(--grad);
+    color:#fff;
+    padding:20px 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .cat-head h2{ font-size:15.5px; font-weight:800; margin:0; }
+  .cat-close{
+    width:30px; height:30px;
+    border-radius:50%;
+    border:none;
+    background:rgba(255,255,255,.22);
+    color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+  }
+  .cat-close:hover{ background:rgba(255,255,255,.32); }
+  .cat-close:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
+  .cat-list{
+    list-style:none;
+    margin:0;
+    padding:6px 0;
+    overflow-y:auto;
+  }
+  .cat-list button{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    background:none;
+    border:none;
+    border-bottom:1px solid #F2EEFA;
+    padding:15px 18px;
+    font-size:13px;
+    font-weight:600;
+    color:#332B4A;
+    cursor:pointer;
+    text-align:left;
+  }
+  .cat-list button:hover{ background:#FAF7FF; }
+  .cat-list button svg{ width:15px; height:15px; color:#B8AFCC; flex:0 0 auto; }
+  .cat-list li:first-child button{ font-weight:800; color:#7659E0; }
+
+  /* ---------- 우측 화면설명 ---------- */
+  .desc-panel{
+    width:300px;
+    flex:0 0 300px;
+    background:var(--shell);
+    border-left:1px solid var(--line);
+    padding:28px 22px;
+    height:100vh;
+    overflow-y:auto;
+    position:sticky;
+    top:0;
+  }
+  .desc-eyebrow{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin:0 0 6px;
+  }
+  .desc-heading{
+    font-size:17px;
+    font-weight:800;
+    margin:0 0 22px;
+    line-height:1.4;
+  }
+  .desc-list{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+  }
+  .desc-row{
+    display:flex;
+    gap:12px;
+  }
+  .desc-num{
+    flex:0 0 auto;
+    width:24px; height:24px;
+    border-radius:50%;
+    background:var(--grad);
+    color:#fff;
+    font-size:11.5px;
+    font-weight:800;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .desc-row h3{
+    font-size:13px;
+    font-weight:700;
+    margin:0 0 5px;
+    color:var(--ink);
+  }
+  .desc-row p{
+    font-size:12.5px;
+    line-height:1.65;
+    color:var(--ink-soft);
+    margin:0;
+  }
+
+  /* ---------- 반응형 ---------- */
+  @media (max-width:960px){
+    .app{ flex-direction:column; }
+    .index{
+      width:100%; flex:0 0 auto; height:auto; position:relative;
+      flex-direction:row; overflow-x:auto;
+      border-right:none; border-bottom:1px solid var(--line);
+      padding:16px;
+    }
+    .index-eyebrow,.index-title{ display:none; }
+    .index-item{ flex:0 0 auto; white-space:nowrap; }
+    .desc-panel{
+      width:100%; flex:0 0 auto; height:auto; position:relative;
+      border-left:none; border-top:1px solid var(--line);
+    }
+    .stage{ padding:28px 16px; }
+  }
+  @media (max-width:420px){
+    .banner-headline{ font-size:21px; }
+    .banner-visual{ width:92px; height:92px; right:16px; }
+    .manual-grid{ gap:8px; }
+    .manual-name{ font-size:11.5px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <nav class="index" aria-label="화면 인덱스">
+    <div class="index-eyebrow">제안플러스 · 진열페이지</div>
+    <div class="index-title">한국무진 프로토타입</div>
+    <button class="index-item is-active" data-view="main" type="button">
+      <span class="num">1</span> 진열페이지 메인
+    </button>
+    <button class="index-item" data-view="menu" type="button">
+      <span class="num">2</span> 전체메뉴(카테고리) 열림
+    </button>
+  </nav>
+
+  <main class="stage">
+    <div class="tablet-frame">
+      <div class="tablet-notch"></div>
+      <div class="tablet-screen" id="tabletScreen">
+
+        <!-- ① 헤더 -->
+        <header class="screen-header">
+          <span class="badge" style="position:static;margin-right:2px;">1</span>
+          <button class="icon-btn" id="hamburgerBtn" type="button" aria-label="전체메뉴 열기">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+          </button>
+          <span class="logo">한국무진</span>
+          <button class="pill" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15.5 8.5a4 4 0 0 1 0 7"/><path d="M18 6a7.5 7.5 0 0 1 0 12"/></svg>
+            제휴/제안
+          </button>
+        </header>
+
+        <div class="scroll-area">
+
+          <!-- ② 메인 배너 -->
+          <section class="section">
+            <span class="badge">2</span>
+            <div class="banner">
+              <span class="banner-orb o1"></span>
+              <span class="banner-orb o2"></span>
+              <span class="banner-orb o3"></span>
+              <div class="banner-copy">
+                <p class="banner-eyebrow">New Arrival</p>
+                <h2 class="banner-headline">한국무진 신상품을<br>만나보세요</h2>
+                <p class="banner-caption">어드민에서 등록한 배너(GIF)가 노출되는 영역입니다.</p>
+              </div>
+              <div class="banner-visual">
+                <span class="sparkle s1"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg></span>
+                <span class="sparkle s2"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg></span>
+                <span class="sparkle s3"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg></span>
+                <div class="banner-visual-card">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>
+                  <span class="banner-sheen"></span>
+                </div>
+              </div>
+              <div class="banner-dots">
+                <span class="active"></span><span></span><span></span>
+              </div>
+            </div>
+          </section>
+
+          <!-- ③ 매뉴얼 -->
+          <section class="section">
+            <span class="badge">3</span>
+            <div class="section-title"><h2>매뉴얼</h2></div>
+            <div class="manual-grid">
+              <div class="manual-card">
+                <div class="manual-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
+                <div class="manual-body">
+                  <p class="manual-name">제품 사용 매뉴얼</p>
+                  <p class="manual-meta">PDF · 2.4MB</p>
+                </div>
+                <div class="manual-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg></div>
+              </div>
+              <div class="manual-card">
+                <div class="manual-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
+                <div class="manual-body">
+                  <p class="manual-name">설치 가이드</p>
+                  <p class="manual-meta">PDF · 1.8MB</p>
+                </div>
+                <div class="manual-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg></div>
+              </div>
+              <div class="manual-card">
+                <div class="manual-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
+                <div class="manual-body">
+                  <p class="manual-name">A/S 안내서</p>
+                  <p class="manual-meta">PDF · 0.9MB</p>
+                </div>
+                <div class="manual-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ④ 채널 바로가기 -->
+          <section class="section">
+            <span class="badge">4</span>
+            <div class="channel-box">
+              <p class="channel-lead">한국무진 채널에서 더 많은 소식을 만나보세요</p>
+              <div class="channel-row">
+                <button class="channel-item" type="button">
+                  <span class="channel-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10.5 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg></span>
+                  <span class="channel-label">유튜브</span>
+                </button>
+                <button class="channel-item" type="button">
+                  <span class="channel-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"/></svg></span>
+                  <span class="channel-label">인스타그램</span>
+                </button>
+                <button class="channel-item" type="button">
+                  <span class="channel-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.2-3.8A8 8 0 1 1 8.2 19z"/><path d="M8 10h8"/><path d="M8 13.5h5"/></svg></span>
+                  <span class="channel-label">블로그</span>
+                </button>
+                <button class="channel-item" type="button">
+                  <span class="channel-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19l1-4A8 6.2 0 1 1 8 19.5z"/></svg></span>
+                  <span class="channel-label">카카오채널</span>
+                </button>
+                <button class="channel-item" type="button">
+                  <span class="channel-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></span>
+                  <span class="channel-label">스토어</span>
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- ⑤ 플렉스지 가입 유도 -->
+          <section class="section">
+            <span class="badge">5</span>
+            <div class="flexg">
+              <div class="flexg-inner">
+                <div>
+                  <p class="flexg-title"><span class="grad-text">플렉스지</span>에서 나만의 쇼핑몰을 시작하세요</p>
+                  <p class="flexg-sub">한국무진 상품을 내 쇼핑몰에서 바로 판매할 수 있습니다.</p>
+                </div>
+                <button class="pill" type="button">무료 가입하기</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- ⑥ 상품리스트 -->
+          <section class="section">
+            <span class="badge">6</span>
+            <div class="section-title">
+              <h2>전체 상품</h2>
+              <span class="muted">총 12개</span>
+            </div>
+            <div class="product-grid" id="productGrid"></div>
+          </section>
+
+        </div>
+
+        <!-- 전체메뉴(카테고리) 오버레이 -->
+        <div class="menu-overlay" id="menuOverlay" aria-hidden="true">
+          <div class="menu-dim"></div>
+          <div class="cat-panel" role="dialog" aria-label="전체 카테고리">
+            <div class="cat-head">
+              <span class="badge" style="position:static;background:rgba(255,255,255,.28);">1</span>
+              <h2>전체 카테고리</h2>
+              <span class="badge" style="position:static;background:rgba(255,255,255,.28);">2</span>
+              <button class="cat-close" id="closeMenuBtn" type="button" aria-label="전체메뉴 닫기">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+              </button>
+            </div>
+            <ul class="cat-list">
+              <li><button type="button">전체 상품 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></button></li>
+              <li><button type="button">카테고리 A <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></button></li>
+              <li><button type="button">카테고리 B <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></button></li>
+              <li><button type="button">카테고리 C <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></button></li>
+              <li><button type="button">카테고리 D <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></button></li>
+              <li><button type="button">카테고리 E <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></button></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ⑦ 제휴/제안 플로팅 버튼 -->
+      <div class="fab-wrap">
+        <span class="badge">7</span>
+        <button class="fab" type="button" aria-label="제휴/제안 문의">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15.5 8.5a4 4 0 0 1 0 7"/><path d="M18 6a7.5 7.5 0 0 1 0 12"/></svg>
+          <span>제휴/제안</span>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <aside class="desc-panel" aria-label="화면설명">
+    <p class="desc-eyebrow">화면설명</p>
+    <h2 class="desc-heading" id="panelLabel">진열페이지 메인</h2>
+
+    <div class="desc-list" id="desc-main">
+      <div class="desc-row">
+        <span class="desc-num">1</span>
+        <div><h3>헤더</h3><p>좌측 전체메뉴 클릭 시 어드민에 등록된 카테고리가 노출됩니다. 우측 제휴/제안 버튼 클릭 시 제휴/제안 페이지로 이동합니다.</p></div>
+      </div>
+      <div class="desc-row">
+        <span class="desc-num">2</span>
+        <div><h3>메인 배너</h3><p>어드민에서 등록한 배너가 노출되며, GIF 이미지 등록을 지원합니다. 배너가 여러 개일 경우 순차적으로 노출됩니다.</p></div>
+      </div>
+      <div class="desc-row">
+        <span class="desc-num">3</span>
+        <div><h3>매뉴얼</h3><p>어드민에서 등록한 매뉴얼 파일이 노출되며, 카드 클릭 시 파일이 다운로드됩니다. 매뉴얼은 여러 개 등록할 수 있습니다.</p></div>
+      </div>
+      <div class="desc-row">
+        <span class="desc-num">4</span>
+        <div><h3>채널 바로가기</h3><p>업체의 홍보 채널로 이동합니다. 채널 종류와 링크는 어드민에서 설정합니다.</p></div>
+      </div>
+      <div class="desc-row">
+        <span class="desc-num">5</span>
+        <div><h3>플렉스지 가입 유도</h3><p>무료 가입하기 버튼 클릭 시 플렉스지 회원가입 페이지로 이동합니다.</p></div>
+      </div>
+      <div class="desc-row">
+        <span class="desc-num">6</span>
+        <div><h3>상품리스트</h3><p>업체가 진열한 상품의 썸네일, 상품명, 가격이 노출됩니다.</p></div>
+      </div>
+      <div class="desc-row">
+        <span class="desc-num">7</span>
+        <div><h3>제휴/제안 플로팅 버튼</h3><p>스크롤 위치와 관계없이 항상 노출되며, 클릭 시 제휴/제안 페이지로 이동합니다.</p></div>
+      </div>
+    </div>
+
+    <div class="desc-list" id="desc-menu" hidden>
+      <div class="desc-row">
+        <span class="desc-num">1</span>
+        <div><h3>카테고리 패널</h3><p>어드민에서 등록한 카테고리 목록이 노출되며, 카테고리 선택 시 해당 카테고리 상품만 노출됩니다.</p></div>
+      </div>
+      <div class="desc-row">
+        <span class="desc-num">2</span>
+        <div><h3>닫기</h3><p>클릭 시 패널이 닫힙니다.</p></div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<script>
+(function(){
+  var products = [
+    [12900],[24500],[8900],[31000],[15700],[42300],
+    [9900],[27800],[19500],[36000],[13200],[22900]
+  ];
+  var grid = document.getElementById('productGrid');
+  var icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 15l-5-5-11 11"/></svg>';
+  var html = '';
+  products.forEach(function(p, i){
+    html += '<div class="product-card">' +
+      '<div class="product-thumb">' + icon + '</div>' +
+      '<p class="product-name">상품명 ' + (i + 1) + '</p>' +
+      '<p class="product-price">' + p[0].toLocaleString('ko-KR') + '원</p>' +
+    '</div>';
+  });
+  grid.innerHTML = html;
+
+  var state = 'main';
+  var idxBtns = document.querySelectorAll('.index-item');
+  var overlay = document.getElementById('menuOverlay');
+  var descMain = document.getElementById('desc-main');
+  var descMenu = document.getElementById('desc-menu');
+  var panelLabel = document.getElementById('panelLabel');
+  var screenEl = document.getElementById('tabletScreen');
+
+  function render(){
+    idxBtns.forEach(function(b){ b.classList.toggle('is-active', b.dataset.view === state); });
+    overlay.classList.toggle('is-open', state === 'menu');
+    overlay.setAttribute('aria-hidden', state === 'menu' ? 'false' : 'true');
+    descMain.hidden = state !== 'main';
+    descMenu.hidden = state !== 'menu';
+    panelLabel.textContent = state === 'main' ? '진열페이지 메인' : '전체메뉴(카테고리) 열림';
+    if(state === 'menu'){ screenEl.scrollTop = 0; }
+  }
+
+  idxBtns.forEach(function(b){
+    b.addEventListener('click', function(){ state = b.dataset.view; render(); });
+  });
+  document.getElementById('hamburgerBtn').addEventListener('click', function(){ state = 'menu'; render(); });
+  document.getElementById('closeMenuBtn').addEventListener('click', function(){ state = 'main'; render(); });
+
+  render();
+})();
+</script>
+</body>
+</html>
