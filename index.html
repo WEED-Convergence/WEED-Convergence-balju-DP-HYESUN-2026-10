@@ -645,7 +645,7 @@
   .fab{
     width:86px; height:86px;
     border-radius:50%;
-    background:var(--accent);
+    background:linear-gradient(135deg,#FF6E93 0%,#E63965 60%,#C81E4D 100%);
     color:#fff;
     border:none;
     display:flex;
@@ -660,10 +660,10 @@
     animation:fab-pulse 2.4s ease-in-out infinite;
   }
   @keyframes fab-pulse{
-    0%,100%{ transform:scale(1); box-shadow:0 14px 26px -12px rgba(51,85,216,.55); }
-    50%{ transform:scale(1.07); box-shadow:0 22px 36px -12px rgba(51,85,216,.78); }
+    0%,100%{ transform:scale(1); box-shadow:0 14px 26px -12px rgba(230,57,101,.6); }
+    50%{ transform:scale(1.07); box-shadow:0 22px 36px -12px rgba(230,57,101,.85); }
   }
-  .fab:hover{ background:var(--accent-deep); }
+  .fab:hover{ background:linear-gradient(135deg,#E63965 0%,#C81E4D 60%,#A8123C 100%); }
   .fab svg{ width:21px; height:21px; }
   .fab-label{ font-size:9.5px; font-weight:800; letter-spacing:-.01em; line-height:1.15; white-space:nowrap; }
   .fab:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
