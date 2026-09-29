@@ -158,19 +158,16 @@
     align-items:center;
     gap:10px;
     padding:14px 20px;
-    background:var(--ink);
-    border-bottom:1px solid rgba(255,255,255,.08);
+    background:#FFFFFF;
+    border-bottom:1px solid var(--line);
   }
   .header-left{ justify-self:start; }
   .header-right{ justify-self:end; }
   .header-brand{ justify-self:center; display:flex; align-items:center; justify-content:center; }
   .brand-logo{
-    width:168px;
-    height:38px;
-    border-radius:8px;
+    width:180px;
+    height:40px;
     overflow:hidden;
-    background:#fff;
-    box-shadow:0 6px 16px -8px rgba(0,0,0,.5);
   }
   .brand-logo img{
     width:100%;
@@ -183,16 +180,16 @@
     width:36px;
     height:36px;
     border-radius:8px;
-    border:1px solid rgba(255,255,255,.16);
-    background:rgba(255,255,255,.06);
+    border:1px solid var(--line);
+    background:var(--chip);
     display:flex;
     align-items:center;
     justify-content:center;
-    color:#FFFFFF;
+    color:var(--ink);
     cursor:pointer;
     flex:0 0 auto;
   }
-  .icon-btn:hover{background:rgba(255,255,255,.14);}
+  .icon-btn:hover{background:var(--line-soft);}
   .icon-btn:focus-visible{outline:2px solid var(--focus);outline-offset:2px;}
   .pill{
     display:inline-flex;
@@ -212,7 +209,12 @@
   .pill:focus-visible{outline:2px solid var(--focus);outline-offset:2px;}
 
   .scroll-area{
-    padding:22px 20px 100px;
+    padding:0 0 100px;
+    display:flex;
+    flex-direction:column;
+  }
+  .content-pad{
+    padding:26px 20px 0;
     display:flex;
     flex-direction:column;
     gap:26px;
@@ -240,13 +242,12 @@
   /* ---------- ② 메인 배너 ---------- */
   .banner{
     position:relative;
-    height:280px;
-    border-radius:14px;
+    height:300px;
     background:var(--ink);
     overflow:hidden;
     display:flex;
     align-items:center;
-    padding:0 28px;
+    padding:0 34px;
     isolation:isolate;
   }
   .banner-glow{
@@ -347,45 +348,67 @@
   }
   .banner-visual{
     position:absolute;
-    right:26px;
+    right:30px;
     top:50%;
     transform:translateY(-50%);
     z-index:2;
-    width:210px;
-    height:210px;
+    width:220px;
+    height:220px;
+  }
+  .badge-glow{
+    position:absolute;
+    left:50%; top:50%;
+    width:180px; height:180px;
+    margin:-90px 0 0 -90px;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(70,130,255,.55) 0%,rgba(70,130,255,0) 70%);
+    filter:blur(20px);
+    animation:badge-glow-pulse 3.2s ease-in-out infinite;
+    pointer-events:none;
+    z-index:0;
+  }
+  @keyframes badge-glow-pulse{
+    0%,100%{ opacity:.5; transform:scale(.95); }
+    50%{ opacity:.9; transform:scale(1.08); }
   }
   .banner-badge{
     position:absolute;
     left:50%; top:50%;
-    width:128px; height:128px;
-    margin:-64px 0 0 -64px;
-    border-radius:50%;
+    width:152px; height:152px;
+    margin:-76px 0 0 -76px;
+    clip-path:polygon(50% 0%,59.3% 21.5%,79.4% 9.6%,74.3% 32.4%,97.6% 34.6%,80% 50%,97.6% 65.5%,74.3% 67.6%,79.4% 90.5%,59.3% 78.5%,50% 100%,40.7% 78.5%,20.6% 90.5%,25.7% 67.6%,2.5% 65.5%,20% 50%,2.5% 34.6%,25.7% 32.4%,20.6% 9.6%,40.7% 21.5%);
     background:radial-gradient(circle at 35% 30%,#2B5BE8 0%,#0E2A66 55%,#050B1C 100%);
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    gap:2px;
-    animation:badge-pulse 3.2s ease-in-out infinite;
+    z-index:1;
+    animation:badge-scale-pulse 3.2s ease-in-out infinite;
   }
-  @keyframes badge-pulse{
-    0%,100%{ box-shadow:0 0 36px 4px rgba(56,110,255,.5),0 0 80px 16px rgba(40,90,230,.2); }
-    50%{ box-shadow:0 0 50px 8px rgba(80,140,255,.7),0 0 100px 24px rgba(60,120,255,.3); }
+  @keyframes badge-scale-pulse{
+    0%,100%{ transform:scale(1); }
+    50%{ transform:scale(1.035); }
   }
-  .badge-ring{
+  .badge-line1,.badge-line2{
+    font-size:27px;
+    font-weight:900;
+    line-height:1;
+    color:#FFFFFF;
+    letter-spacing:-.02em;
+    text-shadow:0 2px 8px rgba(0,0,0,.45);
+  }
+  .badge-star{
     position:absolute;
-    inset:-6px;
-    border-radius:50%;
-    border:1.5px solid rgba(160,195,255,.55);
+    color:#BFD4FF;
+    z-index:2;
+    animation:star-twinkle 2.4s ease-in-out infinite;
     pointer-events:none;
   }
-  .badge-super,.badge-mujin{
-    font-size:9px;
-    font-weight:800;
-    letter-spacing:.14em;
-    color:#CFE0FF;
+  .badge-star svg{ display:block; }
+  @keyframes star-twinkle{
+    0%,100%{ opacity:.35; transform:scale(.8); }
+    50%{ opacity:1; transform:scale(1.1); }
   }
-  .badge-icon{ width:26px; height:26px; color:#fff; margin:2px 0; }
   .glass-card{
     position:absolute;
     width:50px; height:50px;
@@ -423,55 +446,55 @@
   .banner-dots span.active{ width:16px; border-radius:3px; background:#8FB0FF; }
 
   @media (prefers-reduced-motion: reduce){
-    .banner-beam,.particle,.banner-headline,.banner-cta,.banner-badge,.glass-card{ animation:none !important; }
+    .banner-beam,.particle,.banner-headline,.banner-cta,.banner-badge,.badge-glow,.badge-star,.glass-card{ animation:none !important; }
   }
 
   /* ---------- ③ 매뉴얼 ---------- */
   .manual-grid{
     display:grid;
     grid-template-columns:repeat(3,minmax(0,1fr));
-    gap:10px;
+    gap:8px;
   }
   .manual-card{
     background:#fff;
     border:1px solid var(--line);
-    border-radius:10px;
-    padding:12px 10px;
+    border-radius:9px;
+    padding:9px 8px;
     display:flex;
     flex-direction:column;
-    gap:10px;
+    gap:7px;
     cursor:pointer;
   }
   .manual-card:hover{ border-color:#C7CCD6; }
   .manual-icon{
-    width:32px; height:32px;
-    border-radius:7px;
+    width:24px; height:24px;
+    border-radius:6px;
     display:flex; align-items:center; justify-content:center;
     background:var(--ink);
     color:#fff;
   }
-  .manual-icon svg{ width:16px; height:16px; }
+  .manual-icon svg{ width:12px; height:12px; }
   .manual-body{ flex:1; min-width:0; }
   .manual-name{
-    font-size:12.5px;
+    font-size:11px;
     font-weight:700;
-    margin:0 0 4px;
-    line-height:1.35;
+    margin:0 0 3px;
+    line-height:1.3;
   }
   .manual-meta{
-    font-size:11px;
+    font-size:9.5px;
     color:var(--ink-soft);
     margin:0;
   }
   .manual-dl{
     align-self:flex-end;
-    width:26px; height:26px;
+    width:20px; height:20px;
     border-radius:50%;
     background:var(--chip);
     display:flex; align-items:center; justify-content:center;
     color:var(--ink-soft);
   }
-  .manual-dl svg{ width:13px; height:13px; }
+  .manual-dl svg{ width:10px; height:10px; }
 
   /* ---------- ④ 채널 바로가기 ---------- */
   .channel-box{
@@ -525,10 +548,33 @@
     position:relative;
     border-radius:14px;
     background:var(--ink);
-    box-shadow:0 20px 40px -28px rgba(20,23,31,.45);
+    overflow:hidden;
+    isolation:isolate;
+    animation:flexg-glow 3.4s ease-in-out infinite;
+  }
+  @keyframes flexg-glow{
+    0%,100%{ box-shadow:0 20px 40px -28px rgba(20,23,31,.45), 0 0 0 0 rgba(51,85,216,0); }
+    50%{ box-shadow:0 20px 40px -28px rgba(20,23,31,.45), 0 0 34px 3px rgba(51,85,216,.5); }
+  }
+  .flexg-sheen{
+    position:absolute;
+    top:0;
+    left:-60%;
+    width:35%;
+    height:100%;
+    background:linear-gradient(100deg,rgba(130,175,255,0) 0%,rgba(130,175,255,.16) 50%,rgba(130,175,255,0) 100%);
+    animation:flexg-sweep 5.5s ease-in-out infinite;
+    pointer-events:none;
+    z-index:0;
+  }
+  @keyframes flexg-sweep{
+    0%{ left:-60%; }
+    60%,100%{ left:130%; }
   }
   .flexg-inner{
-    padding:24px 22px;
+    position:relative;
+    z-index:1;
+    padding:28px 24px;
     display:flex;
     align-items:center;
     justify-content:space-between;
@@ -536,18 +582,31 @@
     flex-wrap:wrap;
   }
   .flexg-eyebrow{
-    display:inline-block;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
     font-size:10px;
     font-weight:800;
     letter-spacing:.08em;
     color:#AFC1FF;
     background:rgba(255,255,255,.1);
-    padding:3px 9px;
+    padding:4px 10px 4px 8px;
     border-radius:5px;
-    margin:0 0 9px;
+    margin:0 0 10px;
+  }
+  .flexg-dot{
+    width:6px; height:6px;
+    border-radius:50%;
+    background:#6E8CFF;
+    flex:0 0 auto;
+    animation:dot-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes dot-pulse{
+    0%,100%{ box-shadow:0 0 0 0 rgba(110,140,255,.6); opacity:1; }
+    70%{ box-shadow:0 0 0 6px rgba(110,140,255,0); opacity:.7; }
   }
   .flexg-title{
-    font-size:16.5px;
+    font-size:18px;
     font-weight:800;
     line-height:1.4;
     margin:0 0 6px;
@@ -564,12 +623,19 @@
   }
   .flexg .pill{
     flex:0 0 auto;
-    padding:11px 22px;
+    padding:12px 24px;
     font-size:13px;
     background:var(--accent);
-    box-shadow:0 10px 22px -10px rgba(51,85,216,.6);
+    animation:flexg-cta-pulse 3s ease-in-out infinite;
   }
   .flexg .pill:hover{ background:var(--accent-deep); }
+  @keyframes flexg-cta-pulse{
+    0%,100%{ box-shadow:0 0 0 0 rgba(51,85,216,.5), 0 10px 22px -10px rgba(51,85,216,.6); }
+    50%{ box-shadow:0 0 0 7px rgba(51,85,216,0), 0 14px 26px -10px rgba(51,85,216,.85); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .flexg,.flexg-sheen,.flexg-dot,.flexg .pill{ animation:none !important; }
+  }
 
   /* ---------- ⑥ 상품리스트 ---------- */
   .product-grid{
@@ -612,7 +678,7 @@
     z-index:7;
   }
   .fab{
-    width:72px; height:72px;
+    width:74px; height:74px;
     border-radius:50%;
     background:var(--accent);
     color:#fff;
@@ -621,14 +687,36 @@
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    gap:3px;
+    gap:2px;
     cursor:pointer;
+    position:relative;
+    z-index:1;
     box-shadow:0 14px 26px -12px rgba(51,85,216,.55);
   }
   .fab:hover{ background:var(--accent-deep); }
-  .fab svg{ width:19px; height:19px; }
-  .fab span{ font-size:9.5px; font-weight:800; letter-spacing:-.02em; }
+  .fab svg{ width:18px; height:18px; }
+  .fab-label{ font-size:8.5px; font-weight:800; letter-spacing:-.01em; line-height:1.15; }
   .fab:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
+  .fab-particle{
+    position:absolute;
+    bottom:32px;
+    width:5px; height:5px;
+    border-radius:50%;
+    background:#8FB0FF;
+    box-shadow:0 0 6px 1px rgba(143,176,255,.8);
+    animation:fab-particle-float 3s ease-in-out infinite;
+    pointer-events:none;
+    z-index:0;
+  }
+  @keyframes fab-particle-float{
+    0%{ transform:translateY(0) scale(.6); opacity:0; }
+    20%{ opacity:1; }
+    70%{ opacity:.6; }
+    100%{ transform:translateY(-48px) scale(1); opacity:0; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .fab-particle{ animation:none !important; display:none; }
+  }
 
   /* ---------- 전체메뉴(카테고리) 오버레이 ---------- */
   .menu-overlay{
@@ -833,14 +921,60 @@
     color:var(--ink-soft);
     font-weight:600;
   }
+  .intro-dl{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    width:100%;
+    margin-top:16px;
+    padding:11px;
+    border:1px solid var(--line);
+    border-radius:9px;
+    background:var(--chip);
+    color:var(--ink);
+    font-family:inherit;
+    font-size:12px;
+    font-weight:700;
+    cursor:pointer;
+  }
+  .intro-dl:hover{ background:var(--line-soft); }
+  .intro-dl svg{ width:15px; height:15px; flex:0 0 auto; }
 
-  /* ---------- 상품 정렬 옵션 ---------- */
+  /* ---------- 상품 정렬 옵션 / 검색 ---------- */
   .list-meta{
     display:flex;
     align-items:center;
     gap:10px;
     flex-wrap:wrap;
   }
+  .search-bar{
+    position:relative;
+    margin-bottom:12px;
+  }
+  .search-bar svg{
+    position:absolute;
+    left:12px;
+    top:50%;
+    transform:translateY(-50%);
+    width:15px;
+    height:15px;
+    color:var(--ink-soft);
+    pointer-events:none;
+  }
+  .search-bar input{
+    width:100%;
+    border:1px solid var(--line);
+    background:var(--chip);
+    border-radius:9px;
+    padding:10px 14px 10px 36px;
+    font-size:12.5px;
+    font-family:inherit;
+    color:var(--ink);
+    outline:none;
+  }
+  .search-bar input::placeholder{ color:var(--ink-soft); }
+  .search-bar input:focus{ border-color:var(--accent); background:#fff; }
   .sort-toggle{
     display:inline-flex;
     align-items:center;
@@ -935,8 +1069,13 @@
     .stage{ padding:28px 16px; }
   }
   @media (max-width:420px){
-    .banner-headline{ font-size:21px; }
-    .banner-visual{ width:92px; height:92px; right:16px; }
+    .banner-headline{ font-size:28px; }
+    .banner-visual{ width:130px; height:130px; right:14px; }
+    .banner-badge{ width:96px; height:96px; margin:-48px 0 0 -48px; }
+    .badge-glow{ width:120px; height:120px; margin:-60px 0 0 -60px; }
+    .badge-line1,.badge-line2{ font-size:18px; }
+    .glass-card{ width:38px; height:38px; }
+    .glass-card svg{ width:16px; height:16px; }
     .manual-grid{ gap:8px; }
     .manual-name{ font-size:11.5px; }
   }
@@ -980,27 +1119,8 @@
 
         <div class="scroll-area">
 
-          <!-- ② 업체소개 -->
-          <section class="section">
-            <div class="intro-card">
-              <div class="intro-top">
-                <div class="intro-logo">한무</div>
-                <div>
-                  <p class="intro-name">한국무진</p>
-                  <p class="intro-tagline">20년 전통의 정밀 제조 전문 기업</p>
-                </div>
-              </div>
-              <div class="intro-stats">
-                <div class="stat"><span class="stat-value">2005</span><span class="stat-label">설립연도</span></div>
-                <div class="stat"><span class="stat-value">320+</span><span class="stat-label">주요 거래처</span></div>
-                <div class="stat"><span class="stat-value">ISO 9001</span><span class="stat-label">인증현황</span></div>
-                <div class="stat"><span class="stat-value">12</span><span class="stat-label">취급 카테고리</span></div>
-              </div>
-            </div>
-          </section>
-
-          <!-- ③ 메인 배너 -->
-          <section class="section">
+          <!-- ② 메인 배너 -->
+          <section class="section banner-section">
             <div class="banner">
               <span class="banner-glow gtr"></span>
               <span class="banner-glow gbl"></span>
@@ -1024,15 +1144,17 @@
               </div>
 
               <div class="banner-visual">
+                <div class="badge-glow"></div>
                 <div class="glass-card gc1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></div>
                 <div class="glass-card gc2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></div>
                 <div class="glass-card gc3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5V4a1 1 0 0 1 1-1h7.5a1 1 0 0 1 .7.3l7.8 7.8a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0L3.3 12.2a1 1 0 0 1-.3-.7z"/><circle cx="7.5" cy="7.5" r="1.5" fill="currentColor" stroke="none"/></svg></div>
                 <div class="banner-badge">
-                  <span class="badge-ring"></span>
-                  <span class="badge-super">SUPER</span>
-                  <svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg>
-                  <span class="badge-mujin">MUJIN</span>
+                  <span class="badge-line1">슈퍼</span>
+                  <span class="badge-line2">무진</span>
                 </div>
+                <span class="badge-star" style="top:-2px;left:22px;width:15px;height:15px;"><svg viewBox="0 0 24 24" fill="currentColor" width="100%" height="100%"><path d="M12 2l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg></span>
+                <span class="badge-star" style="bottom:4px;right:0;width:11px;height:11px;animation-delay:.8s;"><svg viewBox="0 0 24 24" fill="currentColor" width="100%" height="100%"><path d="M12 2l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg></span>
+                <span class="badge-star" style="top:44%;left:-8px;width:9px;height:9px;animation-delay:1.6s;"><svg viewBox="0 0 24 24" fill="currentColor" width="100%" height="100%"><path d="M12 2l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg></span>
               </div>
 
               <div class="banner-dots">
@@ -1041,43 +1163,15 @@
             </div>
           </section>
 
-          <!-- ④ 매뉴얼 -->
-          <section class="section">
-            <div class="section-title"><h2>매뉴얼</h2></div>
-            <div class="manual-grid">
-              <div class="manual-card">
-                <div class="manual-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
-                <div class="manual-body">
-                  <p class="manual-name">제품 사용 매뉴얼</p>
-                  <p class="manual-meta">PDF · 2.4MB</p>
-                </div>
-                <div class="manual-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg></div>
-              </div>
-              <div class="manual-card">
-                <div class="manual-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
-                <div class="manual-body">
-                  <p class="manual-name">설치 가이드</p>
-                  <p class="manual-meta">PDF · 1.8MB</p>
-                </div>
-                <div class="manual-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg></div>
-              </div>
-              <div class="manual-card">
-                <div class="manual-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
-                <div class="manual-body">
-                  <p class="manual-name">A/S 안내서</p>
-                  <p class="manual-meta">PDF · 0.9MB</p>
-                </div>
-                <div class="manual-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg></div>
-              </div>
-            </div>
-          </section>
+          <div class="content-pad">
 
-          <!-- ⑤ 플렉스지 가입 유도 -->
+          <!-- ③ 플렉스지 가입 유도 -->
           <section class="section">
             <div class="flexg">
+              <span class="flexg-sheen"></span>
               <div class="flexg-inner">
                 <div>
-                  <span class="flexg-eyebrow">플렉스지 제휴</span>
+                  <span class="flexg-eyebrow"><span class="flexg-dot"></span>플렉스지 제휴</span>
                   <p class="flexg-title"><span class="grad-text">플렉스지</span>에서 나만의 쇼핑몰을 시작하세요</p>
                   <p class="flexg-sub">한국무진 상품을 내 쇼핑몰에서 바로 판매할 수 있습니다.</p>
                 </div>
@@ -1086,7 +1180,7 @@
             </div>
           </section>
 
-          <!-- ⑥ 채널 바로가기 -->
+          <!-- ④ 채널 바로가기 -->
           <section class="section">
             <div class="channel-box">
               <p class="channel-lead">한국무진 채널에서 더 많은 소식을 만나보세요</p>
@@ -1115,12 +1209,12 @@
             </div>
           </section>
 
-          <!-- ⑦ 상품리스트 -->
+          <!-- ⑤ 상품리스트 -->
           <section class="section">
             <div class="section-title">
               <h2>전체 상품</h2>
               <div class="list-meta">
-                <span class="muted">총 12개</span>
+                <span class="muted" id="productCount">총 12개</span>
                 <div class="sort-toggle" role="group" aria-label="정렬 옵션">
                   <button class="sort-btn is-active" type="button" data-sort="default">기본순</button>
                   <button class="sort-btn" type="button" data-sort="price">가격순</button>
@@ -1128,7 +1222,65 @@
                 </div>
               </div>
             </div>
+            <div class="search-bar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="productSearch" placeholder="상품명으로 검색" aria-label="상품명으로 검색">
+            </div>
             <div class="product-grid" id="productGrid"></div>
+          </section>
+
+          <!-- ⑥ 업체소개 -->
+          <section class="section">
+            <div class="intro-card">
+              <div class="intro-top">
+                <div class="intro-logo">한무</div>
+                <div>
+                  <p class="intro-name">한국무진</p>
+                  <p class="intro-tagline">20년 전통의 정밀 제조 전문 기업</p>
+                </div>
+              </div>
+              <div class="intro-stats">
+                <div class="stat"><span class="stat-value">2005</span><span class="stat-label">설립연도</span></div>
+                <div class="stat"><span class="stat-value">320+</span><span class="stat-label">주요 거래처</span></div>
+                <div class="stat"><span class="stat-value">ISO 9001</span><span class="stat-label">인증현황</span></div>
+                <div class="stat"><span class="stat-value">12</span><span class="stat-label">취급 카테고리</span></div>
+              </div>
+              <button class="intro-dl" type="button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+                회사소개서 다운로드
+              </button>
+            </div>
+          </section>
+
+          <!-- ⑦ 매뉴얼 -->
+          <section class="section">
+            <div class="section-title"><h2>매뉴얼</h2></div>
+            <div class="manual-grid">
+              <div class="manual-card">
+                <div class="manual-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
+                <div class="manual-body">
+                  <p class="manual-name">제품 사용 매뉴얼</p>
+                  <p class="manual-meta">PDF · 2.4MB</p>
+                </div>
+                <div class="manual-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg></div>
+              </div>
+              <div class="manual-card">
+                <div class="manual-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
+                <div class="manual-body">
+                  <p class="manual-name">설치 가이드</p>
+                  <p class="manual-meta">PDF · 1.8MB</p>
+                </div>
+                <div class="manual-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg></div>
+              </div>
+              <div class="manual-card">
+                <div class="manual-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
+                <div class="manual-body">
+                  <p class="manual-name">회사소개서</p>
+                  <p class="manual-meta">PDF · 3.2MB</p>
+                </div>
+                <div class="manual-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg></div>
+              </div>
+            </div>
           </section>
 
           <!-- ⑧ 연락처 -->
@@ -1158,6 +1310,7 @@
             </div>
           </section>
 
+          </div>
         </div>
 
         <!-- 전체메뉴(카테고리) 오버레이 -->
@@ -1183,11 +1336,16 @@
 
       </div>
 
-      <!-- ⑨ 제휴/제안 플로팅 버튼 -->
+      <!-- ⑨ 플렉스지 가입 플로팅 버튼 -->
       <div class="fab-wrap">
-        <button class="fab" type="button" aria-label="제휴/제안 문의">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15.5 8.5a4 4 0 0 1 0 7"/><path d="M18 6a7.5 7.5 0 0 1 0 12"/></svg>
-          <span>제휴/제안</span>
+        <span class="fab-particle" style="left:12px;animation-duration:3.2s;animation-delay:0s;"></span>
+        <span class="fab-particle" style="left:30px;animation-duration:2.6s;animation-delay:.8s;"></span>
+        <span class="fab-particle" style="left:48px;animation-duration:3.6s;animation-delay:1.6s;"></span>
+        <span class="fab-particle" style="left:60px;animation-duration:2.9s;animation-delay:2.3s;"></span>
+        <button class="fab" type="button" aria-label="플렉스지 가입 문의">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+          <span class="fab-label">플렉스지</span>
+          <span class="fab-label">가입</span>
         </button>
       </div>
     </div>
@@ -1204,27 +1362,27 @@
       </div>
       <div class="desc-row">
         <span class="desc-num">2</span>
-        <div><h3>업체소개</h3><p>업체 로고, 업체명, 한 줄 소개문구와 함께 설립연도·주요 거래처 수·인증현황·취급 카테고리 수 등 핵심 정보가 노출됩니다. 어드민에서 등록·수정할 수 있습니다.</p></div>
-      </div>
-      <div class="desc-row">
-        <span class="desc-num">3</span>
         <div><h3>메인 배너</h3><p>어드민에서 등록한 배너가 노출되며, GIF 이미지 등록을 지원합니다. 배너가 여러 개일 경우 순차적으로 노출됩니다.</p></div>
       </div>
       <div class="desc-row">
-        <span class="desc-num">4</span>
-        <div><h3>매뉴얼</h3><p>어드민에서 등록한 매뉴얼 파일이 노출되며, 카드 클릭 시 파일이 다운로드됩니다. 매뉴얼은 여러 개 등록할 수 있습니다.</p></div>
-      </div>
-      <div class="desc-row">
-        <span class="desc-num">5</span>
+        <span class="desc-num">3</span>
         <div><h3>플렉스지 가입 유도</h3><p>무료 가입하기 버튼 클릭 시 플렉스지 회원가입 페이지로 이동합니다.</p></div>
       </div>
       <div class="desc-row">
-        <span class="desc-num">6</span>
+        <span class="desc-num">4</span>
         <div><h3>채널 바로가기</h3><p>업체의 홍보 채널로 이동합니다. 채널 종류와 링크는 어드민에서 설정합니다.</p></div>
       </div>
       <div class="desc-row">
+        <span class="desc-num">5</span>
+        <div><h3>상품리스트</h3><p>업체가 진열한 상품의 썸네일, 상품명, 가격이 노출됩니다. 상품명 검색이 가능하며, 기본순/가격순/신상품순 정렬 옵션을 제공합니다(정렬은 프로토타입에서 선택 상태만 시각적으로 표시).</p></div>
+      </div>
+      <div class="desc-row">
+        <span class="desc-num">6</span>
+        <div><h3>업체소개</h3><p>업체 로고, 업체명, 한 줄 소개문구와 함께 설립연도·주요 거래처 수·인증현황·취급 카테고리 수 등 핵심 정보가 노출됩니다. 회사소개서 다운로드 버튼 클릭 시 파일이 다운로드됩니다.</p></div>
+      </div>
+      <div class="desc-row">
         <span class="desc-num">7</span>
-        <div><h3>상품리스트</h3><p>업체가 진열한 상품의 썸네일, 상품명, 가격이 노출됩니다. 기본순/가격순/신상품순 정렬 옵션을 제공하며, 프로토타입에서는 선택 상태만 시각적으로 표시됩니다.</p></div>
+        <div><h3>매뉴얼</h3><p>어드민에서 등록한 매뉴얼 파일이 노출되며, 카드 클릭 시 파일이 다운로드됩니다. 매뉴얼은 여러 개 등록할 수 있습니다.</p></div>
       </div>
       <div class="desc-row">
         <span class="desc-num">8</span>
@@ -1232,7 +1390,7 @@
       </div>
       <div class="desc-row">
         <span class="desc-num">9</span>
-        <div><h3>제휴/제안 플로팅 버튼</h3><p>스크롤 위치와 관계없이 항상 노출되며, 클릭 시 제휴/제안 페이지로 이동합니다.</p></div>
+        <div><h3>플렉스지 가입 플로팅 버튼</h3><p>스크롤 위치와 관계없이 항상 노출되며, 클릭 시 플렉스지 회원가입 페이지로 이동합니다.</p></div>
       </div>
     </div>
 
@@ -1266,6 +1424,21 @@
     '</div>';
   });
   grid.innerHTML = html;
+
+  var searchInput = document.getElementById('productSearch');
+  var productCount = document.getElementById('productCount');
+  searchInput.addEventListener('input', function(){
+    var q = searchInput.value.trim().toLowerCase();
+    var cards = grid.querySelectorAll('.product-card');
+    var visible = 0;
+    cards.forEach(function(card){
+      var name = card.querySelector('.product-name').textContent.toLowerCase();
+      var match = name.indexOf(q) !== -1;
+      card.style.display = match ? '' : 'none';
+      if(match){ visible++; }
+    });
+    productCount.textContent = '총 ' + visible + '개';
+  });
 
   var state = 'main';
   var idxBtns = document.querySelectorAll('.index-item');
