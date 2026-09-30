@@ -620,6 +620,67 @@
     background:linear-gradient(180deg,#FFFFFF 0%,#F2F3F5 100%);
   }
   .product-thumb svg{ width:64%; height:64%; }
+  .product-flags{
+    position:absolute;
+    top:6px; left:6px;
+    display:flex;
+    gap:3px;
+    z-index:1;
+  }
+  .flag{
+    font-size:8.5px;
+    font-weight:800;
+    letter-spacing:.02em;
+    line-height:1;
+    padding:3px 5px;
+    border-radius:4px;
+    color:#fff;
+  }
+  .flag-best{ background:#E5484D; }
+  .flag-new{ background:var(--accent); }
+  .product-views{
+    position:absolute;
+    right:6px; bottom:6px;
+    display:inline-flex;
+    align-items:center;
+    gap:3px;
+    padding:2px 6px;
+    border-radius:10px;
+    background:rgba(20,23,31,.55);
+    color:#fff;
+    font-size:9px;
+    font-weight:600;
+    line-height:1.3;
+    font-variant-numeric:tabular-nums;
+    z-index:1;
+  }
+  .product-thumb .product-views svg{ width:10px; height:10px; }
+
+  /* ---------- BEST 상품 롤링 ---------- */
+  .best-nav{ display:flex; gap:5px; }
+  .best-arrow{
+    width:28px; height:28px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:#fff;
+    color:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    padding:0;
+  }
+  .best-arrow:hover{ background:var(--chip); }
+  .best-arrow:focus-visible{ outline:2px solid var(--focus); outline-offset:2px; }
+  .best-arrow svg{ width:14px; height:14px; }
+  .best-viewport{ overflow:hidden; }
+  .best-track{
+    display:flex;
+    gap:10px;
+    transition:transform .45s cubic-bezier(.2,.8,.2,1);
+  }
+  .best-track .product-card{ flex:0 0 calc((100% - 20px) / 3); min-width:0; }
+  @media (prefers-reduced-motion: reduce){
+    .best-track{ transition:none; }
+  }
   .product-name{
     font-size:11.5px;
     font-weight:600;
@@ -844,16 +905,22 @@
   }
   .intro-logo{
     flex:0 0 auto;
-    width:52px;
+    position:relative;
+    width:112px;
     height:52px;
     border-radius:12px;
-    background:var(--ink);
-    color:#fff;
-    font-size:15px;
-    font-weight:800;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    background:#fff;
+    border:1px solid var(--line);
+    overflow:hidden;
+  }
+  .intro-logo img{
+    position:absolute;
+    width:140px;
+    height:140px;
+    left:-13px;
+    top:-44px;
+    max-width:none;
+    display:block;
   }
   .intro-name{
     font-size:15.5px;
@@ -1119,9 +1186,9 @@
             <span class="brand-logo"><img src="assets/logo.png" alt="한국무진 파트너스"></span>
           </div>
           <div class="header-right">
-            <button class="pill" type="button">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><circle cx="9" cy="8" r="4"/><path d="M2 20c0-4 3-6 7-6s7 2 7 6"/><path d="M19 8v6"/><path d="M16 11h6"/></svg>
-              무료가입
+            <button class="pill" type="button" aria-label="페이지 공유하기">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4"/><path d="M15.4 6.5l-6.8 4"/></svg>
+              공유하기
             </button>
           </div>
         </header>
@@ -1216,7 +1283,25 @@
             </div>
           </section>
 
-          <!-- ⑤ 상품리스트 -->
+          <!-- ⑤ 상품리스트 : BEST 상품 -->
+          <section class="section">
+            <div class="section-title">
+              <h2>BEST 상품</h2>
+              <div class="best-nav">
+                <button class="best-arrow" id="bestPrev" type="button" aria-label="이전 BEST 상품">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 6 9 12 15 18"/></svg>
+                </button>
+                <button class="best-arrow" id="bestNext" type="button" aria-label="다음 BEST 상품">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="best-viewport">
+              <div class="best-track" id="bestTrack"></div>
+            </div>
+          </section>
+
+          <!-- ⑤ 상품리스트 : 전체 상품 -->
           <section class="section">
             <div class="section-title">
               <h2>전체 상품</h2>
@@ -1239,10 +1324,10 @@
           <section class="section">
             <div class="intro-card">
               <div class="intro-top">
-                <div class="intro-logo">한무</div>
+                <div class="intro-logo"><img src="assets/logo.png" alt="한국무진 파트너스 로고"></div>
                 <div>
                   <p class="intro-name">한국무진</p>
-                  <p class="intro-tagline">20년 전통의 정밀 제조 전문 기업</p>
+                  <p class="intro-tagline">품질로 신뢰를 쌓아온 산업용품 전문 기업</p>
                 </div>
               </div>
               <div class="intro-stats">
@@ -1266,25 +1351,25 @@
                 <div class="manual-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
                 <div class="manual-body">
                   <p class="manual-name">제품 사용 매뉴얼</p>
-                  <p class="manual-meta">PDF · 2.4MB</p>
+                  <p class="manual-meta">페이지 보기</p>
                 </div>
-                <div class="manual-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg></div>
+                <div class="manual-dl" aria-label="매뉴얼 페이지로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></div>
               </div>
               <div class="manual-card">
                 <div class="manual-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
                 <div class="manual-body">
                   <p class="manual-name">설치 가이드</p>
-                  <p class="manual-meta">PDF · 1.8MB</p>
+                  <p class="manual-meta">페이지 보기</p>
                 </div>
-                <div class="manual-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg></div>
+                <div class="manual-dl" aria-label="매뉴얼 페이지로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></div>
               </div>
               <div class="manual-card">
                 <div class="manual-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
                 <div class="manual-body">
                   <p class="manual-name">회사소개서</p>
-                  <p class="manual-meta">PDF · 3.2MB</p>
+                  <p class="manual-meta">페이지 보기</p>
                 </div>
-                <div class="manual-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg></div>
+                <div class="manual-dl" aria-label="매뉴얼 페이지로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></div>
               </div>
             </div>
           </section>
@@ -1379,7 +1464,7 @@
     <div class="desc-list" id="desc-main">
       <div class="desc-row">
         <span class="desc-num">1</span>
-        <div><h3>헤더</h3><p>좌측 전체메뉴 클릭 시 어드민에 등록된 카테고리가 노출됩니다. 우측 무료가입 버튼 클릭 시 플렉스지 회원가입 페이지로 이동합니다.</p></div>
+        <div><h3>헤더</h3><p>좌측 전체메뉴 클릭 시 어드민에 등록된 카테고리가 노출됩니다. 우측 공유하기 버튼 클릭 시 진열페이지 링크를 공유할 수 있습니다.</p></div>
       </div>
       <div class="desc-row">
         <span class="desc-num">2</span>
@@ -1395,7 +1480,7 @@
       </div>
       <div class="desc-row">
         <span class="desc-num">5</span>
-        <div><h3>상품리스트</h3><p>업체가 진열한 상품의 썸네일, 상품명, 가격이 노출됩니다. 상품명 검색이 가능하며, 정렬 옵션(기본순/가격순)을 셀렉트 박스로 제공합니다.</p></div>
+        <div><h3>상품리스트</h3><p>BEST 상품과 전체 상품 두 영역으로 구분됩니다. BEST 상품은 좌우 버튼으로 넘겨볼 수 있으며 자동으로 롤링됩니다. 전체 상품은 상품명 검색과 정렬 옵션(기본순/가격순)을 제공합니다. 썸네일에는 BEST/NEW 플래그와 조회수가 작게 노출됩니다.</p></div>
       </div>
       <div class="desc-row">
         <span class="desc-num">6</span>
@@ -1403,7 +1488,7 @@
       </div>
       <div class="desc-row">
         <span class="desc-num">7</span>
-        <div><h3>매뉴얼</h3><p>어드민에서 등록한 매뉴얼 파일이 노출되며, 카드 클릭 시 파일이 다운로드됩니다. 매뉴얼은 여러 개 등록할 수 있습니다.</p></div>
+        <div><h3>매뉴얼</h3><p>어드민에서 등록한 매뉴얼이 노출되며, 카드 클릭 시 해당 매뉴얼 페이지로 이동합니다. 매뉴얼은 여러 개 등록할 수 있습니다.</p></div>
       </div>
       <div class="desc-row">
         <span class="desc-num">8</span>
@@ -1434,19 +1519,20 @@
 
 <script>
 (function(){
+  // [상품명, 가격, 조회수, 플래그(best/new)]
   var products = [
-    ['무선 정밀 드라이버 세트', 12900],
-    ['산업용 세정 용기', 24500],
-    ['스테인리스 정밀 부품함', 8900],
-    ['정밀 측정 캘리퍼스', 31000],
-    ['다목적 공구 수납케이스', 15700],
-    ['방청 오일 용기', 42300],
-    ['소형 부품 정리함', 9900],
-    ['정밀 토크 렌치', 27800],
-    ['산업용 윤활유 용기', 19500],
-    ['알루미늄 부품 트레이', 36000],
-    ['디지털 정밀 게이지', 13200],
-    ['다용도 세척 용기', 22900]
+    ['무선 정밀 드라이버 세트', 12900, 3842, 'best'],
+    ['산업용 세정 용기', 24500, 2915, 'best'],
+    ['스테인리스 정밀 부품함', 8900, 412, 'new'],
+    ['정밀 측정 캘리퍼스', 31000, 2480, 'best'],
+    ['다목적 공구 수납케이스', 15700, 1236, ''],
+    ['방청 오일 용기', 42300, 1987, 'best'],
+    ['소형 부품 정리함', 9900, 285, 'new'],
+    ['정밀 토크 렌치', 27800, 1754, 'best'],
+    ['산업용 윤활유 용기', 19500, 864, ''],
+    ['알루미늄 부품 트레이', 36000, 1532, 'best'],
+    ['디지털 정밀 게이지', 13200, 198, 'new'],
+    ['다용도 세척 용기', 22900, 947, '']
   ];
   var grid = document.getElementById('productGrid');
   var photoIcons = [
@@ -1454,15 +1540,56 @@
     '<svg viewBox="0 0 64 64"><defs><linearGradient id="bottleBody" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#E4EBFF"/><stop offset="45%" stop-color="#AFC1FF"/><stop offset="100%" stop-color="#6E8CFF"/></linearGradient></defs><ellipse cx="32" cy="56" rx="15" ry="3.2" fill="#14171F" opacity=".16"/><rect x="26" y="8" width="12" height="8" rx="2" fill="#4A5568"/><path d="M20 20 Q20 16 24 16 L40 16 Q44 16 44 20 L46 50 Q46 54 42 54 L22 54 Q18 54 18 50 Z" fill="url(#bottleBody)" stroke="#5B6472" stroke-width="1"/><rect x="20" y="34" width="24" height="9" fill="#FFFFFF" opacity=".55"/><path d="M23 22 L23 48" stroke="#FFFFFF" stroke-width="2" opacity=".6" stroke-linecap="round"/></svg>',
     '<svg viewBox="0 0 64 64"><defs><linearGradient id="trayBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F5F6F8"/><stop offset="60%" stop-color="#D1D5DC"/><stop offset="100%" stop-color="#9AA3B2"/></linearGradient></defs><ellipse cx="32" cy="47" rx="21" ry="3.2" fill="#14171F" opacity=".16"/><rect x="8" y="22" width="48" height="19" rx="3" fill="url(#trayBody)" stroke="#8A93A3" stroke-width="1"/><line x1="24" y1="22" x2="24" y2="41" stroke="#8A93A3" stroke-width="1"/><line x1="40" y1="22" x2="40" y2="41" stroke="#8A93A3" stroke-width="1"/><rect x="9" y="23" width="46" height="3.5" fill="#FFFFFF" opacity=".5"/></svg>'
   ];
-  var html = '';
-  products.forEach(function(p, i){
-    html += '<div class="product-card">' +
-      '<div class="product-thumb">' + photoIcons[i % 3] + '</div>' +
+  var eyeIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+  function cardHtml(p, i){
+    var flag = p[3] === 'best' ? '<span class="flag flag-best">BEST</span>'
+             : p[3] === 'new' ? '<span class="flag flag-new">NEW</span>' : '';
+    var views = p[2].toLocaleString('ko-KR');
+    return '<div class="product-card">' +
+      '<div class="product-thumb">' +
+        (flag ? '<div class="product-flags">' + flag + '</div>' : '') +
+        photoIcons[i % 3] +
+        '<span class="product-views" aria-label="조회수 ' + views + '">' + eyeIcon + views + '</span>' +
+      '</div>' +
       '<p class="product-name">' + p[0] + '</p>' +
       '<p class="product-price">' + p[1].toLocaleString('ko-KR') + '원</p>' +
     '</div>';
-  });
+  }
+  var html = '';
+  products.forEach(function(p, i){ html += cardHtml(p, i); });
   grid.innerHTML = html;
+
+  // BEST 상품 롤링
+  var bestTrack = document.getElementById('bestTrack');
+  var bestHtml = '';
+  var bestCount = 0;
+  products.forEach(function(p, i){
+    if(p[3] === 'best'){ bestHtml += cardHtml(p, i); bestCount++; }
+  });
+  bestTrack.innerHTML = bestHtml;
+  var bestIdx = 0;
+  var bestMax = Math.max(0, bestCount - 3);
+  function moveBest(dir){
+    bestIdx += dir;
+    if(bestIdx > bestMax){ bestIdx = 0; }
+    if(bestIdx < 0){ bestIdx = bestMax; }
+    var card = bestTrack.querySelector('.product-card');
+    var step = card ? card.getBoundingClientRect().width + 10 : 0;
+    bestTrack.style.transform = 'translateX(' + (-step * bestIdx) + 'px)';
+  }
+  var bestTimer;
+  function startBest(){
+    clearInterval(bestTimer);
+    if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      bestTimer = setInterval(function(){ moveBest(1); }, 3000);
+    }
+  }
+  document.getElementById('bestPrev').addEventListener('click', function(){ moveBest(-1); startBest(); });
+  document.getElementById('bestNext').addEventListener('click', function(){ moveBest(1); startBest(); });
+  bestTrack.addEventListener('mouseenter', function(){ clearInterval(bestTimer); });
+  bestTrack.addEventListener('mouseleave', startBest);
+  window.addEventListener('resize', function(){ moveBest(0); });
+  startBest();
 
   var searchInput = document.getElementById('productSearch');
   var productCount = document.getElementById('productCount');
