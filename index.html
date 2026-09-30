@@ -1169,6 +1169,9 @@
     <button class="index-item" data-view="menu" type="button">
       <span class="num">2</span> 전체메뉴(카테고리) 열림
     </button>
+    <a class="index-item" href="admin.html" style="text-decoration:none;">
+      <span class="num">3</span> 어드민
+    </a>
   </nav>
 
   <main class="stage">
@@ -1607,7 +1610,7 @@
   });
 
   var state = 'main';
-  var idxBtns = document.querySelectorAll('.index-item');
+  var idxBtns = document.querySelectorAll('.index-item[data-view]');
   var overlay = document.getElementById('menuOverlay');
   var descMain = document.getElementById('desc-main');
   var descMenu = document.getElementById('desc-menu');
