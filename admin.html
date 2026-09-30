@@ -109,24 +109,25 @@
   }
   .index-item.is-active .num{ background:rgba(255,255,255,.25); color:#fff; border-color:transparent; }
 
-  /* ---------- 가운데 스테이지 ---------- */
+  /* ---------- 가운데 스테이지 (PC) ---------- */
   .stage{
     flex:1 1 auto;
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:40px 24px;
+    padding:32px 24px;
     min-width:0;
   }
   .admin-frame{
     position:relative;
-    width:760px;
+    width:1240px;
     max-width:100%;
+    container-type:inline-size;
   }
   .admin-screen{
     position:relative;
     width:100%;
-    height:min(860px,86vh);
+    height:min(920px,90vh);
     background:var(--content-bg);
     border-radius:14px;
     border:1px solid var(--line);
@@ -145,12 +146,13 @@
     align-items:center;
     justify-content:space-between;
     gap:12px;
-    padding:14px 22px;
+    height:68px;
+    padding:0 28px;
     background:#fff;
     border-bottom:1px solid var(--line);
   }
-  .admin-crumb{ font-size:11px; font-weight:600; color:var(--ink-soft); margin:0 0 2px; }
-  .admin-title{ font-size:16px; font-weight:800; margin:0; }
+  .admin-crumb{ font-size:11.5px; font-weight:600; color:var(--ink-soft); margin:0 0 2px; }
+  .admin-title{ font-size:17px; font-weight:800; margin:0; }
   .admin-actions{ display:flex; gap:6px; flex:0 0 auto; }
 
   .btn{
@@ -159,8 +161,8 @@
     justify-content:center;
     gap:6px;
     border-radius:8px;
-    padding:8px 14px;
-    font-size:12.5px;
+    padding:9px 16px;
+    font-size:13px;
     font-weight:700;
     cursor:pointer;
     white-space:nowrap;
@@ -174,22 +176,35 @@
   .btn svg{ width:14px; height:14px; flex:0 0 auto; }
   .btn-primary{ background:var(--accent); border-color:transparent; color:#fff; }
   .btn-primary:hover{ background:var(--accent-deep); }
-  .btn-sm{ padding:6px 10px; font-size:11.5px; }
-  .btn-dashed{
-    width:100%;
-    border-style:dashed;
-    background:transparent;
-    color:var(--ink-soft);
-  }
-  .btn-dashed:hover{ background:#fff; color:var(--accent); border-color:var(--accent); }
-  .btn:disabled{ opacity:.45; cursor:not-allowed; }
+  .btn-sm{ padding:6px 11px; font-size:12px; }
 
+  /* ---------- 본문 2단 (설정 + 미리보기) ---------- */
   .admin-body{
-    padding:20px 22px 40px;
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 400px;
+    gap:28px;
+    padding:24px 28px 48px;
+    align-items:start;
+  }
+  .settings{
     display:flex;
     flex-direction:column;
     gap:12px;
+    min-width:0;
   }
+  .preview-col{
+    position:sticky;
+    top:88px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+  }
+  @container (max-width:1000px){
+    .admin-body{ grid-template-columns:minmax(0,1fr); }
+    .preview-col{ position:relative; top:0; order:-1; }
+  }
+
   .group-label{
     display:flex;
     align-items:center;
@@ -197,14 +212,15 @@
     gap:10px;
     margin:10px 2px 0;
   }
+  .group-label:first-child{ margin-top:0; }
   .group-label h2{
-    font-size:12px;
+    font-size:12.5px;
     font-weight:800;
     color:var(--ink-soft);
     margin:0;
     letter-spacing:.02em;
   }
-  .group-label p{ font-size:11px; color:var(--ink-soft); margin:0; }
+  .group-label p{ font-size:11.5px; color:var(--ink-soft); margin:0; }
 
   /* ---------- 섹션 카드 ---------- */
   .card{
@@ -224,24 +240,36 @@
     display:flex;
     align-items:center;
     gap:8px;
-    font-size:13.5px;
+    font-size:14px;
     font-weight:800;
     margin:0;
   }
   .card-body{
-    padding:4px 16px 16px;
+    padding:16px 18px 18px;
     border-top:1px solid var(--line-soft);
     display:flex;
     flex-direction:column;
     gap:14px;
-    padding-top:14px;
   }
   .card.is-collapsed .card-body{ display:none; }
+  .card.is-off .card-body{ opacity:.5; }
+  .card.is-off .card-title{ color:var(--ink-soft); }
+  .off-note{
+    display:none;
+    font-size:11.5px;
+    font-weight:600;
+    color:var(--ink-soft);
+    background:var(--chip);
+    border-radius:8px;
+    padding:9px 12px;
+    margin:0;
+  }
+  .card.is-off .off-note{ display:block; }
 
   .tag{
     display:inline-flex;
     align-items:center;
-    font-size:10px;
+    font-size:10.5px;
     font-weight:700;
     padding:3px 7px;
     border-radius:5px;
@@ -289,8 +317,9 @@
   .icon-btn:disabled{ opacity:.3; cursor:default; background:transparent; }
   .icon-btn svg{ width:14px; height:14px; }
   .icon-btn.danger:hover{ background:#FDECEC; color:var(--danger); }
-  .card.is-collapsed .collapse-btn svg{ transform:rotate(-90deg); }
   .collapse-btn svg{ transition:transform .15s ease; }
+  .card.is-collapsed .collapse-btn svg{ transform:rotate(-90deg); }
+  .head-divider{ width:1px; height:18px; background:var(--line); flex:0 0 auto; }
 
   /* 드래그 */
   .drag-handle{
@@ -300,7 +329,6 @@
     color:#A0A8B5;
     cursor:grab;
     flex:0 0 auto;
-    touch-action:none;
   }
   .drag-handle:hover{ background:var(--chip); color:var(--ink); }
   .drag-handle:active{ cursor:grabbing; }
@@ -311,12 +339,11 @@
     border-style:dashed;
     border-color:var(--accent);
   }
-  .sort-list.is-sorting .sort-item:not(.is-dragging){ transition:transform .12s ease; }
 
   /* ---------- 폼 요소 ---------- */
   .field{ display:flex; flex-direction:column; gap:6px; min-width:0; }
   .field-label{
-    font-size:11.5px;
+    font-size:12px;
     font-weight:700;
     color:var(--ink);
     display:flex;
@@ -324,15 +351,15 @@
     gap:6px;
   }
   .field-label .req{ color:var(--danger); }
-  .field-hint{ font-size:11px; color:var(--ink-soft); margin:0; line-height:1.5; }
-  .field-row{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+  .field-hint{ font-size:11.5px; color:var(--ink-soft); margin:0; line-height:1.5; }
+  .field-row{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
   .input, .select{
     width:100%;
     border:1px solid var(--line);
     background:#fff;
     border-radius:8px;
     padding:9px 11px;
-    font-size:12.5px;
+    font-size:13px;
     color:var(--ink);
     outline:none;
     min-width:0;
@@ -340,6 +367,7 @@
   .input::placeholder{ color:#9AA2AE; }
   .input:focus, .select:focus{ border-color:var(--accent); box-shadow:0 0 0 3px rgba(51,85,216,.12); }
   .input:disabled{ background:var(--chip); color:#9AA2AE; cursor:not-allowed; }
+  .input[readonly]{ background:var(--chip); color:var(--ink-soft); }
   .select{
     appearance:none;
     -webkit-appearance:none;
@@ -348,15 +376,9 @@
     padding-right:28px;
     cursor:pointer;
   }
-  .count{ font-size:11px; font-weight:700; color:var(--ink-soft); font-variant-numeric:tabular-nums; }
-  .error-msg{
-    font-size:11px;
-    font-weight:600;
-    color:var(--danger);
-    margin:0;
-  }
+  .count{ font-size:11.5px; font-weight:700; color:var(--ink-soft); font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .error-msg{ font-size:11.5px; font-weight:600; color:var(--danger); margin:0; }
 
-  /* 안내 박스 */
   .notice{
     display:flex;
     gap:10px;
@@ -364,51 +386,42 @@
     background:var(--chip);
     border-radius:9px;
     padding:12px 13px;
-    font-size:12px;
+    font-size:12.5px;
     color:var(--ink-soft);
     line-height:1.55;
   }
-  .notice svg{ width:15px; height:15px; flex:0 0 auto; margin-top:1px; color:var(--ink-soft); }
+  .notice svg{ width:15px; height:15px; flex:0 0 auto; margin-top:2px; }
   .notice strong{ color:var(--ink); font-weight:700; }
 
   /* 배너 업로드 */
   .banner-grid{
     display:grid;
     grid-template-columns:repeat(3,minmax(0,1fr));
-    gap:10px;
+    gap:12px;
   }
   .banner-slot{
     position:relative;
-    aspect-ratio:16/10;
+    aspect-ratio:2/1;
     border-radius:10px;
     overflow:hidden;
     border:1px solid var(--line);
     background:var(--chip);
   }
   .banner-slot img{ width:100%; height:100%; object-fit:cover; display:block; }
-  .banner-slot .slot-order{
-    position:absolute;
-    top:6px; left:6px;
-    font-size:10px;
-    font-weight:800;
-    color:#fff;
+  .slot-order{
+    position:absolute; top:6px; left:6px;
+    font-size:10px; font-weight:800; color:#fff;
     background:rgba(20,23,31,.7);
-    padding:2px 6px;
-    border-radius:5px;
+    padding:2px 6px; border-radius:5px;
   }
-  .banner-slot .slot-ext{
-    position:absolute;
-    top:6px; right:34px;
-    font-size:9.5px;
-    font-weight:800;
-    color:#fff;
+  .slot-ext{
+    position:absolute; top:6px; right:34px;
+    font-size:9.5px; font-weight:800; color:#fff;
     background:var(--accent);
-    padding:2px 5px;
-    border-radius:4px;
+    padding:2px 5px; border-radius:4px;
   }
-  .banner-slot .slot-del{
-    position:absolute;
-    top:4px; right:4px;
+  .slot-del{
+    position:absolute; top:4px; right:4px;
     width:24px; height:24px;
     border-radius:50%;
     border:none;
@@ -418,48 +431,44 @@
     cursor:pointer;
     padding:0;
   }
-  .banner-slot .slot-del:hover{ background:var(--danger); }
-  .banner-slot .slot-del svg{ width:12px; height:12px; }
-  .banner-slot .slot-name{
-    position:absolute;
-    left:0; right:0; bottom:0;
+  .slot-del:hover{ background:var(--danger); }
+  .slot-del svg{ width:12px; height:12px; }
+  .slot-name{
+    position:absolute; left:0; right:0; bottom:0;
     padding:14px 8px 6px;
-    font-size:10.5px;
-    font-weight:600;
-    color:#fff;
+    font-size:10.5px; font-weight:600; color:#fff;
     background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.6) 100%);
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
   .upload-slot{
-    aspect-ratio:16/10;
+    aspect-ratio:2/1;
     border-radius:10px;
     border:1.5px dashed #C7CCD6;
     background:#FAFBFC;
     color:var(--ink-soft);
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
     gap:5px;
     cursor:pointer;
-    font-size:11.5px;
+    font-size:12px;
     font-weight:700;
     padding:0;
   }
   .upload-slot:hover{ border-color:var(--accent); color:var(--accent); background:var(--accent-soft); }
   .upload-slot:focus-visible{ outline:2px solid var(--focus); outline-offset:2px; }
   .upload-slot svg{ width:18px; height:18px; }
-  .upload-slot small{ font-size:10px; font-weight:500; color:#9AA2AE; }
+  .upload-slot small{ font-size:10.5px; font-weight:500; color:#9AA2AE; }
 
-  /* 반복 행 (채널/지표) */
+  /* 반복 행 */
   .rows{ display:flex; flex-direction:column; gap:8px; }
   .row{
     display:grid;
-    grid-template-columns:140px minmax(0,1fr) 28px;
+    grid-template-columns:28px 160px minmax(0,1fr);
     gap:8px;
     align-items:center;
+  }
+  .row-no{
+    font-size:11.5px; font-weight:800; color:var(--ink-soft);
+    text-align:center; font-variant-numeric:tabular-nums;
   }
   .row.stat-row{ grid-template-columns:minmax(0,1fr) minmax(0,1fr); }
 
@@ -470,21 +479,17 @@
     gap:10px;
     border:1px solid var(--line);
     border-radius:8px;
-    padding:8px 8px 8px 11px;
+    padding:7px 7px 7px 11px;
     background:#fff;
     min-width:0;
   }
-  .file-box .file-name{
-    flex:1;
-    min-width:0;
-    font-size:12.5px;
-    color:var(--ink);
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
+  .file-name{
+    flex:1; min-width:0;
+    font-size:13px; color:var(--ink);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
-  .file-box .file-name.empty{ color:#9AA2AE; }
-  .file-box .file-ico{ width:15px; height:15px; color:var(--ink-soft); flex:0 0 auto; }
+  .file-name.empty{ color:#9AA2AE; }
+  .file-ico{ width:15px; height:15px; color:var(--ink-soft); flex:0 0 auto; }
 
   /* 로고 */
   .logo-field{ display:flex; align-items:center; gap:12px; }
@@ -496,21 +501,18 @@
     border:1px solid var(--line);
     background:#fff;
     overflow:hidden;
-    display:flex; align-items:center; justify-content:center;
-    color:#9AA2AE;
-    font-size:10.5px;
-    font-weight:600;
   }
-  .logo-preview img.default-logo{
+  .logo-box img.default-logo{
     position:absolute;
     width:140px; height:140px;
     left:-13px; top:-44px;
     max-width:none;
   }
-  .logo-preview img.custom-logo{ width:100%; height:100%; object-fit:contain; padding:4px; }
-  .logo-actions{ display:flex; flex-direction:column; gap:6px; }
+  .logo-box img.custom-logo{ width:100%; height:100%; object-fit:contain; padding:4px; display:block; }
+  .logo-actions{ display:flex; flex-direction:column; gap:6px; align-items:flex-start; }
 
   /* 매뉴얼 */
+  .manual-list{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
   .manual-item{
     border:1px solid var(--line);
     border-radius:10px;
@@ -519,33 +521,32 @@
     flex-direction:column;
     gap:10px;
     background:#FCFCFD;
+    min-width:0;
   }
-  .manual-item-head{
-    display:flex;
-    align-items:center;
-    gap:8px;
-  }
-  .manual-item-head strong{ flex:1; font-size:12px; font-weight:800; }
+  .manual-item strong{ font-size:12px; font-weight:800; }
   .segmented{
-    display:inline-flex;
+    display:flex;
     background:var(--chip);
     border-radius:8px;
     padding:3px;
     gap:2px;
-    align-self:flex-start;
   }
   .segmented button{
+    flex:1;
     border:none;
     background:transparent;
     border-radius:6px;
-    padding:6px 12px;
+    padding:6px 8px;
     font-size:11.5px;
     font-weight:700;
     color:var(--ink-soft);
     cursor:pointer;
+    white-space:nowrap;
   }
   .segmented button.is-on{ background:#fff; color:var(--ink); box-shadow:0 1px 3px rgba(20,23,31,.12); }
   .segmented button:focus-visible{ outline:2px solid var(--focus); outline-offset:1px; }
+  .manual-item .file-box{ padding:6px 6px 6px 9px; gap:6px; }
+  .manual-item .file-name{ font-size:12px; }
 
   /* 토글 스위치 */
   .toggle-line{
@@ -558,12 +559,13 @@
     position:relative;
     display:inline-flex;
     align-items:center;
-    gap:8px;
+    gap:7px;
     cursor:pointer;
     font-size:11.5px;
     font-weight:800;
     color:var(--ink-soft);
     user-select:none;
+    flex:0 0 auto;
   }
   .switch input{ position:absolute; opacity:0; width:1px; height:1px; }
   .switch .track{
@@ -605,7 +607,7 @@
     transform:translate(-50%,12px);
     background:var(--ink);
     color:#fff;
-    font-size:12.5px;
+    font-size:13px;
     font-weight:700;
     padding:11px 18px;
     border-radius:10px;
@@ -617,6 +619,268 @@
     white-space:nowrap;
   }
   .toast.is-show{ opacity:1; transform:translate(-50%,0); }
+
+  /* ---------- 모바일 미리보기 ---------- */
+  .preview-label{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    width:100%;
+    max-width:375px;
+  }
+  .preview-label h2{ font-size:12.5px; font-weight:800; color:var(--ink-soft); margin:0; }
+  .live-dot{
+    display:inline-flex; align-items:center; gap:5px;
+    font-size:11px; font-weight:700; color:#1A9E5B;
+  }
+  .live-dot::before{
+    content:""; width:6px; height:6px; border-radius:50%; background:#1FBF6B;
+    box-shadow:0 0 0 3px rgba(31,191,107,.18);
+  }
+  .phone{
+    position:relative;
+    width:375px;
+    max-width:100%;
+    height:min(720px, calc(90vh - 150px));
+    min-height:480px;
+    border-radius:34px;
+    border:9px solid #14171F;
+    background:var(--content-bg);
+    overflow:hidden;
+    box-shadow:0 24px 40px -24px rgba(20,23,31,.45);
+  }
+  .phone-screen{
+    position:absolute;
+    inset:0;
+    overflow-y:auto;
+    overflow-x:hidden;
+    scrollbar-width:none;
+  }
+  .phone-screen::-webkit-scrollbar{ display:none; }
+
+  .pv{ font-size:12px; color:var(--ink); padding-bottom:90px; }
+  .pv-header{
+    position:sticky; top:0; z-index:3;
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:center;
+    padding:10px 12px;
+    background:#fff;
+    border-bottom:1px solid var(--line);
+  }
+  .pv-ham{
+    justify-self:start;
+    width:30px; height:30px; border-radius:7px;
+    border:1px solid var(--line); background:var(--chip);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .pv-ham svg{ width:15px; height:15px; }
+  .pv-logo{ width:130px; height:29px; overflow:hidden; }
+  .pv-logo img{ width:100%; height:100%; object-fit:cover; object-position:50% 48%; display:block; }
+  .pv-share{
+    justify-self:end;
+    display:inline-flex; align-items:center; gap:4px;
+    border-radius:7px; padding:6px 9px;
+    background:var(--accent); color:#fff;
+    font-size:10.5px; font-weight:700;
+  }
+  .pv-share svg{ width:11px; height:11px; }
+
+  .pv-banner{
+    position:relative;
+    height:190px;
+    background:linear-gradient(135deg,#04060E 0%,#080E1C 50%,#0C1A2E 100%);
+    overflow:hidden;
+  }
+  .pv-banner img{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit:cover;
+    opacity:0;
+    transition:opacity .5s ease;
+  }
+  .pv-banner img.is-on{ opacity:1; }
+  .pv-banner-empty{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    color:rgba(255,255,255,.55);
+    font-size:11.5px; font-weight:600;
+  }
+  .pv-dots{ position:absolute; left:14px; bottom:12px; display:flex; gap:5px; z-index:1; }
+  .pv-dots span{ width:5px; height:5px; border-radius:50%; background:rgba(255,255,255,.45); }
+  .pv-dots span.is-on{ width:14px; border-radius:3px; background:#fff; }
+
+  .pv-pad{ padding:18px 12px 0; display:flex; flex-direction:column; gap:18px; }
+  .pv-box{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:13px 12px;
+  }
+  .pv-flexg{ border-left:3px solid var(--accent); display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .pv-flexg p{ margin:0; font-size:11.5px; font-weight:800; line-height:1.4; }
+  .pv-flexg p span{ color:var(--accent); }
+  .pv-flexg small{ display:block; font-size:9.5px; font-weight:500; color:var(--ink-soft); margin-top:2px; }
+  .pv-pill{
+    flex:0 0 auto;
+    display:inline-flex; align-items:center; gap:4px;
+    border-radius:7px; padding:7px 10px;
+    background:var(--accent); color:#fff;
+    font-size:10.5px; font-weight:700;
+    white-space:nowrap;
+  }
+  .pv-pill svg{ width:11px; height:11px; }
+
+  .pv-title{ display:flex; align-items:center; justify-content:space-between; margin:0 0 9px; }
+  .pv-title h3{ font-size:13px; font-weight:800; margin:0; }
+  .pv-title .muted{ font-size:10.5px; color:var(--ink-soft); font-weight:600; }
+  .pv-arrows{ display:flex; gap:4px; }
+  .pv-arrows span{
+    width:22px; height:22px; border-radius:50%;
+    border:1px solid var(--line); background:#fff;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .pv-arrows svg{ width:11px; height:11px; }
+
+  .pv-lead{ text-align:center; font-size:11px; font-weight:700; margin:0 0 12px; }
+  .pv-channels{ display:flex; justify-content:space-around; gap:4px; }
+  .pv-ch{ display:flex; flex-direction:column; align-items:center; gap:5px; min-width:0; }
+  .pv-ch i{
+    width:34px; height:34px; border-radius:50%;
+    background:var(--chip); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--ink-soft);
+  }
+  .pv-ch svg{ width:15px; height:15px; }
+  .pv-ch span{ font-size:9px; font-weight:600; color:var(--ink-soft); white-space:nowrap; }
+  .pv-empty{ font-size:10.5px; color:var(--ink-soft); text-align:center; margin:0; }
+
+  .pv-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px 8px; }
+  .pv-card .thumb{
+    position:relative;
+    aspect-ratio:1/1;
+    border-radius:8px;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg,#FFFFFF 0%,#F2F3F5 100%);
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+    margin-bottom:6px;
+  }
+  .pv-card .thumb > svg{ width:64%; height:64%; }
+  .pv-flag{
+    position:absolute; top:4px; left:4px;
+    font-size:7px; font-weight:800; line-height:1;
+    padding:2px 4px; border-radius:3px; color:#fff;
+  }
+  .pv-flag.best{ background:#E5484D; }
+  .pv-flag.new{ background:var(--accent); }
+  .pv-views{
+    position:absolute; right:4px; bottom:4px;
+    display:inline-flex; align-items:center; gap:2px;
+    padding:1px 4px; border-radius:8px;
+    background:rgba(20,23,31,.55); color:#fff;
+    font-size:7.5px; font-weight:600;
+  }
+  .pv-views svg{ width:8px; height:8px; }
+  .pv-card .name{ font-size:9.5px; font-weight:600; color:var(--ink-soft); margin:0 0 2px; line-height:1.3; }
+  .pv-card .price{ font-size:10.5px; font-weight:800; margin:0; }
+  .pv-search{
+    border:1px solid var(--line); background:var(--chip);
+    border-radius:7px; padding:7px 10px;
+    font-size:10.5px; color:var(--ink-soft);
+    margin-bottom:10px;
+  }
+
+  .pv-intro-top{ display:flex; align-items:center; gap:10px; }
+  .pv-intro-top .logo-box{
+    position:relative; flex:0 0 auto;
+    width:84px; height:40px;
+    border-radius:8px; border:1px solid var(--line);
+    background:#fff; overflow:hidden;
+  }
+  .pv-intro-top .logo-box img.default-logo{ width:106px; height:106px; left:-10px; top:-33px; }
+  .pv-intro-name{ font-size:13px; font-weight:800; margin:0 0 2px; }
+  .pv-intro-tag{ font-size:10px; color:var(--ink-soft); margin:0; }
+  .pv-stats{
+    display:flex; justify-content:space-between; gap:4px;
+    margin-top:12px; padding-top:10px;
+    border-top:1px solid var(--line-soft);
+  }
+  .pv-stats div{ flex:1; text-align:center; display:flex; flex-direction:column; gap:2px; min-width:0; }
+  .pv-stats b{ font-size:11px; font-weight:800; }
+  .pv-stats span{ font-size:8.5px; color:var(--ink-soft); font-weight:600; }
+  .pv-dl{
+    display:flex; align-items:center; justify-content:center; gap:5px;
+    margin-top:12px; padding:9px;
+    border:1px solid var(--line); border-radius:8px;
+    background:var(--chip);
+    font-size:10.5px; font-weight:700;
+  }
+  .pv-dl svg{ width:12px; height:12px; }
+
+  .pv-manuals{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; }
+  .pv-manual{
+    background:#fff; border:1px solid var(--line); border-radius:8px;
+    padding:8px 7px;
+    display:flex; flex-direction:column; gap:6px;
+    min-width:0;
+  }
+  .pv-manual .ico{
+    width:20px; height:20px; border-radius:5px;
+    background:var(--ink); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .pv-manual .ico svg{ width:10px; height:10px; }
+  .pv-manual b{ font-size:9.5px; font-weight:700; line-height:1.3; word-break:keep-all; }
+  .pv-manual small{ font-size:8.5px; color:var(--ink-soft); }
+  .pv-manual .go{
+    align-self:flex-end;
+    width:17px; height:17px; border-radius:50%;
+    background:var(--chip); color:var(--ink-soft);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .pv-manual .go svg{ width:9px; height:9px; }
+
+  .pv-contact{ display:flex; flex-direction:column; gap:10px; }
+  .pv-contact-row{ display:flex; align-items:center; gap:8px; }
+  .pv-contact-row i{
+    flex:0 0 auto;
+    width:28px; height:28px; border-radius:50%;
+    background:var(--chip); color:var(--accent);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .pv-contact-row svg{ width:13px; height:13px; }
+  .pv-contact-row small{ display:block; font-size:9px; color:var(--ink-soft); font-weight:600; }
+  .pv-contact-row b{ font-size:11px; font-weight:700; }
+  .pv-contact .pv-pill{ align-self:flex-start; }
+
+  .pv-partner{ display:flex; align-items:center; gap:10px; }
+  .pv-partner > div{ flex:1; min-width:0; }
+  .pv-partner b{ display:block; font-size:11.5px; font-weight:800; }
+  .pv-partner small{ font-size:9.5px; color:var(--ink-soft); }
+  .pv-partner .btn-o{
+    flex:0 0 auto;
+    border:1px solid var(--line); border-radius:7px;
+    padding:6px 9px; background:var(--chip);
+    font-size:10px; font-weight:700;
+  }
+
+  .pv-fab{
+    position:absolute;
+    right:12px; bottom:14px;
+    z-index:4;
+    width:66px; height:66px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#2E8FFF 0%,#3355D8 55%,#1F2E8C 100%);
+    color:#fff;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:2px;
+    box-shadow:0 12px 22px -10px rgba(51,85,216,.7);
+    text-align:center;
+    padding:0 4px;
+  }
+  .pv-fab svg{ width:16px; height:16px; }
+  .pv-fab span{ font-size:8px; font-weight:800; line-height:1.15; word-break:keep-all; }
 
   /* ---------- 우측 화면설명 ---------- */
   .desc-panel{
@@ -675,14 +939,14 @@
       width:100%; flex:0 0 auto; height:auto; position:relative;
       border-left:none; border-top:1px solid rgba(255,255,255,.08);
     }
-    .stage{ padding:28px 16px; }
+    .stage{ padding:24px 16px; }
   }
-  @media (max-width:560px){
-    .admin-header{ padding:12px 14px; flex-wrap:wrap; }
-    .admin-body{ padding:16px 14px 32px; }
-    .banner-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+  @container (max-width:640px){
+    .admin-header{ padding:0 16px; }
+    .admin-body{ padding:16px 16px 32px; }
+    .banner-grid,.manual-list{ grid-template-columns:1fr; }
     .field-row{ grid-template-columns:1fr; }
-    .row{ grid-template-columns:110px minmax(0,1fr) 28px; }
+    .row{ grid-template-columns:22px 110px minmax(0,1fr); }
   }
   @media (prefers-reduced-motion: reduce){
     *{ transition:none !important; }
@@ -717,10 +981,6 @@
             <h1 class="admin-title">진열페이지 메인 설정</h1>
           </div>
           <div class="admin-actions">
-            <a class="btn" href="index.html" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
-              미리보기
-            </a>
             <button class="btn btn-primary" id="saveBtn" type="button">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 12 10 17 19 7"/></svg>
               저장
@@ -729,251 +989,297 @@
         </header>
 
         <div class="admin-body">
+          <div class="settings" id="settings">
 
-          <div class="group-label">
-            <h2>고정 영역</h2>
-            <p>순서 변경 불가</p>
-          </div>
-
-          <!-- ② 메인 배너 -->
-          <section class="card" aria-labelledby="t-banner">
-            <div class="card-head">
-              <span class="lock-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>
-              <h3 class="card-title" id="t-banner">메인 배너 <span class="tag tag-fixed">상단 고정</span></h3>
-              <span class="count" id="bannerCount">0 / 3</span>
+            <div class="group-label">
+              <h2>고정 영역</h2>
+              <p>순서 변경 불가</p>
             </div>
-            <div class="card-body">
-              <div class="banner-grid" id="bannerGrid"></div>
-              <input type="file" id="bannerInput" accept=".gif,.jpg,.jpeg,.png,image/gif,image/jpeg,image/png" multiple hidden>
-              <p class="error-msg" id="bannerError" role="alert" hidden></p>
-              <p class="field-hint">GIF, JPG, PNG 파일만 등록할 수 있으며 최대 3개까지 등록됩니다. 권장 사이즈 1200 × 600px. 등록한 순서대로 노출됩니다.</p>
-            </div>
-          </section>
 
-          <!-- ③ 플렉스지 가입 유도 -->
-          <section class="card" aria-labelledby="t-flexg">
-            <div class="card-head">
-              <span class="lock-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>
-              <h3 class="card-title" id="t-flexg">플렉스지 가입 유도 <span class="tag tag-fixed">고정 · 설정 불가</span></h3>
-            </div>
-            <div class="card-body">
-              <div class="notice">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="8" r=".6" fill="currentColor"/></svg>
-                <span><strong>“플렉스지에서 나만의 쇼핑몰을 시작하세요”</strong> 영역은 모든 업체에 동일하게 고정 노출되며, 문구와 링크를 변경할 수 없습니다.</span>
-              </div>
-            </div>
-          </section>
-
-          <div class="group-label">
-            <h2>노출 영역 · 순서 변경</h2>
-            <p>핸들을 드래그해서 순서를 바꿀 수 있습니다</p>
-          </div>
-
-          <div class="sort-list" id="sortList">
-
-            <!-- 채널 바로가기 -->
-            <section class="card sort-item" data-key="channel" aria-labelledby="t-channel">
+            <!-- ③ 메인 배너 -->
+            <section class="card" aria-labelledby="t-banner">
               <div class="card-head">
-                <span class="drag-handle" aria-hidden="true" title="드래그해서 순서 변경"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg></span>
-                <span class="order-num"></span>
-                <h3 class="card-title" id="t-channel">채널 바로가기</h3>
-                <span class="count" id="channelCount"></span>
-                <button class="icon-btn move-up" type="button" aria-label="위로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 15 12 9 18 15"/></svg></button>
-                <button class="icon-btn move-down" type="button" aria-label="아래로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-                <button class="icon-btn collapse-btn" type="button" aria-label="접기/펼치기" aria-expanded="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+                <span class="lock-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>
+                <h3 class="card-title" id="t-banner">메인 배너 <span class="tag tag-fixed">상단 고정</span></h3>
+                <span class="count" id="bannerCount">0 / 3</span>
               </div>
               <div class="card-body">
-                <div class="field">
-                  <span class="field-label">안내 문구</span>
-                  <input class="input" type="text" value="한국무진 채널에서 더 많은 소식을 만나보세요" aria-label="채널 영역 안내 문구" readonly>
-                  <p class="field-hint">안내 문구는 업체명이 자동으로 들어가며 수정할 수 없습니다.</p>
-                </div>
-                <div class="field">
-                  <span class="field-label">채널 / 링크</span>
-                  <div class="rows" id="channelRows"></div>
-                </div>
-                <button class="btn btn-dashed" id="addChannel" type="button">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-                  채널 추가
-                </button>
+                <div class="banner-grid" id="bannerGrid"></div>
+                <input type="file" id="bannerInput" accept=".gif,.jpg,.jpeg,.png,image/gif,image/jpeg,image/png" multiple hidden>
+                <p class="error-msg" id="bannerError" role="alert" hidden></p>
+                <p class="field-hint">GIF, JPG, PNG 파일만 등록할 수 있으며 최대 3개까지 등록됩니다. 권장 사이즈 * 등록한 순서대로 노출됩니다.</p>
               </div>
             </section>
 
-            <!-- BEST 상품 -->
-            <section class="card sort-item" data-key="best" aria-labelledby="t-best">
+            <!-- ④ 플로팅 버튼 -->
+            <section class="card" data-section="fab" aria-labelledby="t-fab">
               <div class="card-head">
-                <span class="drag-handle" aria-hidden="true" title="드래그해서 순서 변경"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg></span>
-                <span class="order-num"></span>
-                <h3 class="card-title" id="t-best">BEST 상품 <span class="tag tag-auto">자동 연동</span></h3>
-                <button class="icon-btn move-up" type="button" aria-label="위로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 15 12 9 18 15"/></svg></button>
-                <button class="icon-btn move-down" type="button" aria-label="아래로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-                <button class="icon-btn collapse-btn" type="button" aria-label="접기/펼치기" aria-expanded="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+                <span class="lock-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>
+                <h3 class="card-title" id="t-fab">플로팅 버튼 <span class="tag tag-fixed">화면 우측 하단 고정</span></h3>
+                <label class="switch">
+                  <input type="checkbox" role="switch" class="section-toggle" id="fabOn" checked aria-label="플로팅 버튼 노출">
+                  <span class="track"></span>
+                  <span class="state">ON</span>
+                </label>
               </div>
               <div class="card-body">
-                <div class="notice">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><polyline points="21 4 21 10 15 10"/></svg>
-                  <span>상품관리 페이지에서 <strong>BEST로 지정된 상품</strong>이 자동으로 불러와집니다. 이 화면에서는 노출 순서만 변경할 수 있습니다.</span>
+                <p class="off-note">OFF 상태에서는 진열페이지에 플로팅 버튼이 노출되지 않습니다.</p>
+                <div class="field-row">
+                  <label class="field">
+                    <span class="field-label">버튼 문구 <span class="req">*</span></span>
+                    <input class="input" id="fabLabel" type="text" value="플렉스지 가입" maxlength="8" placeholder="최대 8자">
+                  </label>
+                  <label class="field">
+                    <span class="field-label">연결 링크 <span class="req">*</span></span>
+                    <input class="input" id="fabLink" type="url" value="https://flexg.kr/join" placeholder="https://">
+                  </label>
                 </div>
+                <p class="field-hint">문구는 최대 8자까지 입력할 수 있습니다. 버튼 클릭 시 입력한 링크로 이동합니다.</p>
               </div>
             </section>
 
-            <!-- 전체 상품 -->
-            <section class="card sort-item" data-key="all" aria-labelledby="t-all">
-              <div class="card-head">
-                <span class="drag-handle" aria-hidden="true" title="드래그해서 순서 변경"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg></span>
-                <span class="order-num"></span>
-                <h3 class="card-title" id="t-all">전체 상품 <span class="tag tag-auto">자동 연동</span></h3>
-                <button class="icon-btn move-up" type="button" aria-label="위로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 15 12 9 18 15"/></svg></button>
-                <button class="icon-btn move-down" type="button" aria-label="아래로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-                <button class="icon-btn collapse-btn" type="button" aria-label="접기/펼치기" aria-expanded="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-              </div>
-              <div class="card-body">
-                <div class="notice">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><polyline points="21 4 21 10 15 10"/></svg>
-                  <span>상품관리 페이지에 <strong>진열 중인 전체 상품</strong>이 자동으로 불러와집니다. 이 화면에서는 노출 순서만 변경할 수 있습니다.</span>
-                </div>
-              </div>
-            </section>
+            <div class="group-label">
+              <h2>노출 영역 · 순서 변경</h2>
+              <p>핸들을 드래그해서 순서를 바꿀 수 있습니다</p>
+            </div>
 
-            <!-- 업체소개 -->
-            <section class="card sort-item" data-key="intro" aria-labelledby="t-intro">
-              <div class="card-head">
-                <span class="drag-handle" aria-hidden="true" title="드래그해서 순서 변경"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg></span>
-                <span class="order-num"></span>
-                <h3 class="card-title" id="t-intro">업체소개</h3>
-                <button class="icon-btn move-up" type="button" aria-label="위로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 15 12 9 18 15"/></svg></button>
-                <button class="icon-btn move-down" type="button" aria-label="아래로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-                <button class="icon-btn collapse-btn" type="button" aria-label="접기/펼치기" aria-expanded="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-              </div>
-              <div class="card-body">
-                <div class="field">
-                  <span class="field-label">로고</span>
-                  <div class="logo-field">
-                    <div class="logo-preview" id="logoPreview"><img class="default-logo" src="assets/logo.png" alt="현재 등록된 로고"></div>
-                    <div class="logo-actions">
-                      <button class="btn btn-sm" id="logoBtn" type="button">로고 변경</button>
-                      <p class="field-hint">JPG, PNG · 가로형 권장</p>
+            <div class="sort-list" id="sortList">
+
+              <!-- 채널 바로가기 -->
+              <section class="card sort-item" data-key="channel" aria-labelledby="t-channel">
+                <div class="card-head">
+                  <span class="drag-handle" aria-hidden="true" title="드래그해서 순서 변경"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg></span>
+                  <span class="order-num"></span>
+                  <h3 class="card-title" id="t-channel">채널 바로가기</h3>
+                  <span class="count" id="channelCount"></span>
+                  <span class="head-divider"></span>
+                  <button class="icon-btn move-up" type="button" aria-label="위로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 15 12 9 18 15"/></svg></button>
+                  <button class="icon-btn move-down" type="button" aria-label="아래로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+                  <button class="icon-btn collapse-btn" type="button" aria-label="접기/펼치기" aria-expanded="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+                </div>
+                <div class="card-body">
+                  <div class="field">
+                    <span class="field-label">안내 문구</span>
+                    <input class="input" type="text" value="한국무진 채널에서 더 많은 소식을 만나보세요" aria-label="채널 영역 안내 문구" readonly>
+                    <p class="field-hint">안내 문구에는 업체명이 자동으로 들어가며 수정할 수 없습니다.</p>
+                  </div>
+                  <div class="field">
+                    <span class="field-label">채널 / 링크 (최대 5개)</span>
+                    <div class="rows" id="channelRows"></div>
+                    <p class="field-hint">채널을 ‘선택 안 함’으로 두면 진열페이지에 노출되지 않습니다. 같은 채널은 중복 선택할 수 없습니다.</p>
+                  </div>
+                </div>
+              </section>
+
+              <!-- BEST 상품 -->
+              <section class="card sort-item" data-key="best" aria-labelledby="t-best">
+                <div class="card-head">
+                  <span class="drag-handle" aria-hidden="true" title="드래그해서 순서 변경"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg></span>
+                  <span class="order-num"></span>
+                  <h3 class="card-title" id="t-best">BEST 상품 <span class="tag tag-auto">자동 연동</span></h3>
+                  <span class="head-divider"></span>
+                  <button class="icon-btn move-up" type="button" aria-label="위로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 15 12 9 18 15"/></svg></button>
+                  <button class="icon-btn move-down" type="button" aria-label="아래로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+                  <button class="icon-btn collapse-btn" type="button" aria-label="접기/펼치기" aria-expanded="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+                </div>
+                <div class="card-body">
+                  <div class="notice">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><polyline points="21 4 21 10 15 10"/></svg>
+                    <span>상품관리 페이지에서 <strong>BEST로 지정된 상품</strong>이 자동으로 불러와집니다. 이 화면에서는 노출 순서만 변경할 수 있습니다.</span>
+                  </div>
+                </div>
+              </section>
+
+              <!-- 전체 상품 -->
+              <section class="card sort-item" data-key="all" aria-labelledby="t-all">
+                <div class="card-head">
+                  <span class="drag-handle" aria-hidden="true" title="드래그해서 순서 변경"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg></span>
+                  <span class="order-num"></span>
+                  <h3 class="card-title" id="t-all">전체 상품 <span class="tag tag-auto">자동 연동</span></h3>
+                  <span class="head-divider"></span>
+                  <button class="icon-btn move-up" type="button" aria-label="위로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 15 12 9 18 15"/></svg></button>
+                  <button class="icon-btn move-down" type="button" aria-label="아래로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+                  <button class="icon-btn collapse-btn" type="button" aria-label="접기/펼치기" aria-expanded="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+                </div>
+                <div class="card-body">
+                  <div class="notice">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><polyline points="21 4 21 10 15 10"/></svg>
+                    <span>상품관리 페이지에 <strong>진열 중인 전체 상품</strong>이 자동으로 불러와집니다. 이 화면에서는 노출 순서만 변경할 수 있습니다.</span>
+                  </div>
+                </div>
+              </section>
+
+              <!-- 업체소개 -->
+              <section class="card sort-item" data-key="intro" aria-labelledby="t-intro">
+                <div class="card-head">
+                  <span class="drag-handle" aria-hidden="true" title="드래그해서 순서 변경"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg></span>
+                  <span class="order-num"></span>
+                  <h3 class="card-title" id="t-intro">업체소개</h3>
+                  <label class="switch">
+                    <input type="checkbox" role="switch" class="section-toggle" id="introOn" checked aria-label="업체소개 노출">
+                    <span class="track"></span>
+                    <span class="state">ON</span>
+                  </label>
+                  <span class="head-divider"></span>
+                  <button class="icon-btn move-up" type="button" aria-label="위로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 15 12 9 18 15"/></svg></button>
+                  <button class="icon-btn move-down" type="button" aria-label="아래로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+                  <button class="icon-btn collapse-btn" type="button" aria-label="접기/펼치기" aria-expanded="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+                </div>
+                <div class="card-body">
+                  <p class="off-note">OFF 상태에서는 진열페이지에 업체소개 영역이 노출되지 않습니다.</p>
+                  <div class="field">
+                    <span class="field-label">로고</span>
+                    <div class="logo-field">
+                      <div class="logo-preview logo-box" id="logoPreview"><img class="default-logo" src="assets/logo.png" alt="현재 등록된 로고"></div>
+                      <div class="logo-actions">
+                        <button class="btn btn-sm" id="logoBtn" type="button">로고 변경</button>
+                        <p class="field-hint">JPG, PNG · 가로형 권장</p>
+                      </div>
+                      <input type="file" id="logoInput" accept=".jpg,.jpeg,.png,image/jpeg,image/png" hidden>
                     </div>
-                    <input type="file" id="logoInput" accept=".jpg,.jpeg,.png,image/jpeg,image/png" hidden>
+                    <p class="error-msg" id="logoError" role="alert" hidden></p>
                   </div>
-                  <p class="error-msg" id="logoError" role="alert" hidden></p>
-                </div>
-                <div class="field-row">
-                  <label class="field">
-                    <span class="field-label">회사명 <span class="req">*</span></span>
-                    <input class="input" type="text" value="한국무진" maxlength="20">
-                  </label>
-                  <label class="field">
-                    <span class="field-label">가이드 문구</span>
-                    <input class="input" type="text" value="품질로 신뢰를 쌓아온 산업용품 전문 기업" maxlength="30" placeholder="한 줄 소개 문구 (최대 30자)">
-                  </label>
-                </div>
-                <div class="field">
-                  <span class="field-label">회사 정보 (4개)</span>
-                  <div class="rows">
-                    <div class="row stat-row"><input class="input" type="text" value="2005" aria-label="정보 1 값" placeholder="값"><input class="input" type="text" value="설립연도" aria-label="정보 1 항목명" placeholder="항목명"></div>
-                    <div class="row stat-row"><input class="input" type="text" value="320+" aria-label="정보 2 값" placeholder="값"><input class="input" type="text" value="주요 거래처" aria-label="정보 2 항목명" placeholder="항목명"></div>
-                    <div class="row stat-row"><input class="input" type="text" value="ISO 9001" aria-label="정보 3 값" placeholder="값"><input class="input" type="text" value="인증현황" aria-label="정보 3 항목명" placeholder="항목명"></div>
-                    <div class="row stat-row"><input class="input" type="text" value="12" aria-label="정보 4 값" placeholder="값"><input class="input" type="text" value="취급 카테고리" aria-label="정보 4 항목명" placeholder="항목명"></div>
+                  <div class="field-row">
+                    <label class="field">
+                      <span class="field-label">회사명 <span class="req">*</span></span>
+                      <input class="input" id="introName" type="text" value="한국무진" maxlength="20">
+                    </label>
+                    <label class="field">
+                      <span class="field-label">가이드 문구</span>
+                      <input class="input" id="introTagline" type="text" value="품질로 신뢰를 쌓아온 산업용품 전문 기업" maxlength="30" placeholder="한 줄 소개 문구 (최대 30자)">
+                    </label>
                   </div>
-                  <p class="field-hint">왼쪽은 값(예: 2005), 오른쪽은 항목명(예: 설립연도)을 입력합니다.</p>
-                </div>
-                <div class="field">
-                  <span class="field-label">회사소개서 첨부파일</span>
-                  <div class="file-box">
-                    <svg class="file-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.4 11.1l-9.2 9.2a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/></svg>
-                    <span class="file-name" id="introFileName">한국무진_회사소개서.pdf</span>
-                    <button class="icon-btn danger" id="introFileDel" type="button" aria-label="첨부파일 삭제"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg></button>
-                    <button class="btn btn-sm" id="introFileBtn" type="button">파일 선택</button>
-                    <input type="file" id="introFileInput" accept=".pdf,.ppt,.pptx,.doc,.docx" hidden>
+                  <div class="field">
+                    <span class="field-label">회사 정보 (4개)</span>
+                    <div class="rows" id="statRows">
+                      <div class="row stat-row"><input class="input stat-val" type="text" value="2005" aria-label="정보 1 값" placeholder="값"><input class="input stat-label" type="text" value="설립연도" aria-label="정보 1 항목명" placeholder="항목명"></div>
+                      <div class="row stat-row"><input class="input stat-val" type="text" value="320+" aria-label="정보 2 값" placeholder="값"><input class="input stat-label" type="text" value="주요 거래처" aria-label="정보 2 항목명" placeholder="항목명"></div>
+                      <div class="row stat-row"><input class="input stat-val" type="text" value="ISO 9001" aria-label="정보 3 값" placeholder="값"><input class="input stat-label" type="text" value="인증현황" aria-label="정보 3 항목명" placeholder="항목명"></div>
+                      <div class="row stat-row"><input class="input stat-val" type="text" value="12" aria-label="정보 4 값" placeholder="값"><input class="input stat-label" type="text" value="취급 카테고리" aria-label="정보 4 항목명" placeholder="항목명"></div>
+                    </div>
+                    <p class="field-hint">왼쪽은 값(예: 2005), 오른쪽은 항목명(예: 설립연도)을 입력합니다.</p>
                   </div>
-                  <p class="field-hint">진열페이지의 ‘회사소개서 다운로드’ 버튼으로 다운로드됩니다. PDF, PPT, DOC · 최대 20MB. 파일이 없으면 버튼이 노출되지 않습니다.</p>
+                  <div class="field">
+                    <span class="field-label">회사소개서 첨부파일</span>
+                    <div class="file-box">
+                      <svg class="file-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.4 11.1l-9.2 9.2a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/></svg>
+                      <span class="file-name" id="introFileName">한국무진_회사소개서.pdf</span>
+                      <button class="icon-btn danger" id="introFileDel" type="button" aria-label="첨부파일 삭제"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg></button>
+                      <button class="btn btn-sm" id="introFileBtn" type="button">파일 선택</button>
+                      <input type="file" id="introFileInput" accept=".pdf,.ppt,.pptx,.doc,.docx" hidden>
+                    </div>
+                    <p class="field-hint">진열페이지의 ‘회사소개서 다운로드’ 버튼으로 다운로드됩니다. PDF, PPT, DOC · 최대 20MB. 파일이 없으면 버튼이 노출되지 않습니다.</p>
+                  </div>
                 </div>
-              </div>
-            </section>
+              </section>
 
-            <!-- 매뉴얼 -->
-            <section class="card sort-item" data-key="manual" aria-labelledby="t-manual">
-              <div class="card-head">
-                <span class="drag-handle" aria-hidden="true" title="드래그해서 순서 변경"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg></span>
-                <span class="order-num"></span>
-                <h3 class="card-title" id="t-manual">매뉴얼</h3>
-                <span class="count" id="manualCount"></span>
-                <button class="icon-btn move-up" type="button" aria-label="위로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 15 12 9 18 15"/></svg></button>
-                <button class="icon-btn move-down" type="button" aria-label="아래로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-                <button class="icon-btn collapse-btn" type="button" aria-label="접기/펼치기" aria-expanded="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-              </div>
-              <div class="card-body">
-                <div class="rows" id="manualRows"></div>
-                <button class="btn btn-dashed" id="addManual" type="button">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-                  매뉴얼 추가
-                </button>
-                <p class="field-hint">매뉴얼은 최대 3개까지 등록할 수 있습니다. 파일을 첨부하거나 페이지 링크를 연결할 수 있습니다.</p>
-              </div>
-            </section>
-
-            <!-- 연락처 -->
-            <section class="card sort-item" data-key="contact" aria-labelledby="t-contact">
-              <div class="card-head">
-                <span class="drag-handle" aria-hidden="true" title="드래그해서 순서 변경"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg></span>
-                <span class="order-num"></span>
-                <h3 class="card-title" id="t-contact">연락처</h3>
-                <button class="icon-btn move-up" type="button" aria-label="위로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 15 12 9 18 15"/></svg></button>
-                <button class="icon-btn move-down" type="button" aria-label="아래로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-                <button class="icon-btn collapse-btn" type="button" aria-label="접기/펼치기" aria-expanded="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-              </div>
-              <div class="card-body">
-                <div class="field-row">
-                  <label class="field">
-                    <span class="field-label">전화번호</span>
-                    <input class="input" type="tel" value="02-1234-5678" placeholder="예) 02-1234-5678">
+              <!-- 매뉴얼 -->
+              <section class="card sort-item" data-key="manual" aria-labelledby="t-manual">
+                <div class="card-head">
+                  <span class="drag-handle" aria-hidden="true" title="드래그해서 순서 변경"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg></span>
+                  <span class="order-num"></span>
+                  <h3 class="card-title" id="t-manual">매뉴얼</h3>
+                  <label class="switch">
+                    <input type="checkbox" role="switch" class="section-toggle" id="manualOn" checked aria-label="매뉴얼 노출">
+                    <span class="track"></span>
+                    <span class="state">ON</span>
                   </label>
-                  <label class="field">
-                    <span class="field-label">운영시간</span>
-                    <input class="input" type="text" value="평일 09:00 - 18:00 (주말·공휴일 휴무)" placeholder="예) 평일 09:00 - 18:00">
-                  </label>
+                  <span class="head-divider"></span>
+                  <button class="icon-btn move-up" type="button" aria-label="위로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 15 12 9 18 15"/></svg></button>
+                  <button class="icon-btn move-down" type="button" aria-label="아래로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+                  <button class="icon-btn collapse-btn" type="button" aria-label="접기/펼치기" aria-expanded="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
                 </div>
-                <div class="sub-block">
+                <div class="card-body">
+                  <p class="off-note">OFF 상태에서는 진열페이지에 매뉴얼 영역이 노출되지 않습니다.</p>
+                  <div class="manual-list" id="manualList"></div>
+                  <p class="field-hint">매뉴얼은 최대 3개까지 등록할 수 있습니다. 매뉴얼마다 파일 첨부 또는 링크 연결 중 하나를 선택합니다. 매뉴얼명을 비워두면 노출되지 않습니다.</p>
+                </div>
+              </section>
+
+              <!-- 연락처 -->
+              <section class="card sort-item" data-key="contact" aria-labelledby="t-contact">
+                <div class="card-head">
+                  <span class="drag-handle" aria-hidden="true" title="드래그해서 순서 변경"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg></span>
+                  <span class="order-num"></span>
+                  <h3 class="card-title" id="t-contact">연락처</h3>
+                  <label class="switch">
+                    <input type="checkbox" role="switch" class="section-toggle" id="contactOn" checked aria-label="연락처 노출">
+                    <span class="track"></span>
+                    <span class="state">ON</span>
+                  </label>
+                  <span class="head-divider"></span>
+                  <button class="icon-btn move-up" type="button" aria-label="위로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 15 12 9 18 15"/></svg></button>
+                  <button class="icon-btn move-down" type="button" aria-label="아래로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+                  <button class="icon-btn collapse-btn" type="button" aria-label="접기/펼치기" aria-expanded="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+                </div>
+                <div class="card-body">
+                  <p class="off-note">OFF 상태에서는 진열페이지에 연락처 영역이 노출되지 않습니다.</p>
+                  <div class="field-row">
+                    <label class="field">
+                      <span class="field-label">전화번호</span>
+                      <input class="input" id="phoneInput" type="tel" value="02-1234-5678" placeholder="예) 02-1234-5678">
+                    </label>
+                    <label class="field">
+                      <span class="field-label">운영시간</span>
+                      <input class="input" id="hoursInput" type="text" value="평일 09:00 - 18:00 (주말·공휴일 휴무)" placeholder="예) 평일 09:00 - 18:00">
+                    </label>
+                  </div>
+                  <div class="sub-block">
+                    <div class="toggle-line">
+                      <span class="field-label">카카오톡 상담 버튼</span>
+                      <label class="switch">
+                        <input type="checkbox" role="switch" id="kakaoOn" data-toggle-target="kakaoLink" checked aria-label="카카오톡 상담 버튼 노출">
+                        <span class="track"></span>
+                        <span class="state">ON</span>
+                      </label>
+                    </div>
+                    <input class="input" id="kakaoLink" type="url" value="https://pf.kakao.com/_hanmujin/chat" placeholder="카카오톡 채널 상담 링크 (https://)" aria-label="카카오톡 상담 링크">
+                    <p class="field-hint">OFF로 설정하면 진열페이지에서 카카오톡 상담 버튼이 노출되지 않습니다.</p>
+                  </div>
+                </div>
+              </section>
+
+              <!-- 제휴/제안 -->
+              <section class="card sort-item" data-key="partner" aria-labelledby="t-partner">
+                <div class="card-head">
+                  <span class="drag-handle" aria-hidden="true" title="드래그해서 순서 변경"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg></span>
+                  <span class="order-num"></span>
+                  <h3 class="card-title" id="t-partner">제휴/제안</h3>
+                  <span class="head-divider"></span>
+                  <button class="icon-btn move-up" type="button" aria-label="위로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 15 12 9 18 15"/></svg></button>
+                  <button class="icon-btn move-down" type="button" aria-label="아래로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+                  <button class="icon-btn collapse-btn" type="button" aria-label="접기/펼치기" aria-expanded="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+                </div>
+                <div class="card-body">
                   <div class="toggle-line">
-                    <span class="field-label">카카오톡 상담 버튼</span>
+                    <span class="field-label">문의하기 버튼</span>
                     <label class="switch">
-                      <input type="checkbox" role="switch" data-toggle-target="kakaoLink" checked>
+                      <input type="checkbox" role="switch" id="partnerOn" data-toggle-target="partnerLink" checked aria-label="문의하기 버튼 노출">
                       <span class="track"></span>
                       <span class="state">ON</span>
                     </label>
                   </div>
-                  <input class="input" id="kakaoLink" type="url" value="https://pf.kakao.com/_hanmujin/chat" placeholder="카카오톡 채널 상담 링크 (https://)" aria-label="카카오톡 상담 링크">
-                  <p class="field-hint">OFF로 설정하면 진열페이지에서 카카오톡 상담 버튼이 노출되지 않습니다.</p>
+                  <input class="input" id="partnerLink" type="url" value="https://hanmujin.co.kr/partner" placeholder="제휴/제안 페이지 링크 (https://)" aria-label="제휴/제안 링크">
+                  <p class="field-hint">OFF로 설정하면 진열페이지에서 문의하기 버튼이 노출되지 않습니다.</p>
                 </div>
-              </div>
-            </section>
+              </section>
 
-            <!-- 제휴/제안 -->
-            <section class="card sort-item" data-key="partner" aria-labelledby="t-partner">
-              <div class="card-head">
-                <span class="drag-handle" aria-hidden="true" title="드래그해서 순서 변경"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg></span>
-                <span class="order-num"></span>
-                <h3 class="card-title" id="t-partner">제휴/제안</h3>
-                <button class="icon-btn move-up" type="button" aria-label="위로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 15 12 9 18 15"/></svg></button>
-                <button class="icon-btn move-down" type="button" aria-label="아래로 이동"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-                <button class="icon-btn collapse-btn" type="button" aria-label="접기/펼치기" aria-expanded="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-              </div>
-              <div class="card-body">
-                <div class="toggle-line">
-                  <span class="field-label">문의하기 버튼</span>
-                  <label class="switch">
-                    <input type="checkbox" role="switch" data-toggle-target="partnerLink" checked>
-                    <span class="track"></span>
-                    <span class="state">ON</span>
-                  </label>
-                </div>
-                <input class="input" id="partnerLink" type="url" value="https://hanmujin.co.kr/partner" placeholder="제휴/제안 페이지 링크 (https://)" aria-label="제휴/제안 링크">
-                <p class="field-hint">OFF로 설정하면 진열페이지에서 문의하기 버튼이 노출되지 않습니다.</p>
-              </div>
-            </section>
-
+            </div>
           </div>
+
+          <!-- ② 모바일 미리보기 -->
+          <aside class="preview-col" aria-label="모바일 미리보기">
+            <div class="preview-label">
+              <h2>모바일 미리보기</h2>
+              <span class="live-dot">실시간 반영</span>
+            </div>
+            <div class="phone">
+              <div class="phone-screen" id="phoneScreen">
+                <div class="pv" id="pv"></div>
+              </div>
+              <div id="pvFab"></div>
+            </div>
+          </aside>
         </div>
 
         <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -988,42 +1294,46 @@
     <div class="desc-list">
       <div class="desc-row">
         <span class="desc-num">1</span>
-        <div><h3>헤더</h3><p>미리보기 클릭 시 진열페이지가 새 창으로 열립니다. 저장 클릭 시 설정한 내용과 영역 순서가 진열페이지에 반영됩니다.</p></div>
+        <div><h3>헤더</h3><p>저장 클릭 시 설정한 내용과 영역 순서가 진열페이지에 반영됩니다.</p></div>
       </div>
       <div class="desc-row">
         <span class="desc-num">2</span>
-        <div><h3>메인 배너 (고정)</h3><p>GIF, JPG, PNG 이미지만 등록할 수 있으며 최대 3개까지 등록됩니다. 그 외 형식이나 3개를 초과하는 파일은 등록되지 않고 안내 문구가 노출됩니다. 진열페이지 최상단에 고정되며 순서를 변경할 수 없습니다.</p></div>
+        <div><h3>모바일 미리보기</h3><p>화면 우측에 진열페이지가 모바일 사이즈로 노출되며, 좌측에서 입력·변경한 내용과 영역 순서, ON/OFF 설정이 실시간으로 반영됩니다.</p></div>
       </div>
       <div class="desc-row">
         <span class="desc-num">3</span>
-        <div><h3>플렉스지 가입 유도 (고정)</h3><p>모든 업체에 동일하게 노출되는 고정 영역으로, 설정 및 순서 변경이 불가합니다.</p></div>
+        <div><h3>메인 배너 (고정)</h3><p>GIF, JPG, PNG 이미지만 등록할 수 있으며 최대 3개까지 등록됩니다. 그 외 형식이나 3개를 초과하는 파일은 등록되지 않고 안내 문구가 노출됩니다.</p></div>
       </div>
       <div class="desc-row">
         <span class="desc-num">4</span>
-        <div><h3>영역 순서 변경</h3><p>고정 영역을 제외한 모든 영역은 좌측 핸들을 드래그 앤 드롭해서 노출 순서를 변경할 수 있습니다. 화살표 버튼으로도 한 칸씩 이동할 수 있습니다.</p></div>
+        <div><h3>플로팅 버튼 (고정)</h3><p>ON/OFF로 노출 여부를 설정하고, 버튼 문구(최대 8자)와 연결 링크를 입력합니다.</p></div>
       </div>
       <div class="desc-row">
         <span class="desc-num">5</span>
-        <div><h3>채널 바로가기</h3><p>채널은 셀렉트 박스에서 선택하고 링크는 직접 입력합니다. 최대 5개까지 추가할 수 있으며, 이미 선택된 채널은 다시 선택할 수 없습니다.</p></div>
+        <div><h3>영역 순서 변경</h3><p>고정 영역을 제외한 모든 영역은 좌측 핸들을 드래그 앤 드롭해서 노출 순서를 변경할 수 있습니다. 화살표 버튼으로도 한 칸씩 이동할 수 있습니다.</p></div>
       </div>
       <div class="desc-row">
         <span class="desc-num">6</span>
-        <div><h3>BEST 상품 · 전체 상품</h3><p>상품관리 페이지의 상품이 자동으로 불러와지며 별도 설정은 없습니다. 노출 순서만 변경할 수 있습니다.</p></div>
+        <div><h3>채널 바로가기</h3><p>5개 슬롯에서 채널을 선택하고 링크를 입력합니다. ‘선택 안 함’인 슬롯은 노출되지 않으며, 같은 채널은 중복 선택할 수 없습니다.</p></div>
       </div>
       <div class="desc-row">
         <span class="desc-num">7</span>
-        <div><h3>업체소개</h3><p>로고 이미지, 회사명, 가이드 문구, 회사 정보 4개(값/항목명)를 입력합니다. 회사소개서를 첨부하면 진열페이지의 다운로드 버튼으로 제공됩니다.</p></div>
+        <div><h3>BEST 상품 · 전체 상품</h3><p>상품관리 페이지의 상품이 자동으로 불러와지며 별도 설정은 없습니다. 노출 순서만 변경할 수 있습니다.</p></div>
       </div>
       <div class="desc-row">
         <span class="desc-num">8</span>
-        <div><h3>매뉴얼</h3><p>최대 3개까지 등록할 수 있습니다. 매뉴얼마다 파일 첨부 또는 링크 연결 중 하나를 선택합니다.</p></div>
+        <div><h3>업체소개</h3><p>ON/OFF로 영역 노출 여부를 설정합니다. 로고, 회사명, 가이드 문구, 회사 정보 4개(값/항목명)를 입력하고, 회사소개서를 첨부하면 다운로드 버튼으로 제공됩니다.</p></div>
       </div>
       <div class="desc-row">
         <span class="desc-num">9</span>
-        <div><h3>연락처</h3><p>전화번호와 운영시간을 입력합니다. 카카오톡 상담 버튼은 ON/OFF로 노출 여부를 설정하고 상담 링크를 입력합니다.</p></div>
+        <div><h3>매뉴얼</h3><p>ON/OFF로 영역 노출 여부를 설정합니다. 최대 3개까지 등록하며, 매뉴얼마다 파일 첨부 또는 링크 연결 중 하나를 선택합니다.</p></div>
       </div>
       <div class="desc-row">
         <span class="desc-num">10</span>
+        <div><h3>연락처</h3><p>ON/OFF로 영역 노출 여부를 설정합니다. 전화번호와 운영시간을 입력하고, 카카오톡 상담 버튼은 별도 ON/OFF와 상담 링크를 설정합니다.</p></div>
+      </div>
+      <div class="desc-row">
+        <span class="desc-num">11</span>
         <div><h3>제휴/제안</h3><p>문의하기 버튼을 ON/OFF로 노출 여부를 설정하고 연결할 링크를 입력합니다.</p></div>
       </div>
     </div>
@@ -1033,9 +1343,11 @@
 <script>
 (function(){
   var ICON_X = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg>';
-  var ICON_TRASH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M6 7l1 13h10l1-13"/><path d="M9 7V4h6v3"/></svg>';
   var ICON_CLIP = '<svg class="file-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.4 11.1l-9.2 9.2a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/></svg>';
+  var ICON_EYE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+  var ICON_HEART = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.3l-1.2-1.1C6.1 15 3 12.2 3 8.7 3 5.9 5.2 3.7 8 3.7c1.6 0 3.1.7 4 1.9.9-1.2 2.4-1.9 4-1.9 2.8 0 5 2.2 5 5 0 3.5-3.1 6.3-7.8 10.6L12 20.3z"/></svg>';
 
+  function $(id){ return document.getElementById(id); }
   function esc(s){
     return String(s).replace(/[&<>"']/g, function(c){
       return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
@@ -1050,8 +1362,16 @@
     el.hidden = !msg;
   }
 
+  /* ---------- 미리보기 갱신 예약 ---------- */
+  var renderQueued = false;
+  function queuePreview(){
+    if(renderQueued){ return; }
+    renderQueued = true;
+    requestAnimationFrame(function(){ renderQueued = false; renderPreview(); });
+  }
+
   /* ---------- 토스트 ---------- */
-  var toast = document.getElementById('toast');
+  var toast = $('toast');
   var toastTimer;
   function showToast(msg){
     toast.textContent = msg;
@@ -1059,7 +1379,7 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function(){ toast.classList.remove('is-show'); }, 2000);
   }
-  document.getElementById('saveBtn').addEventListener('click', function(){
+  $('saveBtn').addEventListener('click', function(){
     showToast('저장되었습니다. 진열페이지에 반영됩니다.');
   });
 
@@ -1067,10 +1387,9 @@
   var BANNER_MAX = 3;
   var BANNER_EXT = ['gif','jpg','jpeg','png'];
   var banners = [];
-  var bannerGrid = document.getElementById('bannerGrid');
-  var bannerInput = document.getElementById('bannerInput');
-  var bannerError = document.getElementById('bannerError');
-  var bannerCount = document.getElementById('bannerCount');
+  var bannerGrid = $('bannerGrid');
+  var bannerInput = $('bannerInput');
+  var bannerError = $('bannerError');
 
   function renderBanners(){
     var html = '';
@@ -1090,7 +1409,8 @@
       '</button>';
     }
     bannerGrid.innerHTML = html;
-    bannerCount.textContent = banners.length + ' / ' + BANNER_MAX;
+    $('bannerCount').textContent = banners.length + ' / ' + BANNER_MAX;
+    queuePreview();
   }
   bannerGrid.addEventListener('click', function(e){
     var del = e.target.closest('.slot-del');
@@ -1107,47 +1427,46 @@
   bannerInput.addEventListener('change', function(){
     var files = Array.prototype.slice.call(bannerInput.files);
     var errors = [];
+    var overMax = false;
     files.forEach(function(f){
       var ext = extOf(f.name);
       if(BANNER_EXT.indexOf(ext) === -1){
         errors.push('‘' + f.name + '’은(는) 등록할 수 없는 형식입니다. GIF, JPG, PNG만 가능합니다.');
         return;
       }
-      if(banners.length >= BANNER_MAX){
-        if(errors.indexOf('max') === -1){ errors.push('max'); }
-        return;
-      }
+      if(banners.length >= BANNER_MAX){ overMax = true; return; }
       banners.push({ name:f.name, ext:ext === 'jpeg' ? 'jpg' : ext, url:URL.createObjectURL(f), revoke:true });
     });
-    showError(bannerError, errors.map(function(m){
-      return m === 'max' ? '배너는 최대 ' + BANNER_MAX + '개까지 등록할 수 있습니다.' : m;
-    }).join(' '));
+    if(overMax){ errors.push('배너는 최대 ' + BANNER_MAX + '개까지 등록할 수 있습니다.'); }
+    showError(bannerError, errors.join(' '));
     bannerInput.value = '';
     renderBanners();
   });
-  // 샘플 배너 1개 (기존 진열페이지 배너 이미지를 가정)
-  var sampleSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#04060E"/><stop offset=".5" stop-color="#080E1C"/><stop offset="1" stop-color="#0C1A2E"/></linearGradient></defs><rect width="320" height="200" fill="url(#g)"/><circle cx="290" cy="10" r="70" fill="#4278FF" opacity=".35"/><text x="26" y="72" font-family="sans-serif" font-size="11" font-weight="800" fill="#8FB0FF" letter-spacing="2">SUPER MUJIN WEEK</text><text x="24" y="112" font-family="sans-serif" font-size="34" font-weight="900" fill="#fff">슈퍼무진</text><text x="26" y="138" font-family="sans-serif" font-size="12" font-weight="700" fill="#DDE6FF">도시적인 감각, 신제품 최대 30%</text><circle cx="250" cy="110" r="42" fill="#2A4BC4"/><text x="250" y="106" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="900" fill="#fff">슈퍼</text><text x="250" y="124" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="900" fill="#fff">무진</text></svg>';
+  var sampleSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#04060E"/><stop offset=".5" stop-color="#080E1C"/><stop offset="1" stop-color="#0C1A2E"/></linearGradient></defs><rect width="400" height="200" fill="url(#g)"/><circle cx="370" cy="10" r="80" fill="#4278FF" opacity=".35"/><text x="26" y="64" font-family="sans-serif" font-size="11" font-weight="800" fill="#8FB0FF" letter-spacing="2">SUPER MUJIN WEEK</text><text x="24" y="106" font-family="sans-serif" font-size="36" font-weight="900" fill="#fff">슈퍼무진</text><text x="26" y="134" font-family="sans-serif" font-size="12" font-weight="700" fill="#DDE6FF">도시적인 감각, 신제품 최대 30%</text><text x="26" y="154" font-family="sans-serif" font-size="10" font-weight="600" fill="#9FB6E8">10.1(목) - 10.7(수)</text><circle cx="318" cy="104" r="46" fill="#2A4BC4" stroke="#BED2F0" stroke-opacity=".5"/><text x="318" y="100" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="900" fill="#fff">슈퍼</text><text x="318" y="120" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="900" fill="#fff">무진</text></svg>';
   banners.push({ name:'super_mujin_week.gif', ext:'gif', url:'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(sampleSvg), revoke:false });
   renderBanners();
 
-  /* ---------- 채널 바로가기 ---------- */
-  var CHANNELS = ['유튜브','인스타그램','블로그','카카오채널','스토어','페이스북','틱톡','X(트위터)'];
-  var CHANNEL_MAX = 5;
-  var channelRows = document.getElementById('channelRows');
-  var addChannel = document.getElementById('addChannel');
-  var channelCount = document.getElementById('channelCount');
-
-  function channelRowHtml(name, link){
-    var opts = '<option value="">채널 선택</option>';
-    CHANNELS.forEach(function(c){
-      opts += '<option' + (c === name ? ' selected' : '') + '>' + c + '</option>';
+  /* ---------- 채널 바로가기 (슬롯 5개 고정) ---------- */
+  var CHANNELS = ['유튜브','인스타그램','블로그','카카오채널','스토어','노션','페이스북','틱톡','X(트위터)'];
+  var channelRows = $('channelRows');
+  [
+    ['유튜브','https://youtube.com/@hanmujin'],
+    ['인스타그램','https://instagram.com/hanmujin'],
+    ['블로그','https://blog.naver.com/hanmujin'],
+    ['카카오채널','https://pf.kakao.com/_hanmujin'],
+    ['스토어','https://smartstore.naver.com/hanmujin']
+  ].forEach(function(c, i){
+    var opts = '<option value="">선택 안 함</option>';
+    CHANNELS.forEach(function(name){
+      opts += '<option' + (name === c[0] ? ' selected' : '') + '>' + name + '</option>';
     });
-    return '<div class="row">' +
-      '<select class="select" aria-label="채널 선택">' + opts + '</select>' +
-      '<input class="input" type="url" value="' + esc(link || '') + '" placeholder="채널 링크 (https://)" aria-label="채널 링크">' +
-      '<button class="icon-btn danger" type="button" aria-label="채널 삭제">' + ICON_TRASH + '</button>' +
-    '</div>';
-  }
+    channelRows.insertAdjacentHTML('beforeend',
+      '<div class="row">' +
+        '<span class="row-no">' + (i + 1) + '</span>' +
+        '<select class="select" aria-label="채널 ' + (i + 1) + ' 선택">' + opts + '</select>' +
+        '<input class="input" type="url" value="' + esc(c[1]) + '" placeholder="채널 링크 (https://)" aria-label="채널 ' + (i + 1) + ' 링크">' +
+      '</div>');
+  });
   function syncChannels(){
     var selects = channelRows.querySelectorAll('select');
     var used = [];
@@ -1156,36 +1475,24 @@
       Array.prototype.forEach.call(s.options, function(o){
         o.disabled = !!o.value && o.value !== s.value && used.indexOf(o.value) !== -1;
       });
+      var link = s.parentNode.querySelector('.input');
+      link.disabled = !s.value;
     });
-    var n = channelRows.children.length;
-    channelCount.textContent = n + ' / ' + CHANNEL_MAX;
-    addChannel.disabled = n >= CHANNEL_MAX;
+    $('channelCount').textContent = '노출 ' + used.length + ' / 5';
   }
-  [
-    ['유튜브','https://youtube.com/@hanmujin'],
-    ['인스타그램','https://instagram.com/hanmujin'],
-    ['블로그','https://blog.naver.com/hanmujin'],
-    ['카카오채널','https://pf.kakao.com/_hanmujin'],
-    ['스토어','https://smartstore.naver.com/hanmujin']
-  ].forEach(function(c){ channelRows.insertAdjacentHTML('beforeend', channelRowHtml(c[0], c[1])); });
-  syncChannels();
-  addChannel.addEventListener('click', function(){
-    if(channelRows.children.length >= CHANNEL_MAX){ return; }
-    channelRows.insertAdjacentHTML('beforeend', channelRowHtml('', ''));
-    syncChannels();
-    channelRows.lastElementChild.querySelector('select').focus();
-  });
   channelRows.addEventListener('change', syncChannels);
-  channelRows.addEventListener('click', function(e){
-    var del = e.target.closest('.icon-btn.danger');
-    if(del){ del.closest('.row').remove(); syncChannels(); }
-  });
+  syncChannels();
 
   /* ---------- 업체소개: 로고 / 회사소개서 ---------- */
-  var logoInput = document.getElementById('logoInput');
-  var logoPreview = document.getElementById('logoPreview');
-  var logoError = document.getElementById('logoError');
-  document.getElementById('logoBtn').addEventListener('click', function(){ logoInput.click(); });
+  var logoUrl = null;
+  var logoInput = $('logoInput');
+  var logoError = $('logoError');
+  function logoImgHtml(alt){
+    return logoUrl
+      ? '<img class="custom-logo" src="' + logoUrl + '" alt="' + alt + '">'
+      : '<img class="default-logo" src="assets/logo.png" alt="' + alt + '">';
+  }
+  $('logoBtn').addEventListener('click', function(){ logoInput.click(); });
   logoInput.addEventListener('change', function(){
     var f = logoInput.files[0];
     if(!f){ return; }
@@ -1193,75 +1500,63 @@
       showError(logoError, '로고는 JPG, PNG 파일만 등록할 수 있습니다.');
     } else {
       showError(logoError, '');
-      logoPreview.innerHTML = '<img class="custom-logo" src="' + URL.createObjectURL(f) + '" alt="등록한 로고">';
+      if(logoUrl){ URL.revokeObjectURL(logoUrl); }
+      logoUrl = URL.createObjectURL(f);
+      $('logoPreview').innerHTML = logoImgHtml('등록한 로고');
+      queuePreview();
     }
     logoInput.value = '';
   });
 
-  var introFileInput = document.getElementById('introFileInput');
-  var introFileName = document.getElementById('introFileName');
-  var introFileDel = document.getElementById('introFileDel');
+  var introFileInput = $('introFileInput');
+  var introFileName = $('introFileName');
+  var introFileDel = $('introFileDel');
+  var introFile = '한국무진_회사소개서.pdf';
   function setIntroFile(name){
+    introFile = name;
     introFileName.textContent = name || '첨부된 파일이 없습니다';
     introFileName.classList.toggle('empty', !name);
     introFileDel.hidden = !name;
+    queuePreview();
   }
-  document.getElementById('introFileBtn').addEventListener('click', function(){ introFileInput.click(); });
+  $('introFileBtn').addEventListener('click', function(){ introFileInput.click(); });
   introFileInput.addEventListener('change', function(){
     if(introFileInput.files[0]){ setIntroFile(introFileInput.files[0].name); }
     introFileInput.value = '';
   });
   introFileDel.addEventListener('click', function(){ setIntroFile(''); });
 
-  /* ---------- 매뉴얼 (최대 3개, 파일 또는 링크) ---------- */
-  var MANUAL_MAX = 3;
-  var manualRows = document.getElementById('manualRows');
-  var addManual = document.getElementById('addManual');
-  var manualCount = document.getElementById('manualCount');
-
-  function manualHtml(m){
-    var isFile = m.type === 'file';
-    return '<div class="manual-item">' +
-      '<div class="manual-item-head"><strong class="manual-no"></strong>' +
-        '<button class="icon-btn danger manual-del" type="button" aria-label="매뉴얼 삭제">' + ICON_TRASH + '</button></div>' +
-      '<input class="input" type="text" value="' + esc(m.name) + '" placeholder="매뉴얼명 (예: 제품 사용 매뉴얼)" aria-label="매뉴얼명" maxlength="20">' +
-      '<div class="segmented" role="group" aria-label="등록 방식">' +
-        '<button type="button" data-mode="file" class="' + (isFile ? 'is-on' : '') + '" aria-pressed="' + isFile + '">파일 첨부</button>' +
-        '<button type="button" data-mode="link" class="' + (!isFile ? 'is-on' : '') + '" aria-pressed="' + !isFile + '">링크 연결</button>' +
-      '</div>' +
-      '<div class="file-box mode-file"' + (isFile ? '' : ' hidden') + '>' + ICON_CLIP +
-        '<span class="file-name' + (m.file ? '' : ' empty') + '">' + esc(m.file || '첨부된 파일이 없습니다') + '</span>' +
-        '<button class="btn btn-sm manual-file-btn" type="button">파일 선택</button>' +
-        '<input type="file" class="manual-file-input" hidden>' +
-      '</div>' +
-      '<input class="input mode-link" type="url" value="' + esc(m.link || '') + '" placeholder="연결할 페이지 링크 (https://)" aria-label="매뉴얼 링크"' + (isFile ? ' hidden' : '') + '>' +
-    '</div>';
-  }
-  function syncManuals(){
-    var items = manualRows.querySelectorAll('.manual-item');
-    items.forEach(function(it, i){ it.querySelector('.manual-no').textContent = '매뉴얼 ' + (i + 1); });
-    manualCount.textContent = items.length + ' / ' + MANUAL_MAX;
-    addManual.disabled = items.length >= MANUAL_MAX;
-  }
+  /* ---------- 매뉴얼 (3개, 파일 또는 링크) ---------- */
+  var manualList = $('manualList');
   [
     { name:'제품 사용 매뉴얼', type:'link', link:'https://hanmujin.co.kr/manual/product' },
     { name:'설치 가이드', type:'link', link:'https://hanmujin.co.kr/manual/install' },
     { name:'회사소개서', type:'file', file:'한국무진_회사소개서.pdf' }
-  ].forEach(function(m){ manualRows.insertAdjacentHTML('beforeend', manualHtml(m)); });
-  syncManuals();
-  addManual.addEventListener('click', function(){
-    if(manualRows.children.length >= MANUAL_MAX){ return; }
-    manualRows.insertAdjacentHTML('beforeend', manualHtml({ name:'', type:'link' }));
-    syncManuals();
-    manualRows.lastElementChild.querySelector('.input').focus();
+  ].forEach(function(m, i){
+    var isFile = m.type === 'file';
+    manualList.insertAdjacentHTML('beforeend',
+      '<div class="manual-item" data-type="' + m.type + '">' +
+        '<strong>매뉴얼 ' + (i + 1) + '</strong>' +
+        '<input class="input manual-name" type="text" value="' + esc(m.name) + '" placeholder="매뉴얼명" aria-label="매뉴얼 ' + (i + 1) + ' 이름" maxlength="20">' +
+        '<div class="segmented" role="group" aria-label="매뉴얼 ' + (i + 1) + ' 등록 방식">' +
+          '<button type="button" data-mode="file" class="' + (isFile ? 'is-on' : '') + '" aria-pressed="' + isFile + '">파일 첨부</button>' +
+          '<button type="button" data-mode="link" class="' + (!isFile ? 'is-on' : '') + '" aria-pressed="' + !isFile + '">링크 연결</button>' +
+        '</div>' +
+        '<div class="file-box mode-file"' + (isFile ? '' : ' hidden') + '>' + ICON_CLIP +
+          '<span class="file-name' + (m.file ? '' : ' empty') + '">' + esc(m.file || '파일 없음') + '</span>' +
+          '<button class="btn btn-sm manual-file-btn" type="button">선택</button>' +
+          '<input type="file" class="manual-file-input" hidden>' +
+        '</div>' +
+        '<input class="input mode-link" type="url" value="' + esc(m.link || '') + '" placeholder="https://" aria-label="매뉴얼 ' + (i + 1) + ' 링크"' + (isFile ? ' hidden' : '') + '>' +
+      '</div>');
   });
-  manualRows.addEventListener('click', function(e){
+  manualList.addEventListener('click', function(e){
     var item = e.target.closest('.manual-item');
     if(!item){ return; }
-    if(e.target.closest('.manual-del')){ item.remove(); syncManuals(); return; }
     var modeBtn = e.target.closest('[data-mode]');
     if(modeBtn){
       var isFile = modeBtn.dataset.mode === 'file';
+      item.dataset.type = modeBtn.dataset.mode;
       item.querySelectorAll('[data-mode]').forEach(function(b){
         var on = b === modeBtn;
         b.classList.toggle('is-on', on);
@@ -1269,11 +1564,12 @@
       });
       item.querySelector('.mode-file').hidden = !isFile;
       item.querySelector('.mode-link').hidden = isFile;
+      queuePreview();
       return;
     }
     if(e.target.closest('.manual-file-btn')){ item.querySelector('.manual-file-input').click(); }
   });
-  manualRows.addEventListener('change', function(e){
+  manualList.addEventListener('change', function(e){
     if(!e.target.classList.contains('manual-file-input')){ return; }
     var f = e.target.files[0];
     if(f){
@@ -1285,15 +1581,15 @@
   });
 
   /* ---------- ON/OFF 토글 ---------- */
-  document.querySelectorAll('[data-toggle-target]').forEach(function(sw){
-    var target = document.getElementById(sw.dataset.toggleTarget);
+  function syncSwitch(sw){
     var state = sw.parentNode.querySelector('.state');
-    function sync(){
-      target.disabled = !sw.checked;
-      state.textContent = sw.checked ? 'ON' : 'OFF';
-    }
-    sw.addEventListener('change', sync);
-    sync();
+    state.textContent = sw.checked ? 'ON' : 'OFF';
+    if(sw.dataset.toggleTarget){ $(sw.dataset.toggleTarget).disabled = !sw.checked; }
+    if(sw.classList.contains('section-toggle')){ sw.closest('.card').classList.toggle('is-off', !sw.checked); }
+  }
+  document.querySelectorAll('.switch input').forEach(function(sw){
+    sw.addEventListener('change', function(){ syncSwitch(sw); });
+    syncSwitch(sw);
   });
 
   /* ---------- 접기/펼치기 ---------- */
@@ -1306,7 +1602,7 @@
   });
 
   /* ---------- 드래그 앤 드롭 순서 변경 ---------- */
-  var sortList = document.getElementById('sortList');
+  var sortList = $('sortList');
   var dragging = null;
 
   function renumber(){
@@ -1316,8 +1612,8 @@
       it.querySelector('.move-up').disabled = i === 0;
       it.querySelector('.move-down').disabled = i === items.length - 1;
     });
+    queuePreview();
   }
-
   sortList.querySelectorAll('.sort-item').forEach(function(item){
     var handle = item.querySelector('.drag-handle');
     handle.addEventListener('mousedown', function(){ item.draggable = true; });
@@ -1325,24 +1621,21 @@
     item.addEventListener('dragstart', function(e){
       dragging = item;
       item.classList.add('is-dragging');
-      sortList.classList.add('is-sorting');
       e.dataTransfer.effectAllowed = 'move';
       e.dataTransfer.setData('text/plain', item.dataset.key);
     });
     item.addEventListener('dragend', function(){
       item.draggable = false;
       item.classList.remove('is-dragging');
-      sortList.classList.remove('is-sorting');
       dragging = null;
       renumber();
     });
   });
-
   function itemAfter(y){
-    var rest = Array.prototype.filter.call(sortList.querySelectorAll('.sort-item'), function(el){ return el !== dragging; });
     var closest = null;
     var closestOffset = -Infinity;
-    rest.forEach(function(el){
+    sortList.querySelectorAll('.sort-item').forEach(function(el){
+      if(el === dragging){ return; }
       var box = el.getBoundingClientRect();
       var offset = y - (box.top + box.height / 2);
       if(offset < 0 && offset > closestOffset){ closestOffset = offset; closest = el; }
@@ -1355,30 +1648,185 @@
     e.dataTransfer.dropEffect = 'move';
     var after = itemAfter(e.clientY);
     if(after === null){
-      if(sortList.lastElementChild !== dragging){ sortList.appendChild(dragging); }
+      if(sortList.lastElementChild !== dragging){ sortList.appendChild(dragging); renumber(); }
     } else if(after !== dragging.nextElementSibling){
       sortList.insertBefore(dragging, after);
+      renumber();
     }
-    renumber();
   });
   sortList.addEventListener('drop', function(e){ e.preventDefault(); });
-
-  // 화살표 버튼으로 한 칸 이동 (키보드 대체 수단)
   sortList.addEventListener('click', function(e){
-    var up = e.target.closest('.move-up');
-    var down = e.target.closest('.move-down');
-    if(!up && !down){ return; }
-    var item = e.target.closest('.sort-item');
+    var btn = e.target.closest('.move-up, .move-down');
+    if(!btn){ return; }
+    var item = btn.closest('.sort-item');
+    var up = btn.classList.contains('move-up');
     if(up && item.previousElementSibling){
       sortList.insertBefore(item, item.previousElementSibling);
-    } else if(down && item.nextElementSibling){
+    } else if(!up && item.nextElementSibling){
       sortList.insertBefore(item.nextElementSibling, item);
     }
     renumber();
-    (up || down).disabled ? item.querySelector(up ? '.move-down' : '.move-up').focus() : (up || down).focus();
+    (btn.disabled ? item.querySelector(up ? '.move-down' : '.move-up') : btn).focus();
   });
 
+  /* ---------- 모바일 미리보기 ---------- */
+  var CH_ICONS = {
+    '유튜브':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10.5 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg>',
+    '인스타그램':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"/></svg>',
+    '블로그':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.2-3.8A8 8 0 1 1 8.2 19z"/><path d="M8 10h8"/><path d="M8 13.5h5"/></svg>',
+    '카카오채널':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19l1-4A8 6.2 0 1 1 8 19.5z"/></svg>',
+    '스토어':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>',
+    '페이스북':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 21v-8h3l.5-3.5H14V7.5c0-1 .4-1.8 1.9-1.8H18V2.6c-.4 0-1.6-.1-2.9-.1-2.9 0-4.6 1.7-4.6 4.9v2.1H7.5V13h3v8"/></svg>',
+    '틱톡':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 3c.5 2.5 2.3 4.2 5 4.5"/></svg>',
+    '노션':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M9 16.5V8l6 8.5V8"/></svg>',
+    'X(트위터)':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 4l16 16"/><path d="M20 4L4 20"/></svg>'
+  };
+  var PHOTO = [
+    '<svg viewBox="0 0 64 64"><ellipse cx="32" cy="53" rx="19" ry="3.5" fill="#14171F" opacity=".16"/><path d="M24 26v-6a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v6" fill="none" stroke="#2E3540" stroke-width="3" stroke-linecap="round"/><rect x="10" y="26" width="44" height="21" rx="4" fill="#D7DBE2" stroke="#8A93A3" stroke-width="1"/><rect x="10" y="26" width="44" height="7" rx="4" fill="#3A4250"/><rect x="28" y="30" width="8" height="4" rx="1.5" fill="#6E8CFF"/></svg>',
+    '<svg viewBox="0 0 64 64"><ellipse cx="32" cy="56" rx="15" ry="3.2" fill="#14171F" opacity=".16"/><rect x="26" y="8" width="12" height="8" rx="2" fill="#4A5568"/><path d="M20 20 Q20 16 24 16 L40 16 Q44 16 44 20 L46 50 Q46 54 42 54 L22 54 Q18 54 18 50 Z" fill="#AFC1FF" stroke="#5B6472" stroke-width="1"/><rect x="20" y="34" width="24" height="9" fill="#FFFFFF" opacity=".55"/></svg>',
+    '<svg viewBox="0 0 64 64"><ellipse cx="32" cy="47" rx="21" ry="3.2" fill="#14171F" opacity=".16"/><rect x="8" y="22" width="48" height="19" rx="3" fill="#D1D5DC" stroke="#8A93A3" stroke-width="1"/><line x1="24" y1="22" x2="24" y2="41" stroke="#8A93A3" stroke-width="1"/><line x1="40" y1="22" x2="40" y2="41" stroke="#8A93A3" stroke-width="1"/></svg>'
+  ];
+  var PRODUCTS = [
+    ['무선 정밀 드라이버 세트', 12900, 3842, 'best'],
+    ['산업용 세정 용기', 24500, 2915, 'best'],
+    ['스테인리스 정밀 부품함', 8900, 412, 'new'],
+    ['정밀 측정 캘리퍼스', 31000, 2480, 'best'],
+    ['다목적 공구 수납케이스', 15700, 1236, ''],
+    ['방청 오일 용기', 42300, 1987, 'best']
+  ];
+  function productHtml(p, i){
+    var flag = p[3] ? '<span class="pv-flag ' + p[3] + '">' + p[3].toUpperCase() + '</span>' : '';
+    return '<div class="pv-card"><div class="thumb">' + flag + PHOTO[i % 3] +
+      '<span class="pv-views">' + ICON_EYE + p[2].toLocaleString('ko-KR') + '</span></div>' +
+      '<p class="name">' + p[0] + '</p><p class="price">' + p[1].toLocaleString('ko-KR') + '원</p></div>';
+  }
+
+  var SECTION_RENDER = {
+    channel: function(){
+      var items = '';
+      channelRows.querySelectorAll('.row').forEach(function(r){
+        var name = r.querySelector('select').value;
+        if(name){ items += '<div class="pv-ch"><i>' + CH_ICONS[name] + '</i><span>' + esc(name) + '</span></div>'; }
+      });
+      return '<div class="pv-box"><p class="pv-lead">' + esc($('introName').value || '업체') + ' 채널에서 더 많은 소식을 만나보세요</p>' +
+        (items ? '<div class="pv-channels">' + items + '</div>' : '<p class="pv-empty">선택된 채널이 없습니다</p>') + '</div>';
+    },
+    best: function(){
+      var cards = '';
+      PRODUCTS.forEach(function(p, i){ if(p[3] === 'best' && cards.split('pv-card').length <= 3){ cards += productHtml(p, i); } });
+      return '<div><div class="pv-title"><h3>BEST 상품</h3><div class="pv-arrows">' +
+        '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 6 9 12 15 18"/></svg></span>' +
+        '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></span>' +
+        '</div></div><div class="pv-grid">' + cards + '</div></div>';
+    },
+    all: function(){
+      var cards = '';
+      PRODUCTS.forEach(function(p, i){ cards += productHtml(p, i); });
+      return '<div><div class="pv-title"><h3>전체 상품</h3><span class="muted">총 12개</span></div>' +
+        '<div class="pv-search">상품명으로 검색</div><div class="pv-grid">' + cards + '</div></div>';
+    },
+    intro: function(){
+      if(!$('introOn').checked){ return ''; }
+      var stats = '';
+      $('statRows').querySelectorAll('.row').forEach(function(r){
+        var v = r.querySelector('.stat-val').value;
+        var l = r.querySelector('.stat-label').value;
+        if(v || l){ stats += '<div><b>' + esc(v) + '</b><span>' + esc(l) + '</span></div>'; }
+      });
+      return '<div class="pv-box"><div class="pv-intro-top"><div class="logo-box">' + logoImgHtml('업체 로고') + '</div>' +
+        '<div><p class="pv-intro-name">' + esc($('introName').value) + '</p><p class="pv-intro-tag">' + esc($('introTagline').value) + '</p></div></div>' +
+        (stats ? '<div class="pv-stats">' + stats + '</div>' : '') +
+        (introFile ? '<div class="pv-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>회사소개서 다운로드</div>' : '') +
+        '</div>';
+    },
+    manual: function(){
+      if(!$('manualOn').checked){ return ''; }
+      var cards = '';
+      manualList.querySelectorAll('.manual-item').forEach(function(it){
+        var name = it.querySelector('.manual-name').value.trim();
+        if(!name){ return; }
+        var isFile = it.dataset.type === 'file';
+        cards += '<div class="pv-manual"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span>' +
+          '<div><b>' + esc(name) + '</b><br><small>' + (isFile ? '파일 다운로드' : '페이지 보기') + '</small></div>' +
+          '<span class="go">' + (isFile
+            ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>'
+            : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>') +
+          '</span></div>';
+      });
+      if(!cards){ return ''; }
+      return '<div><div class="pv-title"><h3>매뉴얼</h3></div><div class="pv-manuals">' + cards + '</div></div>';
+    },
+    contact: function(){
+      if(!$('contactOn').checked){ return ''; }
+      var phone = $('phoneInput').value;
+      var hours = $('hoursInput').value;
+      return '<div><div class="pv-title"><h3>연락처</h3></div><div class="pv-box pv-contact">' +
+        (phone ? '<div class="pv-contact-row"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5c0-1 1-2 2-2h2l2 5-2 1a11 11 0 0 0 6 6l1-2 5 2v2c0 1-1 2-2 2C10 19 4 13 4 5z"/></svg></i><div><small>전화 문의</small><b>' + esc(phone) + '</b></div></div>' : '') +
+        (hours ? '<div class="pv-contact-row"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></i><div><small>운영시간</small><b>' + esc(hours) + '</b></div></div>' : '') +
+        ($('kakaoOn').checked ? '<span class="pv-pill"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.5 3 2 6.6 2 11c0 2.8 1.9 5.3 4.7 6.7-.2.8-.8 2.7-.9 3.1 0 0 0 .3.2.4.2.1.4 0 .4 0 .5-.1 3-2 3.9-2.7.6.1 1.1.1 1.7.1 5.5 0 10-3.6 10-8S17.5 3 12 3z"/></svg>카카오톡 상담</span>' : '') +
+        '</div></div>';
+    },
+    partner: function(){
+      return '<div class="pv-box pv-partner"><div><b>제휴/제안</b><small>' + esc($('introName').value || '업체') + '과 함께할 제휴 및 제안을 기다립니다.</small></div>' +
+        ($('partnerOn').checked ? '<span class="btn-o">문의하기</span>' : '') + '</div>';
+    }
+  };
+
+  var bannerIdx = 0;
+  function renderPreview(){
+    var bannerHtml = '<div class="pv-banner">';
+    if(banners.length){
+      bannerIdx = bannerIdx % banners.length;
+      banners.forEach(function(b, i){
+        bannerHtml += '<img src="' + b.url + '" alt="" class="' + (i === bannerIdx ? 'is-on' : '') + '">';
+      });
+      if(banners.length > 1){
+        bannerHtml += '<div class="pv-dots">';
+        banners.forEach(function(b, i){ bannerHtml += '<span class="' + (i === bannerIdx ? 'is-on' : '') + '"></span>'; });
+        bannerHtml += '</div>';
+      }
+    } else {
+      bannerHtml += '<div class="pv-banner-empty">등록된 배너가 없습니다</div>';
+    }
+    bannerHtml += '</div>';
+
+    var sections = '';
+    sortList.querySelectorAll('.sort-item').forEach(function(it){
+      sections += SECTION_RENDER[it.dataset.key]();
+    });
+
+    $('pv').innerHTML =
+      '<div class="pv-header">' +
+        '<span class="pv-ham"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></span>' +
+        '<span class="pv-logo"><img src="assets/logo.png" alt="한국무진 파트너스"></span>' +
+        '<span class="pv-share"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4"/><path d="M15.4 6.5l-6.8 4"/></svg>공유하기</span>' +
+      '</div>' +
+      bannerHtml +
+      '<div class="pv-pad">' +
+        '<div class="pv-box pv-flexg"><p><span>플렉스지</span>에서 나만의 쇼핑몰을 시작하세요<small>' + esc($('introName').value || '업체') + ' 상품을 내 쇼핑몰에서 바로 판매할 수 있습니다.</small></p><span class="pv-pill">무료 가입하기</span></div>' +
+        sections +
+      '</div>';
+
+    $('pvFab').innerHTML = $('fabOn').checked
+      ? '<div class="pv-fab">' + ICON_HEART + '<span>' + esc($('fabLabel').value || '버튼 문구') + '</span></div>'
+      : '';
+  }
+
+  // 배너 자동 롤링 (미리보기)
+  setInterval(function(){
+    if(banners.length < 2){ return; }
+    bannerIdx = (bannerIdx + 1) % banners.length;
+    var imgs = document.querySelectorAll('#pv .pv-banner img');
+    var dots = document.querySelectorAll('#pv .pv-dots span');
+    imgs.forEach(function(el, i){ el.classList.toggle('is-on', i === bannerIdx); });
+    dots.forEach(function(el, i){ el.classList.toggle('is-on', i === bannerIdx); });
+  }, 3000);
+
+  $('settings').addEventListener('input', queuePreview);
+  $('settings').addEventListener('change', queuePreview);
+
   renumber();
+  renderPreview();
 })();
 </script>
 </body>
