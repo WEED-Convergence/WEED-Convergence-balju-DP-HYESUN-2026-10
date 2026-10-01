@@ -656,6 +656,47 @@
   }
   .product-thumb .product-views svg{ width:10px; height:10px; }
 
+  /* ---------- 전체 상품 페이징 ---------- */
+  .pagination{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:4px;
+    margin-top:16px;
+  }
+  .pagination:empty{ display:none; }
+  .page-btn{
+    min-width:28px; height:28px;
+    padding:0 6px;
+    border-radius:6px;
+    border:1px solid var(--line);
+    background:#fff;
+    color:var(--ink-soft);
+    font-size:12px;
+    font-weight:600;
+    font-variant-numeric:tabular-nums;
+    display:inline-flex; align-items:center; justify-content:center;
+    cursor:pointer;
+  }
+  .page-btn:hover:not(:disabled):not(.is-current){ background:var(--chip); }
+  .page-btn:focus-visible{ outline:2px solid var(--focus); outline-offset:2px; }
+  .page-btn.is-current{
+    background:var(--ink);
+    border-color:var(--ink);
+    color:#fff;
+    cursor:default;
+  }
+  .page-btn:disabled{ opacity:.35; cursor:default; }
+  .page-btn svg{ width:14px; height:14px; }
+
+  /* ---------- 하단 Powered by ---------- */
+  .powered-by{
+    display:flex;
+    justify-content:center;
+    padding:8px 0 24px;
+  }
+  .powered-by img{ height:26px; width:auto; display:block; }
+
   /* ---------- BEST 상품 롤링 ---------- */
   .best-nav{ display:flex; gap:5px; }
   .best-arrow{
@@ -1321,6 +1362,7 @@
               <input type="text" id="productSearch" placeholder="상품명으로 검색" aria-label="상품명으로 검색">
             </div>
             <div class="product-grid" id="productGrid"></div>
+            <nav class="pagination" id="productPager" aria-label="전체 상품 페이지"></nav>
           </section>
 
           <!-- ⑥ 업체소개 -->
@@ -1416,6 +1458,11 @@
             </div>
           </section>
 
+          <!-- 하단 Powered by -->
+          <footer class="powered-by">
+            <img src="assets/powered-by.png" alt="Powered by 플렉스지">
+          </footer>
+
           </div>
         </div>
 
@@ -1483,7 +1530,7 @@
       </div>
       <div class="desc-row">
         <span class="desc-num">5</span>
-        <div><h3>상품리스트</h3><p>BEST 상품과 전체 상품 두 영역으로 구분됩니다. BEST 상품은 좌우 버튼으로 넘겨볼 수 있으며 자동으로 롤링됩니다. 전체 상품은 상품명 검색과 정렬 옵션(기본순/가격순)을 제공합니다. 썸네일에는 BEST/NEW 플래그와 조회수가 작게 노출됩니다.</p></div>
+        <div><h3>상품리스트</h3><p>BEST 상품과 전체 상품 두 영역으로 구분됩니다. BEST 상품은 좌우 버튼으로 넘겨볼 수 있으며 자동으로 롤링됩니다. 전체 상품은 상품명 검색과 정렬 옵션(기본순/가격순)을 제공하며, 한 페이지에 6개씩 노출되고 하단 페이지 번호로 이동할 수 있습니다. 썸네일에는 BEST/NEW 플래그와 조회수가 작게 노출됩니다.</p></div>
       </div>
       <div class="desc-row">
         <span class="desc-num">6</span>
@@ -1558,9 +1605,48 @@
       '<p class="product-price">' + p[1].toLocaleString('ko-KR') + '원</p>' +
     '</div>';
   }
-  var html = '';
-  products.forEach(function(p, i){ html += cardHtml(p, i); });
-  grid.innerHTML = html;
+  // 전체 상품 : 검색 · 정렬 · 페이징
+  var PAGE_SIZE = 6;
+  var currentPage = 1;
+  var pager = document.getElementById('productPager');
+  var searchInput = document.getElementById('productSearch');
+  var sortSelect = document.getElementById('sortSelect');
+  var productCount = document.getElementById('productCount');
+  var arrowPrev = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 6 9 12 15 18"/></svg>';
+  var arrowNext = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>';
+
+  function renderProducts(){
+    var q = searchInput.value.trim().toLowerCase();
+    var list = products.map(function(p, i){ return { p:p, i:i }; })
+      .filter(function(o){ return o.p[0].toLowerCase().indexOf(q) !== -1; });
+    if(sortSelect.value === 'price'){
+      list.sort(function(a, b){ return a.p[1] - b.p[1]; });
+    }
+    var totalPages = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
+    if(currentPage > totalPages){ currentPage = totalPages; }
+    var start = (currentPage - 1) * PAGE_SIZE;
+    var html = '';
+    list.slice(start, start + PAGE_SIZE).forEach(function(o){ html += cardHtml(o.p, o.i); });
+    grid.innerHTML = html;
+    productCount.textContent = '총 ' + list.length + '개';
+
+    if(list.length <= PAGE_SIZE){ pager.innerHTML = ''; return; }
+    var ph = '<button class="page-btn" type="button" data-page="' + (currentPage - 1) + '" aria-label="이전 페이지"' + (currentPage === 1 ? ' disabled' : '') + '>' + arrowPrev + '</button>';
+    for(var n = 1; n <= totalPages; n++){
+      ph += '<button class="page-btn' + (n === currentPage ? ' is-current' : '') + '" type="button" data-page="' + n + '"' + (n === currentPage ? ' aria-current="page"' : '') + '>' + n + '</button>';
+    }
+    ph += '<button class="page-btn" type="button" data-page="' + (currentPage + 1) + '" aria-label="다음 페이지"' + (currentPage === totalPages ? ' disabled' : '') + '>' + arrowNext + '</button>';
+    pager.innerHTML = ph;
+  }
+  pager.addEventListener('click', function(e){
+    var btn = e.target.closest('.page-btn');
+    if(!btn || btn.disabled || btn.classList.contains('is-current')){ return; }
+    currentPage = Number(btn.dataset.page);
+    renderProducts();
+  });
+  searchInput.addEventListener('input', function(){ currentPage = 1; renderProducts(); });
+  sortSelect.addEventListener('change', function(){ currentPage = 1; renderProducts(); });
+  renderProducts();
 
   // BEST 상품 롤링
   var bestTrack = document.getElementById('bestTrack');
@@ -1593,21 +1679,6 @@
   bestTrack.addEventListener('mouseleave', startBest);
   window.addEventListener('resize', function(){ moveBest(0); });
   startBest();
-
-  var searchInput = document.getElementById('productSearch');
-  var productCount = document.getElementById('productCount');
-  searchInput.addEventListener('input', function(){
-    var q = searchInput.value.trim().toLowerCase();
-    var cards = grid.querySelectorAll('.product-card');
-    var visible = 0;
-    cards.forEach(function(card){
-      var name = card.querySelector('.product-name').textContent.toLowerCase();
-      var match = name.indexOf(q) !== -1;
-      card.style.display = match ? '' : 'none';
-      if(match){ visible++; }
-    });
-    productCount.textContent = '총 ' + visible + '개';
-  });
 
   var state = 'main';
   var idxBtns = document.querySelectorAll('.index-item[data-view]');
